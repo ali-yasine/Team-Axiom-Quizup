@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-const Color _STANDARDCOLOR = Color.fromARGB(255, 76, 151, 144);
-
 class Answer extends StatefulWidget {
   final String ans;
   final Color colorOnPress;
@@ -19,7 +17,9 @@ class Answer extends StatefulWidget {
 }
 
 class _AnswerState extends State<Answer> {
-  Color color = _STANDARDCOLOR;
+  static const Color standardColor = Color.fromARGB(255, 76, 151, 144);
+  static const int delayInMili = 750;
+  Color color = standardColor;
   void answered() {
     color = widget.colorOnPress;
     setState(() {});
@@ -28,13 +28,13 @@ class _AnswerState extends State<Answer> {
   @override
   void didUpdateWidget(Answer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    color = _STANDARDCOLOR;
+    color = standardColor;
   }
 
   void update() async {
     answered();
     widget.handleAnimation();
-    await Future.delayed(const Duration(milliseconds: 750))
+    await Future.delayed(const Duration(milliseconds: delayInMili))
         .then((value) => widget.ontap());
   }
 

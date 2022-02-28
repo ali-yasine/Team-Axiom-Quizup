@@ -86,7 +86,7 @@ class _home extends StatelessWidget {
                                     ],
                                     correctAnswerTxt: "atomic weight")
                               ],
-                              player: Player(username: "player"),
+                              player: Player(username: "player", id: "1"),
                               subject: 'Natural Science',
                             )));
                   },
@@ -145,7 +145,7 @@ class _home extends StatelessWidget {
                                     ],
                                     correctAnswerTxt: "Portugal")
                               ],
-                              player: Player(username: "player"),
+                              player: Player(username: "player", id: "2"),
                               subject: 'Sports',
                             )));
                   },

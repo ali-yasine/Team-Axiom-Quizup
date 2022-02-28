@@ -16,6 +16,12 @@ class Timer extends StatefulWidget {
     _stop = true;
   }
 
+  void getTime() {
+    if (!_stop) {
+      stop();
+    }
+  }
+
   @override
   State<StatefulWidget> createState() => _timerState();
 }
@@ -75,8 +81,10 @@ class _timerState extends State<Timer> with TickerProviderStateMixin {
         quarterTurns: -1,
         child: SizedBox(
             child: ClipRRect(
+                //used to make circular borders
                 borderRadius: BorderRadius.circular(8),
                 child: LinearProgressIndicator(
+                  //TODO change color here
                   value: _controller.value,
                   semanticsLabel: 'Timer',
                 )),

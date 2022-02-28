@@ -33,18 +33,18 @@ class Question extends StatefulWidget {
 class _QuestionState extends State<Question> with TickerProviderStateMixin {
   static const int time = 10; //Time for each question
   late Timer timer;
-
-  void animationHandler() async {
+  late Timer opponentTimer;
+  void animationHandler() {
     timer.stop();
-    Future.delayed(Duration(milliseconds: 300))
-        .then((value) => {widget.timeTaken = timer.timeTaken});
+    opponentTimer.stop();
   }
 
   void done(bool incScore) {
     setState(() {
       widget.increaseScore = incScore;
+      widget.timeTaken = timer.timeTaken;
       if (incScore) {
-        widget.currentScore += 10 - (widget.timeTaken);
+        widget.currentScore += 10 - (timer.timeTaken);
       }
     });
   }
@@ -54,6 +54,11 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
       alignment: Alignment.centerLeft,
       time: time,
       onFinish: () => {widget.increaseScore = false, widget.onFinish()},
+    );
+    opponentTimer = Timer(
+      alignment: Alignment.centerRight,
+      time: time,
+      onFinish: () => {},
     );
   }
 
@@ -127,7 +132,11 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
               const SizedBox(height: 20),
               answers.last,
             ])),
-            const Flexible(flex: 2, child: SizedBox()),
+            Flexible(
+              child: Container(
+                  child: opponentTimer, margin: const EdgeInsets.all(10)),
+              flex: 2,
+            ),
           ]),
           flex: 7,
         )

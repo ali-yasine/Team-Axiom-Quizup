@@ -42,8 +42,14 @@ class _quizState extends State<Quiz> {
     super.initState();
   }
 
-  void update() {
+  void update() async {
     var currQuestion = widget.questions!.elementAt(widget.currentQuestion);
+    if (widget.currentQuestion + 1 == (widget.questions!.length)) {
+      widget.isdone = true;
+    }
+    if (currQuestion.increaseScore == true) {
+      widget.score += 10 - (currQuestion.timeTaken);
+    }
     widget.questions = widget.questionsTemplates
         .map(
           (temp) => Question(
@@ -58,12 +64,6 @@ class _quizState extends State<Quiz> {
         )
         .toList();
     setState(() {
-      if (widget.currentQuestion + 1 == (widget.questions!.length)) {
-        widget.isdone = true;
-      }
-      if (currQuestion.increaseScore == true) {
-        widget.score += 10 - (currQuestion.timeTaken);
-      }
       widget.currentQuestion++;
     });
   }
