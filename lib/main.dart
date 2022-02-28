@@ -3,10 +3,10 @@ import 'package:quizup_prototype_1/player.dart';
 import 'package:quizup_prototype_1/question_template.dart';
 import 'quiz.dart';
 
-void main() => runApp(const homePage());
+void main() => runApp(const HomePage());
 
-class homePage extends StatelessWidget {
-  const homePage({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(home: _home());
@@ -20,9 +20,9 @@ class _home extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Subjects',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-        titleTextStyle: TextStyle(fontStyle: FontStyle.italic),
+        titleTextStyle: const TextStyle(fontStyle: FontStyle.italic),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 52, 80, 92),
+        backgroundColor: const Color.fromARGB(255, 52, 80, 92),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),

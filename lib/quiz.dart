@@ -44,19 +44,6 @@ class _quizState extends State<Quiz> {
 
   void update() {
     var currQuestion = widget.questions!.elementAt(widget.currentQuestion);
-    setState(() {
-      if (widget.currentQuestion + 1 == (widget.questions!.length)) {
-        widget.isdone = true;
-      }
-      if (currQuestion.increaseScore == true) {
-        widget.score += 10 - (currQuestion.timeTaken);
-      }
-      widget.currentQuestion++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     widget.questions = widget.questionsTemplates
         .map(
           (temp) => Question(
@@ -70,6 +57,19 @@ class _quizState extends State<Quiz> {
           ),
         )
         .toList();
+    setState(() {
+      if (widget.currentQuestion + 1 == (widget.questions!.length)) {
+        widget.isdone = true;
+      }
+      if (currQuestion.increaseScore == true) {
+        widget.score += 10 - (currQuestion.timeTaken);
+      }
+      widget.currentQuestion++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     if (!widget.isdone) {
       return SizedBox(

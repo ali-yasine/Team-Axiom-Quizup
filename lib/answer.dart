@@ -6,11 +6,13 @@ class Answer extends StatefulWidget {
   final String ans;
   final Color colorOnPress;
   final VoidCallback ontap;
+  final VoidCallback handleAnimation;
   const Answer(
       {Key? key,
       required this.ans,
       required this.colorOnPress,
-      required this.ontap})
+      required this.ontap,
+      required this.handleAnimation})
       : super(key: key);
   @override
   _AnswerState createState() => _AnswerState();
@@ -19,6 +21,7 @@ class Answer extends StatefulWidget {
 class _AnswerState extends State<Answer> {
   Color color = _STANDARDCOLOR;
   void answered() {
+    color = widget.colorOnPress;
     setState(() {});
   }
 
@@ -29,20 +32,22 @@ class _AnswerState extends State<Answer> {
   }
 
   void update() async {
-    color = widget.colorOnPress;
     answered();
+    widget.handleAnimation();
     await Future.delayed(const Duration(milliseconds: 750))
         .then((value) => widget.ontap());
   }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    const int _width = 400;
+    const int _height = 40;
     return SizedBox(
-        width: size.width,
         child: ElevatedButton(
             child: Text(widget.ans),
             style: ElevatedButton.styleFrom(primary: color),
-            onPressed: update));
+            onPressed: update),
+        width: _width.toDouble(),
+        height: _height.toDouble());
   }
 }

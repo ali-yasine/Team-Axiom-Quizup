@@ -31,68 +31,44 @@ class Question extends StatefulWidget {
 }
 
 class _QuestionState extends State<Question> with TickerProviderStateMixin {
-  static const int time = 10;
-  @override
-  initState() {
-    super.initState();
+  static const int time = 10; //Time for each question
+  late Timer timer;
+
+  void animationHandler() async {
+    timer.stop();
+    Future.delayed(Duration(milliseconds: 300))
+        .then((value) => {widget.timeTaken = timer.timeTaken});
   }
 
-  void done(bool incScore, AnimationController controller) {
+  void done(bool incScore) {
     setState(() {
-      widget.timeTaken = controller.lastElapsedDuration!.inSeconds.toInt();
       widget.increaseScore = incScore;
       if (incScore) {
         widget.currentScore += 10 - (widget.timeTaken);
       }
-      controller.dispose();
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  void beginTimer() {
+    timer = Timer(
+      alignment: Alignment.centerLeft,
+      time: time,
+      onFinish: () => {widget.increaseScore = false, widget.onFinish()},
+    );
   }
 
-  void beginTimer(AnimationController controller) async {
-    controller = AnimationController(
-        vsync: this, duration: const Duration(seconds: time));
-    controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        widget.increaseScore = false;
-        widget.onFinish();
-      }
-    });
-    Future.delayed(const Duration(seconds: 1))
-        .then((value) => controller.forward(from: 0.0));
-  }
-
-  @override
-  void didUpdateWidget(Question oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    AnimationController controller = AnimationController(
-        vsync: this, duration: const Duration(seconds: time));
-    controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        widget.increaseScore = false;
-        widget.onFinish();
-      }
-    });
-    Future.delayed(const Duration(seconds: 1))
-        .then((value) => controller.forward(from: 0.0));
+  List<Answer> makeAnswers() {
     late final Answer correctAnswer = Answer(
         ans: widget.correctAnswerTxt,
+        handleAnimation: () => animationHandler(),
         colorOnPress: Colors.green,
-        ontap: () => {done(true, controller), widget.onFinish()});
-
+        ontap: () => {done(true), widget.onFinish()});
     late final List<Answer> wrongAnswers = widget.wrongAnswersTxt
         .map((e) => Answer(
               ans: e,
               colorOnPress: Colors.red,
-              ontap: () => {done(false, controller), widget.onFinish()},
+              handleAnimation: () => animationHandler(),
+              ontap: () => {done(false), widget.onFinish()},
             ))
         .toList();
     late List<Answer> answers = [
@@ -102,43 +78,60 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
       wrongAnswers.last
     ];
     answers.shuffle();
+    return answers;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    beginTimer();
+    var answers = makeAnswers();
     var size = MediaQuery.of(context).size;
-    return SizedBox(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            widget.subject,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          titleTextStyle: const TextStyle(fontStyle: FontStyle.italic),
-          centerTitle: true,
-          backgroundColor: const Color.fromARGB(255, 52, 80, 92),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          widget.subject,
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        body: Column(children: [
-          Padding(
-              padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
-              child: Column(children: [
-                timer(
-                  animation: StepTween(begin: time, end: 0).animate(controller),
-                ),
-                Text(
-                  widget.prompt,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                answers.first,
-                answers.elementAt(1),
-                answers.elementAt(2),
-                answers.last,
-              ])),
-          Text(widget.player.username + " :" + widget.currentScore.toString(),
-              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
-        ]),
-        resizeToAvoidBottomInset: true,
+        titleTextStyle: const TextStyle(fontStyle: FontStyle.italic),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 52, 80, 92),
       ),
-      height: size.height,
-      width: size.width,
+      body: Column(children: [
+        Flexible(
+          child: Text(
+              widget.player.username + " :" + widget.currentScore.toString(),
+              style:
+                  const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+          flex: 1,
+        ),
+        Flexible(
+          child: Row(children: [
+            Flexible(
+              child: Container(child: timer, margin: const EdgeInsets.all(10)),
+              flex: 2,
+            ),
+            Flexible(
+                child: Column(children: [
+              SizedBox(
+                  child: Text(
+                widget.prompt,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              )),
+              answers.first,
+              const SizedBox(height: 20),
+              answers.elementAt(1),
+              const SizedBox(height: 20),
+              answers.elementAt(2),
+              const SizedBox(height: 20),
+              answers.last,
+            ])),
+            const Flexible(flex: 2, child: SizedBox()),
+          ]),
+          flex: 7,
+        )
+      ]),
     );
   }
 }

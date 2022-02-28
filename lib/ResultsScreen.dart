@@ -35,7 +35,7 @@ class results extends StatelessWidget {
               textAlign: TextAlign.left, style: const TextStyle(fontSize: 28)),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const homePage())),
+                MaterialPageRoute(builder: (context) => const HomePage())),
             child: const Text("Home"),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.blue[400])),
