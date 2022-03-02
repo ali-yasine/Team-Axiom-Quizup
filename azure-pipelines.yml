@@ -1,1 +1,4 @@
 //none
+- task: AndroidSigning@3
+  inputs:
+    apkFiles: '**/*.apk'
