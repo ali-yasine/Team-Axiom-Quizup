@@ -15,6 +15,7 @@ class results extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(207, 232, 255, 20),
       appBar: AppBar(
         title: Text(
           subject,

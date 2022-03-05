@@ -53,7 +53,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     timer = Timer(
       alignment: Alignment.centerLeft,
       time: time,
-      onFinish: () => {widget.increaseScore = false, widget.onFinish()},
+      onFinish: () => {done(false), widget.onFinish()},
     );
     opponentTimer = Timer(
       alignment: Alignment.centerRight,
@@ -92,23 +92,17 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     var answers = makeAnswers();
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.subject,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        titleTextStyle: const TextStyle(fontStyle: FontStyle.italic),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 52, 80, 92),
-      ),
+      backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
       body: Column(children: [
-        Flexible(
+        const SizedBox(height: 100),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
           child: Text(
               widget.player.username + " :" + widget.currentScore.toString(),
-              style:
-                  const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-          flex: 1,
+              style: const TextStyle(
+                  fontSize: 18, color: Color.fromRGBO(51, 156, 254, 10))),
         ),
+        const SizedBox(height: 20),
         Flexible(
           child: Row(children: [
             Flexible(
@@ -116,22 +110,32 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
               flex: 2,
             ),
             Flexible(
+                flex: 10,
                 child: Column(children: [
-              SizedBox(
-                  child: Text(
-                widget.prompt,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              )),
-              answers.first,
-              const SizedBox(height: 20),
-              answers.elementAt(1),
-              const SizedBox(height: 20),
-              answers.elementAt(2),
-              const SizedBox(height: 20),
-              answers.last,
-            ])),
+                  Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: const Color.fromRGBO(51, 156, 254, 10),
+                          width: 2,
+                        ),
+                      ),
+                      child: Text(widget.prompt,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(40, 156, 254, 50)),
+                          textAlign: TextAlign.center)),
+                  const SizedBox(height: 60),
+                  answers.first,
+                  const SizedBox(height: 20),
+                  answers.elementAt(1),
+                  const SizedBox(height: 20),
+                  answers.elementAt(2),
+                  const SizedBox(height: 20),
+                  answers.last,
+                ])),
             Flexible(
               child: Container(
                   child: opponentTimer, margin: const EdgeInsets.all(10)),

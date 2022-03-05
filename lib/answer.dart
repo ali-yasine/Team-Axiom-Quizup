@@ -17,7 +17,7 @@ class Answer extends StatefulWidget {
 }
 
 class _AnswerState extends State<Answer> {
-  static const Color standardColor = Color.fromARGB(255, 76, 151, 144);
+  static const Color standardColor = Color.fromRGBO(51, 156, 244, 100);
   static const int delayInMili = 750;
   Color color = standardColor;
   void answered() {
@@ -40,7 +40,7 @@ class _AnswerState extends State<Answer> {
 
   @override
   Widget build(BuildContext context) {
-    const int _width = 400;
+    const int _width = 1000;
     const int _height = 40;
     return SizedBox(
         child: ElevatedButton(

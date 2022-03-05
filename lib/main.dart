@@ -17,6 +17,7 @@ class _home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(207, 232, 255, 20),
       appBar: AppBar(
         title: const Text('Subjects',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
@@ -28,16 +29,16 @@ class _home extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
         child: Column(
           children: <Widget>[
-            Row(children: <Widget>[
+            Row(children: const <Widget>[
               Icon(Icons.airline_seat_recline_normal_outlined,
-                  color: Colors.teal[300]),
-              const Text("player"),
+                  color: Color.fromRGBO(51, 156, 244, 100)),
+              Text("player"),
             ]),
             SizedBox(
               width: 500,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      primary: const Color.fromARGB(255, 76, 151, 144),
+                      primary: const Color.fromRGBO(51, 156, 244, 100),
                       textStyle: const TextStyle(color: Colors.white)),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -97,7 +98,7 @@ class _home extends StatelessWidget {
               width: 500,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      primary: const Color.fromARGB(255, 76, 151, 144),
+                      primary: const Color.fromRGBO(51, 156, 244, 100),
                       textStyle: const TextStyle(color: Colors.white)),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
