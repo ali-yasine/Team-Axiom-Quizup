@@ -1,5 +1,4 @@
-# quizup_prototype_1
-
+# quizup
 A new Flutter project.
 
 ## Getting Started
