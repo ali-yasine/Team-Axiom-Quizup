@@ -41,13 +41,17 @@ class _AnswerState extends State<Answer> {
   @override
   Widget build(BuildContext context) {
     const int _width = 1000;
-    const int _height = 40;
-    return SizedBox(
+    const int _height = 50;
+    return   Container(
+        width: _width.toDouble(),
+        height: _height.toDouble(),
+    child: ClipRRect(
+    //used to make circular borders
+    borderRadius: BorderRadius.circular(25),
         child: ElevatedButton(
+
             child: Text(widget.ans),
             style: ElevatedButton.styleFrom(primary: color),
-            onPressed: update),
-        width: _width.toDouble(),
-        height: _height.toDouble());
+            onPressed: update), ));
   }
 }

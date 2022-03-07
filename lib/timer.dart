@@ -38,9 +38,7 @@ class _timerState extends State<Timer> with TickerProviderStateMixin {
       });
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.dismissed) {
-        widget._stop = true;
-        widget.timeTaken = widget.time;
-        _controller.stop();
+        widget.timeTaken = timeElapsed();
         widget.onFinish();
       }
     });
@@ -81,12 +79,13 @@ class _timerState extends State<Timer> with TickerProviderStateMixin {
     return Container(
       child: RotatedBox(
         quarterTurns: -1,
-        child: SizedBox(
+        child: Container(
+            color: Color.fromRGBO(245, 219, 78, 200),
             child: ClipRRect(
                 //used to make circular borders
                 borderRadius: BorderRadius.circular(8),
                 child: LinearProgressIndicator(
-                  color: const Color.fromRGBO(245, 219, 78, 20),
+                  color: Color.fromRGBO(245, 219, 78, 20),
                   value: _controller.value,
                   semanticsLabel: 'Timer',
                 )),

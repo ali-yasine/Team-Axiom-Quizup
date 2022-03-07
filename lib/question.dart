@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/answer.dart';
 import 'package:quizup_prototype_1/player.dart';
@@ -53,7 +54,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     timer = Timer(
       alignment: Alignment.centerLeft,
       time: time,
-      onFinish: () => {done(false), widget.onFinish()},
+      onFinish: () => {widget.increaseScore = false, widget.onFinish()},
     );
     opponentTimer = Timer(
       alignment: Alignment.centerRight,
@@ -92,17 +93,25 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     var answers = makeAnswers();
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
-      body: Column(children: [
-        const SizedBox(height: 100),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+      backgroundColor: Color.fromRGBO(207, 232, 255, 20),
+      body:
+      Column(children: [
+          const SizedBox(height: 50),
+        Text(widget.subject, style:
+        const TextStyle(fontSize: 35,color: Color.fromRGBO(51,156,254,10) , fontWeight: FontWeight.bold)),
+        Positioned(
+            top: 5,
+            left: 5,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
           child: Text(
+
               widget.player.username + " :" + widget.currentScore.toString(),
-              style: const TextStyle(
-                  fontSize: 18, color: Color.fromRGBO(51, 156, 254, 10))),
-        ),
-        const SizedBox(height: 20),
+              style:
+                  const TextStyle(fontSize: 18,color: Color.fromRGBO(51,156,254,10) )),
+
+        )),
+        const SizedBox(height: 100),
         Flexible(
           child: Row(children: [
             Flexible(
@@ -110,32 +119,36 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
               flex: 2,
             ),
             Flexible(
-                flex: 10,
-                child: Column(children: [
-                  Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: const Color.fromRGBO(51, 156, 254, 10),
-                          width: 2,
-                        ),
-                      ),
-                      child: Text(widget.prompt,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(40, 156, 254, 50)),
-                          textAlign: TextAlign.center)),
+              flex: 10,
+                child: Column(
+                    children: [
+              Container(
+                  width: 1000,
+                height: 100,
+                    decoration: BoxDecoration(
+                      color:Colors.white,
+                      border: Border.all(color: Color.fromRGBO(51,156,254,10), width: 2,),
+                        borderRadius: BorderRadius.all(Radius.circular(25))),
+                    child: ClipRRect(
+                      //used to make circular borders
+                        borderRadius: BorderRadius.circular(15),
+                  child:Center( child: Text(
+                widget.prompt,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color.fromRGBO(40,156,254,50)),
+                textAlign: TextAlign.center,
+
+
+                  )))),
                   const SizedBox(height: 60),
-                  answers.first,
-                  const SizedBox(height: 20),
-                  answers.elementAt(1),
-                  const SizedBox(height: 20),
-                  answers.elementAt(2),
-                  const SizedBox(height: 20),
-                  answers.last,
-                ])),
+              answers.first,
+              const SizedBox(height: 20),
+              answers.elementAt(1),
+              const SizedBox(height: 20),
+              answers.elementAt(2),
+              const SizedBox(height: 20),
+              answers.last,
+            ])),
             Flexible(
               child: Container(
                   child: opponentTimer, margin: const EdgeInsets.all(10)),

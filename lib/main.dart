@@ -29,10 +29,10 @@ class _home extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
         child: Column(
           children: <Widget>[
-            Row(children: const <Widget>[
+            Row(children: <Widget>[
               Icon(Icons.airline_seat_recline_normal_outlined,
                   color: Color.fromRGBO(51, 156, 244, 100)),
-              Text("player"),
+              const Text("player"),
             ]),
             SizedBox(
               width: 500,
