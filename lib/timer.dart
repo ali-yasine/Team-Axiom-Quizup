@@ -88,6 +88,7 @@ class _timerState extends State<Timer> with TickerProviderStateMixin {
                 child: LinearProgressIndicator(
                   color: Color.fromRGBO(245, 219, 78, 20),
                   value: _controller.value,
+                  //1
                   semanticsLabel: 'Timer',
                 )),
             width: size.height,
