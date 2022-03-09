@@ -12,6 +12,8 @@ class Quiz extends StatefulWidget {
   List<Question>? questions;
   int currentQuestion = 0;
   int score = 0;
+  int correct=0;
+  int incorrect=0;
   Quiz(
       {Key? key,
       required this.questionsTemplates,
@@ -47,8 +49,13 @@ class _quizState extends State<Quiz> {
     if (widget.currentQuestion + 1 == (widget.questions!.length)) {
       widget.isdone = true;
     }
-    if (currQuestion.increaseScore == true) {
+    if (currQuestion.increaseScore == true)
+    {
+      widget.correct+=1;
       widget.score += 10 - (currQuestion.timeTaken);
+    }
+    else {
+      widget.incorrect+=1;
     }
     widget.questions = widget.questionsTemplates
         .map(
@@ -80,7 +87,7 @@ class _quizState extends State<Quiz> {
       );
     } else {
       return results(
-          player: widget.player, score: widget.score, subject: widget.subject);
+          player: widget.player, score: widget.score, subject: widget.subject, correct: widget.correct, incorrect:widget.incorrect,opponentScore: 100,);
     }
   }
 }

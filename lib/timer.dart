@@ -39,7 +39,9 @@ class _timerState extends State<Timer> with TickerProviderStateMixin {
       });
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.dismissed) {
-        widget.timeTaken = timeElapsed();
+        widget._stop=true;
+        widget.timeTaken=widget.time;
+        _controller.stop();
         widget.onFinish();
       }
     });
@@ -86,7 +88,7 @@ class _timerState extends State<Timer> with TickerProviderStateMixin {
                 //used to make circular borders
                 borderRadius: BorderRadius.circular(8),
                 child: LinearProgressIndicator(
-                  color: Color.fromRGBO(245, 219, 78, 20),
+                  color: const Color.fromRGBO(245, 219, 78, 20),
                   value: _controller.value,
                   //1
                   semanticsLabel: 'Timer',

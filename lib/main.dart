@@ -53,7 +53,7 @@ class _home extends StatelessWidget {
                                       "Large intestine",
                                       "All of the above"
                                     ]),
-                                question_template(
+                                        question_template(
                                     prompt: "Which is the heaviest metal",
                                     wrongAnswersTxt: [
                                       "nickel",

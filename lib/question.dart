@@ -54,7 +54,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     timer = Timer(
       alignment: Alignment.centerLeft,
       time: time,
-      onFinish: () => {widget.increaseScore = false, widget.onFinish()},
+      onFinish: () => {done(false), widget.onFinish()},
     );
     opponentTimer = Timer(
       alignment: Alignment.centerRight,
@@ -93,25 +93,52 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     var answers = makeAnswers();
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(207, 232, 255, 20),
+      backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
       body:
       Column(children: [
           const SizedBox(height: 50),
         Text(widget.subject, style:
         const TextStyle(fontSize: 35,color: Color.fromRGBO(51,156,254,10) , fontWeight: FontWeight.bold)),
-        Positioned(
-            top: 5,
-            left: 5,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-          child: Text(
+        const SizedBox(height: 100),
+             Row(
+                 mainAxisAlignment: MainAxisAlignment.center ,//Center Column contents vertically,
+                 crossAxisAlignment: CrossAxisAlignment.center ,//Center Column contents horizontally,
 
-              widget.player.username + " :" + widget.currentScore.toString(),
+                 children:[
+              ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+              child:Container(
+              decoration: BoxDecoration(
+              color:Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(25))),
+
+            child: Text(
+             " "+ widget.player.username + " :" + widget.currentScore.toString()+" ",
               style:
                   const TextStyle(fontSize: 18,color: Color.fromRGBO(51,156,254,10) )),
 
-        )),
-        const SizedBox(height: 100),
+       )),
+
+                 Container(child: Text("vs",style: const TextStyle(fontSize: 18,color: Color.fromRGBO(51,156,254,10), fontWeight: FontWeight.bold )),margin:const EdgeInsets.only  (left:105.0,right:105.0),),
+             ClipRRect(
+                 borderRadius: BorderRadius.circular(8),
+                 child:Container(
+
+
+                   decoration: BoxDecoration(
+
+                       color:Colors.white,
+                       borderRadius: BorderRadius.all(Radius.circular(25))),
+
+                   child: Text(
+                       " "+ widget.player.username + " :" + widget.currentScore.toString()+" ",
+                       style:
+                       const TextStyle(fontSize: 18,color: Color.fromRGBO(51,156,254,10) )),
+
+                 ))
+
+           ]) ,
+        const SizedBox(height:10,),
         Flexible(
           child: Row(children: [
             Flexible(
