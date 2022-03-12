@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/main.dart';
 import 'package:quizup_prototype_1/player.dart';
 
+import 'Home.dart';
+
 class results extends StatelessWidget {
   final Player player;
   final int score;
