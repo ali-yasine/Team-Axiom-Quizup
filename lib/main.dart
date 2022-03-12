@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/player.dart';
 import 'package:quizup_prototype_1/question_template.dart';
+import 'package:quizup_prototype_1/subject_screen.dart';
 import 'quiz.dart';
 
 void main() => runApp(const HomePage());
+Player player = Player(username: "user", id: "231");
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,7 +19,7 @@ class _home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(207, 232, 255, 20),
+      backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
       appBar: AppBar(
         title: const Text('Subjects',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
@@ -29,10 +31,10 @@ class _home extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
         child: Column(
           children: <Widget>[
-            Row(children: <Widget>[
+            Row(children: const <Widget>[
               Icon(Icons.airline_seat_recline_normal_outlined,
                   color: Color.fromRGBO(51, 156, 244, 100)),
-              const Text("player"),
+              Text("player"),
             ]),
             SizedBox(
               width: 500,
@@ -42,7 +44,10 @@ class _home extends StatelessWidget {
                       textStyle: const TextStyle(color: Colors.white)),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Quiz(
+                        builder: (context) => subjectScreen(
+                            subject: "Natural Science",
+                            player: player,
+                            quiz: Quiz(
                               questionsTemplates: [
                                 question_template(
                                     prompt:
@@ -53,7 +58,7 @@ class _home extends StatelessWidget {
                                       "Large intestine",
                                       "All of the above"
                                     ]),
-                                        question_template(
+                                question_template(
                                     prompt: "Which is the heaviest metal",
                                     wrongAnswersTxt: [
                                       "nickel",
@@ -89,7 +94,7 @@ class _home extends StatelessWidget {
                               ],
                               player: Player(username: "player", id: "1"),
                               subject: 'Natural Science',
-                            )));
+                            ))));
                   },
                   child: const Text('Natural Science')),
             ),
@@ -102,7 +107,10 @@ class _home extends StatelessWidget {
                       textStyle: const TextStyle(color: Colors.white)),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Quiz(
+                        builder: (context) => subjectScreen(
+                            subject: "Sports",
+                            player: player,
+                            quiz: Quiz(
                               questionsTemplates: [
                                 question_template(
                                     prompt: "Who won the 2010 world cup",
@@ -148,7 +156,7 @@ class _home extends StatelessWidget {
                               ],
                               player: Player(username: "player", id: "2"),
                               subject: 'Sports',
-                            )));
+                            ))));
                   },
                   child: const Text('Sports')),
             ),

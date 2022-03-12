@@ -42,16 +42,16 @@ class _AnswerState extends State<Answer> {
   Widget build(BuildContext context) {
     const int _width = 1000;
     const int _height = 50;
-    return   Container(
+    return Container(
         width: _width.toDouble(),
         height: _height.toDouble(),
-    child: ClipRRect(
-    //used to make circular borders
-    borderRadius: BorderRadius.circular(25),
-        child: ElevatedButton(
-
-            child: Text(widget.ans),
-            style: ElevatedButton.styleFrom(primary: color),
-            onPressed: update), ));
+        child: ClipRRect(
+          //used to make circular borders
+          borderRadius: BorderRadius.circular(25),
+          child: ElevatedButton(
+              child: Text(widget.ans),
+              style: ElevatedButton.styleFrom(primary: color),
+              onPressed: update),
+        ));
   }
 }
