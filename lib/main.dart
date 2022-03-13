@@ -11,8 +11,6 @@ Future main() async {
   runApp(const HomePage());
 }
 
-Player player = Player(username: "user", id: "231");
-
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
   @override
@@ -22,10 +20,11 @@ class HomePage extends StatelessWidget {
 }
 
 class _home extends StatelessWidget {
+  Player player = Player(username: "user", id: "123");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
+      backgroundColor: Color.fromRGBO(207, 232, 255, 20),
       appBar: AppBar(
         title: const Text('Subjects',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
@@ -37,10 +36,10 @@ class _home extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
         child: Column(
           children: <Widget>[
-            Row(children: const <Widget>[
+            Row(children: <Widget>[
               Icon(Icons.airline_seat_recline_normal_outlined,
                   color: Color.fromRGBO(51, 156, 244, 100)),
-              Text("player"),
+              const Text("player"),
             ]),
             SizedBox(
               width: 500,
