@@ -9,12 +9,13 @@ class fireConnect {
     await docUser.set(json);
   }
 
-  static Future<List<Iterable<question_template>>> readQuestions() async {
-    return FirebaseFirestore.instance
+  static Future<List<question_template>> readQuestions(String subject) async {
+    var queuerySnapshot = await FirebaseFirestore.instance
         .collection('Question')
-        .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map((doc) => question_template.fromJson(doc.data())))
+        .where('category', isEqualTo: subject)
+        .get();
+    return queuerySnapshot.docs
+        .map((e) => question_template.fromJson(e.data()))
         .toList();
   }
 

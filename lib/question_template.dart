@@ -11,9 +11,9 @@ class question_template {
       : super();
   static question_template fromJson(Map<String, dynamic> json) =>
       question_template(
-        subject: json['Category'],
+        subject: json['category'],
         prompt: json['prompt'],
-        correctAnswerTxt: json['correctAnswer'],
-        wrongAnswersTxt: json['wrongAnswer'],
+        correctAnswerTxt: json['correctanswer'],
+        wrongAnswersTxt: json['wronganswers'].cast<String>(),
       );
 }

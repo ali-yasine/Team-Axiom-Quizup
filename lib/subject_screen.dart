@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizup_prototype_1/fireConnect.dart';
 import 'package:quizup_prototype_1/player.dart';
 import 'package:quizup_prototype_1/quiz.dart';
 
@@ -7,16 +8,17 @@ import 'main.dart';
 class subjectScreen extends StatelessWidget {
   final String subject;
   final Player player;
-  final Quiz quiz;
-  const subjectScreen(
-      {Key? key,
-      required this.subject,
-      required this.player,
-      required this.quiz})
-      : super(key: key);
-  void play(BuildContext context) {
+  const subjectScreen({
+    Key? key,
+    required this.subject,
+    required this.player,
+  }) : super(key: key);
+  void play(BuildContext context) async {
+    var questions = await fireConnect.readQuestions(subject);
+
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => quiz,
+      builder: (context) =>
+          Quiz(questionsTemplates: questions, player: player, subject: subject),
     ));
   }
 
@@ -27,6 +29,7 @@ class subjectScreen extends StatelessWidget {
     const _profileRadius = 35.0;
     const _iconSize = 40.0;
     const buttonColor = Color.fromRGBO(51, 156, 251, 0);
+
     return Scaffold(
         backgroundColor: backgroundColor,
         body: Column(children: [
