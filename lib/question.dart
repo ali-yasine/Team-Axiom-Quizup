@@ -105,10 +105,22 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                  crossAxisAlignment: CrossAxisAlignment.center ,//Center Column contents horizontally,
 
                  children:[
+                   Container(
+                     width: 60,
+                     height: 60,
+                     margin: const EdgeInsets.only(left: 5,right: 10),
+                     child: const CircleAvatar(
+                       child: CircleAvatar(
+                         radius: 33,
+                         backgroundColor: Colors.grey,
+                         backgroundImage: AssetImage('assets/images/avatar.png'),
+                       ),
+                     ),
+                   ),
               ClipRRect(
             borderRadius: BorderRadius.circular(8),
               child:Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
               color:Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(25))),
 
@@ -119,13 +131,13 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
 
        )),
 
-                 Container(child: Text("vs",style: const TextStyle(fontSize: 18,color: Color.fromRGBO(51,156,254,10), fontWeight: FontWeight.bold )),margin:const EdgeInsets.only  (left:105.0,right:105.0),),
+                 Container(child: const Text("vs",style:  TextStyle(fontSize: 18,color: Color.fromRGBO(51,156,254,10), fontWeight: FontWeight.bold )),margin:const EdgeInsets.only  (left:35.0,right:35.0),),
              ClipRRect(
                  borderRadius: BorderRadius.circular(8),
                  child:Container(
 
 
-                   decoration: BoxDecoration(
+                   decoration: const BoxDecoration(
 
                        color:Colors.white,
                        borderRadius: BorderRadius.all(Radius.circular(25))),
@@ -135,7 +147,19 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                        style:
                        const TextStyle(fontSize: 18,color: Color.fromRGBO(51,156,254,10) )),
 
-                 ))
+                 )),
+                   Container(
+                     width: 60,
+                     height: 60,
+                     margin: const EdgeInsets.only(left: 5),
+                     child: const CircleAvatar(
+                       child: CircleAvatar(
+                         radius: 33,
+                         backgroundColor: Colors.grey,
+                         backgroundImage: AssetImage('assets/images/avatar.png'),
+                       ),
+                     ),
+                   ),
 
            ]) ,
         const SizedBox(height:10,),
