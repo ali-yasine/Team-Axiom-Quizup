@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/main.dart';
 import 'package:quizup_prototype_1/player.dart';
 
+import 'Home.dart';
+
 class results extends StatelessWidget {
   final Player player;
   final int score;
@@ -23,7 +25,7 @@ class results extends StatelessWidget {
   Widget build(BuildContext context) {
     const img = AssetImage('assets/images/panda.jpg');
     return Scaffold(
-      backgroundColor: Color.fromRGBO(207, 232, 255, 20),
+      backgroundColor:const Color.fromRGBO(207, 232, 255, 20),
       body: Column(
         children: [
           const SizedBox(height: 50),
@@ -41,10 +43,10 @@ class results extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
-                    color: Color.fromRGBO(51, 156, 254, 10),
+                    color:const Color.fromRGBO(51, 156, 254, 10),
                     width: 2,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(25))),
+                  borderRadius: const BorderRadius.all(Radius.circular(25))),
               child: ClipRRect(
                   //used to make circular borders
                   borderRadius: BorderRadius.circular(15),
@@ -59,15 +61,16 @@ class results extends StatelessWidget {
           Container(
               margin: const EdgeInsets.only(left: 30.0),
               alignment: Alignment.centerLeft,
-              child: Text("Player ",
+              child:const Text("Player ",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(51, 156, 254, 10)))),
           const SizedBox(height: 20),
           Row(children: [
             Container(
+
                 child: const CircleAvatar(
                     child: CircleAvatar(
                       radius: 45,
@@ -219,16 +222,16 @@ class results extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.green,
                       border: Border.all(
-                        color: Color.fromRGBO(51, 156, 254, 10),
+                        color:const  Color.fromRGBO(51, 156, 254, 10),
                         width: 2,
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(25))),
+                      borderRadius: const BorderRadius.all(Radius.circular(25))),
                   child: ClipRRect(
                       //used to make circular borders
                       borderRadius: BorderRadius.circular(15),
                       child: const Center(
                           child: Text(
-                        "Congradulations! You won",
+                        "Congratulations! You won",
                         style: TextStyle(fontSize: 26, color: Colors.white),
                         textAlign: TextAlign.center,
                       ))))
