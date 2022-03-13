@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/player.dart';
+<<<<<<< HEAD
 import 'package:quizup_prototype_1/question_template.dart';
 import 'quiz.dart';
 
 void main() => runApp(const HomePage());
+=======
+import 'package:quizup_prototype_1/subject_screen.dart';
+
+import 'ResultsScreen.dart';
+
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const HomePage());
+}
+>>>>>>> subjectScreen
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,6 +26,10 @@ class HomePage extends StatelessWidget {
 }
 
 class _home extends StatelessWidget {
+<<<<<<< HEAD
+=======
+  Player player = Player(username: "user", id: "123");
+>>>>>>> subjectScreen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +58,7 @@ class _home extends StatelessWidget {
                       textStyle: const TextStyle(color: Colors.white)),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
+<<<<<<< HEAD
                         builder: (context) => Quiz(
                               questionsTemplates: [
                                 question_template(
@@ -89,6 +106,11 @@ class _home extends StatelessWidget {
                               ],
                               player: Player(username: "player", id: "1"),
                               subject: 'Natural Science',
+=======
+                        builder: (context) => subjectScreen(
+                              subject: "Natural science",
+                              player: player,
+>>>>>>> subjectScreen
                             )));
                   },
                   child: const Text('Natural Science')),
@@ -102,6 +124,7 @@ class _home extends StatelessWidget {
                       textStyle: const TextStyle(color: Colors.white)),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
+<<<<<<< HEAD
                         builder: (context) => Quiz(
                               questionsTemplates: [
                                 question_template(
@@ -148,6 +171,11 @@ class _home extends StatelessWidget {
                               ],
                               player: Player(username: "player", id: "2"),
                               subject: 'Sports',
+=======
+                        builder: (context) => subjectScreen(
+                              subject: "Sports",
+                              player: player,
+>>>>>>> subjectScreen
                             )));
                   },
                   child: const Text('Sports')),
