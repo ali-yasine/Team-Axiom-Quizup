@@ -2,13 +2,6 @@ class question_template {
   final String prompt;
   final List<String> wrongAnswersTxt;
   final String correctAnswerTxt;
-<<<<<<< HEAD
-  question_template({
-    required this.prompt,
-    required this.wrongAnswersTxt,
-    required this.correctAnswerTxt,
-  }) : super();
-=======
   final String subject;
   question_template(
       {required this.prompt,
@@ -23,5 +16,4 @@ class question_template {
         correctAnswerTxt: json['correctanswer'],
         wrongAnswersTxt: json['wronganswers'].cast<String>(),
       );
->>>>>>> subjectScreen
 }

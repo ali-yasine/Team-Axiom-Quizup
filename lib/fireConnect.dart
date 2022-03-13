@@ -18,13 +18,4 @@ class fireConnect {
         .map((e) => question_template.fromJson(e.data()))
         .toList();
   }
-
-  static Future<List<Iterable<Player>>> readPlayers() async {
-    return FirebaseFirestore.instance
-        .collection('players')
-        .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map((doc) => Player.fromJson(doc.data())))
-        .toList();
-  }
 }

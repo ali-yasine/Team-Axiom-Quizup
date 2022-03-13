@@ -21,6 +21,7 @@ class results extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const img = AssetImage('assets/images/panda.jpg');
     return Scaffold(
       backgroundColor: Color.fromRGBO(207, 232, 255, 20),
       body: Column(
@@ -67,142 +68,6 @@ class results extends StatelessWidget {
           const SizedBox(height: 20),
           Row(children: [
             Container(
-<<<<<<< HEAD
-                margin: const EdgeInsets.only(right: 15.0, left: 135.0),
-                width: 250,
-                height: 35,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Color.fromRGBO(51, 156, 254, 10),
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
-                child: ClipRRect(
-                    //used to make circular borders
-                    borderRadius: BorderRadius.circular(15),
-                    child: Center(
-                        child: Text(
-                      player.username,
-                      style: const TextStyle(
-                          fontSize: 18,
-                          color: Color.fromRGBO(51, 156, 254, 10)),
-                      textAlign: TextAlign.center,
-                    ))))
-          ]),
-          const SizedBox(height: 10),
-          Row(children: [
-            Container(
-                margin: const EdgeInsets.only(left: 135.0),
-                width: 80,
-                height: 38,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Color.fromRGBO(51, 156, 254, 10),
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
-                child: ClipRRect(
-                    //used to make circular borders
-                    borderRadius: BorderRadius.circular(15),
-                    child: Center(
-                        child: Text(
-                      score.toString(),
-                      style: const TextStyle(
-                          fontSize: 18,
-                          color: Color.fromRGBO(51, 156, 254, 10)),
-                      textAlign: TextAlign.center,
-                    )))),
-            Container(
-                margin: const EdgeInsets.only(left: 5.0),
-                width: 80,
-                height: 38,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Color.fromRGBO(51, 156, 254, 10),
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
-                child: ClipRRect(
-                    //used to make circular borders
-                    borderRadius: BorderRadius.circular(15),
-                    child: Center(
-                        child: Text(
-                      correct.toString(),
-                      style: const TextStyle(
-                          fontSize: 18,
-                          color: Color.fromRGBO(51, 156, 254, 10)),
-                      textAlign: TextAlign.center,
-                    )))),
-            Container(
-                margin: const EdgeInsets.only(left: 5.0),
-                width: 80,
-                height: 38,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Color.fromRGBO(51, 156, 254, 10),
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
-                child: ClipRRect(
-                    //used to make circular borders
-                    borderRadius: BorderRadius.circular(15),
-                    child: Center(
-                        child: Text(
-                      incorrect.toString(),
-                      style: const TextStyle(
-                          fontSize: 18,
-                          color: Color.fromRGBO(51, 156, 254, 10)),
-                      textAlign: TextAlign.center,
-                    )))),
-          ]),
-          Row(
-            children: [
-              Container(
-                  margin: const EdgeInsets.only(left: 135.0),
-                  width: 80,
-                  height: 38,
-                  child: Center(
-                      child: Text(
-                    "score",
-                    style: const TextStyle(
-                        fontSize: 14,
-                        color: Color.fromRGBO(51, 156, 254, 10),
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ))),
-              Container(
-                  margin: const EdgeInsets.only(left: 2.5),
-                  width: 80,
-                  height: 38,
-                  child: Center(
-                      child: Text(
-                    " correct answer",
-                    style: const TextStyle(
-                        fontSize: 14,
-                        color: Color.fromRGBO(51, 156, 254, 10),
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ))),
-              Container(
-                  margin: const EdgeInsets.only(left: 2.5),
-                  width: 80,
-                  height: 38,
-                  child: Center(
-                      child: Text(
-                    "incorrect answer",
-                    style: const TextStyle(
-                        fontSize: 14,
-                        color: Color.fromRGBO(51, 156, 254, 10),
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ))),
-            ],
-          ),
-=======
                 child: const CircleAvatar(
                     child: CircleAvatar(
                       radius: 45,
@@ -347,7 +212,6 @@ class results extends StatelessWidget {
               )
             ])
           ]),
->>>>>>> subjectScreen
           (score > opponentScore)
               ? Container(
                   width: 300,
