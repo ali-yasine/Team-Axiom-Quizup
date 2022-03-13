@@ -32,10 +32,11 @@ class subject_icon extends StatelessWidget {
       Text(
         subject,
         textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 16,
-            color: Color.fromRGBO(51, 156, 254, 10),
-            fontWeight: FontWeight.bold, ),
+        style: const TextStyle(
+          fontSize: 16,
+          color: Color.fromRGBO(51, 156, 254, 10),
+          fontWeight: FontWeight.bold,
+        ),
       ),
     ]);
   }

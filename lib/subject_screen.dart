@@ -3,7 +3,7 @@ import 'package:quizup_prototype_1/fireConnect.dart';
 import 'package:quizup_prototype_1/player.dart';
 import 'package:quizup_prototype_1/quiz.dart';
 
-import 'main.dart';
+import 'Home.dart';
 
 class subjectScreen extends StatelessWidget {
   final String subject;
@@ -15,7 +15,6 @@ class subjectScreen extends StatelessWidget {
   }) : super(key: key);
   void play(BuildContext context) async {
     var questions = await fireConnect.readQuestions(subject);
-
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) =>
           Quiz(questionsTemplates: questions, player: player, subject: subject),
@@ -24,7 +23,7 @@ class subjectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const img = AssetImage('assets/images/panda.jpg');
+    const img = AssetImage('assets/images/avatar.png');
     const backgroundColor = Color.fromRGBO(207, 232, 255, 20);
     const _profileRadius = 35.0;
     const _iconSize = 40.0;

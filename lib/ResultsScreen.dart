@@ -23,9 +23,9 @@ class results extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const img = AssetImage('assets/images/panda.jpg');
+    const img = AssetImage('assets/images/avatar.jpg');
     return Scaffold(
-      backgroundColor:const Color.fromRGBO(207, 232, 255, 20),
+      backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
       body: Column(
         children: [
           const SizedBox(height: 50),
@@ -43,7 +43,7 @@ class results extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
-                    color:const Color.fromRGBO(51, 156, 254, 10),
+                    color: const Color.fromRGBO(51, 156, 254, 10),
                     width: 2,
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -61,7 +61,7 @@ class results extends StatelessWidget {
           Container(
               margin: const EdgeInsets.only(left: 30.0),
               alignment: Alignment.centerLeft,
-              child:const Text("Player ",
+              child: const Text("Player ",
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       fontSize: 28,
@@ -70,7 +70,6 @@ class results extends StatelessWidget {
           const SizedBox(height: 20),
           Row(children: [
             Container(
-
                 child: const CircleAvatar(
                     child: CircleAvatar(
                       radius: 45,
@@ -222,10 +221,11 @@ class results extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.green,
                       border: Border.all(
-                        color:const  Color.fromRGBO(51, 156, 254, 10),
+                        color: const Color.fromRGBO(51, 156, 254, 10),
                         width: 2,
                       ),
-                      borderRadius: const BorderRadius.all(Radius.circular(25))),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(25))),
                   child: ClipRRect(
                       //used to make circular borders
                       borderRadius: BorderRadius.circular(15),
