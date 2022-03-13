@@ -21,10 +21,8 @@ class results extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const img = AssetImage('assets/images/panda.jpg');
-
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
+      backgroundColor: Color.fromRGBO(207, 232, 255, 20),
       body: Column(
         children: [
           const SizedBox(height: 50),
@@ -42,10 +40,10 @@ class results extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
-                    color: const Color.fromRGBO(51, 156, 254, 10),
+                    color: Color.fromRGBO(51, 156, 254, 10),
                     width: 2,
                   ),
-                  borderRadius: const BorderRadius.all(Radius.circular(25))),
+                  borderRadius: BorderRadius.all(Radius.circular(25))),
               child: ClipRRect(
                   //used to make circular borders
                   borderRadius: BorderRadius.circular(15),
@@ -60,9 +58,9 @@ class results extends StatelessWidget {
           Container(
               margin: const EdgeInsets.only(left: 30.0),
               alignment: Alignment.centerLeft,
-              child: const Text("Player ",
+              child: Text("Player ",
                   textAlign: TextAlign.left,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(51, 156, 254, 10)))),
@@ -75,10 +73,10 @@ class results extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: Color.fromRGBO(51, 156, 254, 10),
                       width: 1,
                     ),
-                    borderRadius: const BorderRadius.all(Radius.circular(25))),
+                    borderRadius: BorderRadius.all(Radius.circular(25))),
                 child: ClipRRect(
                     //used to make circular borders
                     borderRadius: BorderRadius.circular(15),
@@ -100,11 +98,12 @@ class results extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: Color.fromRGBO(51, 156, 254, 10),
                       width: 1,
                     ),
-                    borderRadius: const BorderRadius.all(Radius.circular(25))),
+                    borderRadius: BorderRadius.all(Radius.circular(25))),
                 child: ClipRRect(
+                    //used to make circular borders
                     borderRadius: BorderRadius.circular(15),
                     child: Center(
                         child: Text(
@@ -121,11 +120,12 @@ class results extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: Color.fromRGBO(51, 156, 254, 10),
                       width: 1,
                     ),
-                    borderRadius: const BorderRadius.all(Radius.circular(25))),
+                    borderRadius: BorderRadius.all(Radius.circular(25))),
                 child: ClipRRect(
+                    //used to make circular borders
                     borderRadius: BorderRadius.circular(15),
                     child: Center(
                         child: Text(
@@ -142,11 +142,12 @@ class results extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: Color.fromRGBO(51, 156, 254, 10),
                       width: 1,
                     ),
-                    borderRadius: const BorderRadius.all(Radius.circular(25))),
+                    borderRadius: BorderRadius.all(Radius.circular(25))),
                 child: ClipRRect(
+                    //used to make circular borders
                     borderRadius: BorderRadius.circular(15),
                     child: Center(
                         child: Text(
@@ -163,10 +164,10 @@ class results extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 135.0),
                   width: 80,
                   height: 38,
-                  child: const Center(
+                  child: Center(
                       child: Text(
                     "score",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 14,
                         color: Color.fromRGBO(51, 156, 254, 10),
                         fontWeight: FontWeight.bold),
@@ -176,10 +177,10 @@ class results extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 2.5),
                   width: 80,
                   height: 38,
-                  child: const Center(
+                  child: Center(
                       child: Text(
                     " correct answer",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 14,
                         color: Color.fromRGBO(51, 156, 254, 10),
                         fontWeight: FontWeight.bold),
@@ -189,10 +190,10 @@ class results extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 2.5),
                   width: 80,
                   height: 38,
-                  child: const Center(
+                  child: Center(
                       child: Text(
                     "incorrect answer",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 14,
                         color: Color.fromRGBO(51, 156, 254, 10),
                         fontWeight: FontWeight.bold),
@@ -207,11 +208,10 @@ class results extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.green,
                       border: Border.all(
-                        color: const Color.fromRGBO(51, 156, 254, 10),
+                        color: Color.fromRGBO(51, 156, 254, 10),
                         width: 2,
                       ),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(25))),
+                      borderRadius: BorderRadius.all(Radius.circular(25))),
                   child: ClipRRect(
                       //used to make circular borders
                       borderRadius: BorderRadius.circular(15),
