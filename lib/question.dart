@@ -91,18 +91,21 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     beginTimer();
     var answers = makeAnswers();
-    var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
-      body:
-      Column(children: [
-          const SizedBox(height: 50),
-        Text(widget.subject, style:
-        const TextStyle(fontSize: 35,color: Color.fromRGBO(51,156,254,10) , fontWeight: FontWeight.bold)),
+      body: Column(children: [
+        const SizedBox(height: 50),
+        Text(widget.subject,
+            style: const TextStyle(
+                fontSize: 35,
+                color: Color.fromRGBO(51, 156, 254, 10),
+                fontWeight: FontWeight.bold)),
         const SizedBox(height: 100),
-             Row(
-                 mainAxisAlignment: MainAxisAlignment.center ,//Center Column contents vertically,
-                 crossAxisAlignment: CrossAxisAlignment.center ,//Center Column contents horizontally,
+        Row(
+            mainAxisAlignment:
+                MainAxisAlignment.center, //Center Column contents vertically,
+            crossAxisAlignment: CrossAxisAlignment
+                .center, //Center Column contents horizontally,
 
                  children:[
                    Container(
@@ -170,36 +173,39 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
               flex: 2,
             ),
             Flexible(
-              flex: 10,
-                child: Column(
-                    children: [
-              Container(
-                  width: 1000,
-                height: 100,
-                    decoration: BoxDecoration(
-                      color:Colors.white,
-                      border: Border.all(color: Color.fromRGBO(51,156,254,10), width: 2,),
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    child: ClipRRect(
-                      //used to make circular borders
-                        borderRadius: BorderRadius.circular(15),
-                  child:Center( child: Text(
-                widget.prompt,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color.fromRGBO(40,156,254,50)),
-                textAlign: TextAlign.center,
-
-
-                  )))),
+                flex: 10,
+                child: Column(children: [
+                  Container(
+                      width: 1000,
+                      height: 100,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Color.fromRGBO(51, 156, 254, 10),
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(25))),
+                      child: ClipRRect(
+                          //used to make circular borders
+                          borderRadius: BorderRadius.circular(15),
+                          child: Center(
+                              child: Text(
+                            widget.prompt,
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(40, 156, 254, 50)),
+                            textAlign: TextAlign.center,
+                          )))),
                   const SizedBox(height: 60),
-              answers.first,
-              const SizedBox(height: 20),
-              answers.elementAt(1),
-              const SizedBox(height: 20),
-              answers.elementAt(2),
-              const SizedBox(height: 20),
-              answers.last,
-            ])),
+                  answers.first,
+                  const SizedBox(height: 20),
+                  answers.elementAt(1),
+                  const SizedBox(height: 20),
+                  answers.elementAt(2),
+                  const SizedBox(height: 20),
+                  answers.last,
+                ])),
             Flexible(
               child: Container(
                   child: opponentTimer, margin: const EdgeInsets.all(10)),
