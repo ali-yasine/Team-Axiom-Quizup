@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "1088408861261",
+    "firebase_url": "https://quizup-flutter-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "quizup-flutter",
+    "storage_bucket": "quizup-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088408861261:android:981622fffda3986460ba04",
+        "android_client_info": {
+          "package_name": "com.example.firconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088408861261-dgddan2n5g6m1fmopt45khdrqgtng6nh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtn12CISaHOZF_N9Kdg14e1bdutrJWaqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088408861261-dgddan2n5g6m1fmopt45khdrqgtng6nh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088408861261:android:3a91c8b14e0f0a3760ba04",
+        "android_client_info": {
+          "package_name": "com.example.quizup_prototype_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088408861261-dgddan2n5g6m1fmopt45khdrqgtng6nh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtn12CISaHOZF_N9Kdg14e1bdutrJWaqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088408861261-dgddan2n5g6m1fmopt45khdrqgtng6nh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

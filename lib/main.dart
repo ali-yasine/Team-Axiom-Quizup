@@ -1,10 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:quizup_prototype_1/fireConnect.dart';
 import 'package:quizup_prototype_1/player.dart';
 import 'package:quizup_prototype_1/question_template.dart';
 import 'package:quizup_prototype_1/subject_screen.dart';
 import 'quiz.dart';
 
-void main() => runApp(const HomePage());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const HomePage());
+}
+
 Player player = Player(username: "user", id: "231");
 
 class HomePage extends StatelessWidget {
@@ -16,8 +23,15 @@ class HomePage extends StatelessWidget {
 }
 
 class _home extends StatelessWidget {
+  getQuestions() async {
+    print("started");
+    var x = await fireConnect.readPlayers();
+    print("done");
+  }
+
   @override
   Widget build(BuildContext context) {
+    getQuestions();
     return Scaffold(
       backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
       appBar: AppBar(
@@ -57,7 +71,8 @@ class _home extends StatelessWidget {
                                       "Stomach",
                                       "Large intestine",
                                       "All of the above"
-                                    ]),
+                                    ],
+                                    subject: "Natural Science"),
                                 question_template(
                                     prompt: "Which is the heaviest metal",
                                     wrongAnswersTxt: [
@@ -65,7 +80,8 @@ class _home extends StatelessWidget {
                                       "mercury",
                                       "iron"
                                     ],
-                                    correctAnswerTxt: "osmium"),
+                                    correctAnswerTxt: "osmium",
+                                    subject: "Natural Science"),
                                 question_template(
                                     prompt:
                                         "An atom with more neutrons than protons is called",
@@ -74,7 +90,8 @@ class _home extends StatelessWidget {
                                       "Element",
                                       "Compound"
                                     ],
-                                    correctAnswerTxt: "Isotope"),
+                                    correctAnswerTxt: "Isotope",
+                                    subject: "Natural Science"),
                                 question_template(
                                     prompt: "Which is called white poison?",
                                     wrongAnswersTxt: [
@@ -82,7 +99,8 @@ class _home extends StatelessWidget {
                                       "Fructose",
                                       "Sweets"
                                     ],
-                                    correctAnswerTxt: "Sugar"),
+                                    correctAnswerTxt: "Sugar",
+                                    subject: "Natural Science"),
                                 question_template(
                                     prompt: " The isotope atoms differ in",
                                     wrongAnswersTxt: [
@@ -90,7 +108,8 @@ class _home extends StatelessWidget {
                                       "atomic number",
                                       "number of electrons"
                                     ],
-                                    correctAnswerTxt: "atomic weight")
+                                    correctAnswerTxt: "atomic weight",
+                                    subject: "Natural Science")
                               ],
                               player: Player(username: "player", id: "1"),
                               subject: 'Natural Science',
@@ -119,7 +138,8 @@ class _home extends StatelessWidget {
                                       "Germany",
                                       "Brazil",
                                       "Croatia"
-                                    ]),
+                                    ],
+                                    subject: "Sports"),
                                 question_template(
                                     prompt: "Who won the Ballon-D'or in 2021",
                                     wrongAnswersTxt: [
@@ -127,7 +147,8 @@ class _home extends StatelessWidget {
                                       "Karim Benzema",
                                       "Mohammed Salah"
                                     ],
-                                    correctAnswerTxt: "Lionel Messi"),
+                                    correctAnswerTxt: "Lionel Messi",
+                                    subject: "Sports"),
                                 question_template(
                                     prompt:
                                         "Who was the highest ranked tennis player in 2021",
@@ -136,7 +157,8 @@ class _home extends StatelessWidget {
                                       "Alexander Zverev",
                                       "Stefanos Tsitsipas"
                                     ],
-                                    correctAnswerTxt: "Novak Djokovic"),
+                                    correctAnswerTxt: "Novak Djokovic",
+                                    subject: "Sports"),
                                 question_template(
                                     prompt: "Which is called white poison?",
                                     wrongAnswersTxt: [
@@ -144,7 +166,8 @@ class _home extends StatelessWidget {
                                       "Fructose",
                                       "Sweets"
                                     ],
-                                    correctAnswerTxt: "Sugar"),
+                                    correctAnswerTxt: "Sugar",
+                                    subject: "Sports"),
                                 question_template(
                                     prompt: "Who won the EURO in 2018",
                                     wrongAnswersTxt: [
@@ -152,7 +175,8 @@ class _home extends StatelessWidget {
                                       "France",
                                       "Germany"
                                     ],
-                                    correctAnswerTxt: "Portugal")
+                                    correctAnswerTxt: "Portugal",
+                                    subject: "Sports")
                               ],
                               player: Player(username: "player", id: "2"),
                               subject: 'Sports',
