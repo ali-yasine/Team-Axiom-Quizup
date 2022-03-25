@@ -1,3 +1,4 @@
+
 import 'package:quizup_prototype_1/player.dart';
 import 'package:quizup_prototype_1/question_template.dart';
 import 'package:quizup_prototype_1/subject_icon.dart';
@@ -23,6 +24,7 @@ class _home extends StatelessWidget {
       backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
       body: SingleChildScrollView(
           child: Stack(children: <Widget>[
+
         Column(children: <Widget>[
           Container(
             width: _width,
@@ -176,7 +178,7 @@ class _home extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(51, 156, 254, 10),
         fixedColor: Colors.white,
         unselectedItemColor: Colors.white,
-        items: [
+        items: const [
           BottomNavigationBarItem(
               icon: Icon(IconData(0xe491, fontFamily: 'MaterialIcons')),
               label: "profile"),

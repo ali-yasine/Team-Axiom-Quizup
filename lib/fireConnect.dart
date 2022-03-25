@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quizup_prototype_1/player.dart';
 import 'package:quizup_prototype_1/question_template.dart';
-
 class fireConnect {
   static Future createPlayer({required String name}) async {
     final docUser = FirebaseFirestore.instance.collection('player').doc();
@@ -17,5 +16,9 @@ class fireConnect {
     return queuerySnapshot.docs
         .map((e) => question_template.fromJson(e.data()))
         .toList();
+  }
+  static Future<bool> AuthenicateUser(String username,String password) async{
+    // TODO
+    throw UnimplementedError();
   }
 }
