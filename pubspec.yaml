@@ -60,8 +60,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/images/sports.png
-    - assets/images/natural science.png
+    - assets/images/Sports.png
+    - assets/images/NaturalScience.png
     - assets/images/avatar.png
     - assets/images/panda.jpg
   # To add assets to your application, add an assets section, like this:

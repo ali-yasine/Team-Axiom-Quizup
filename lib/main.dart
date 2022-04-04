@@ -9,5 +9,5 @@ import 'SignUp.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const HomePage());
+  runApp(const MaterialApp(home: HomePage()));
 }

@@ -1,25 +1,67 @@
 import 'package:quizup_prototype_1/Profile.dart';
+
 import 'package:quizup_prototype_1/player.dart';
-import 'package:quizup_prototype_1/question_template.dart';
 import 'package:quizup_prototype_1/subject_icon.dart';
 import 'package:quizup_prototype_1/subject_screen.dart';
-import 'quiz.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: _home());
-  }
+  State<HomePage> createState() => _home();
 }
 
-class _home extends StatelessWidget {
+class _home extends State<HomePage> {
+  final List<String> subjectNames = ["Natural science", "Sports"];
   Player player = Player(username: "user", id: "1234");
+  List<subject_icon>? allSubjects;
+  List<subject_icon> currentSubjects = [];
+  @override
+  void initState() {
+    initializeSubjects(context);
+    super.initState();
+  }
+
+  void initializeSubjects(BuildContext context) {
+    List<subject_icon> icons = [];
+    for (var name in subjectNames) {
+      icons.add(subject_icon(
+          subject: name,
+          imageRef: "assets/images/Sports.png",
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    subjectScreen(subject: name, player: player)));
+          }));
+    }
+    allSubjects ??= icons;
+    currentSubjects.addAll(allSubjects!);
+  }
+
+  void searchSubjects(String queury) {
+    if (queury.isNotEmpty) {
+      List<subject_icon> result = [];
+      for (var item in allSubjects!) {
+        if (item.subject.toLowerCase().contains(queury.toLowerCase())) {
+          result.add(item);
+        }
+      }
+      setState(() {
+        currentSubjects.clear();
+        currentSubjects.addAll(result);
+      });
+    } else {
+      setState(() {
+        currentSubjects.clear();
+        currentSubjects.addAll(allSubjects!);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    double _height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
       body: SingleChildScrollView(
@@ -95,46 +137,22 @@ class _home extends StatelessWidget {
           ),
           Row(children: [
             Container(
-                margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                alignment: Alignment.center,
-                width: 400,
-                height: 30,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
-                      width: 1,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(25))),
-                child: Row(children: [
-                  const Center(
-                      child: Text(
-                    "search",
-                    style: TextStyle(
-                        fontSize: 12, color: Color.fromRGBO(51, 156, 254, 10)),
-                    textAlign: TextAlign.center,
-                  )),
-                  Container(
-                      alignment: Alignment.center,
-                      width: 30,
-                      height: 30,
-                      margin: const EdgeInsets.only(right: 5.0, left: 327),
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(300))),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(300),
-                        child: IconButton(
-                          onPressed: () => Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                                  builder: (context) => const HomePage())),
-                          icon: const Icon(
-                            Icons.search,
-                            size: 18,
-                            color: Color.fromRGBO(51, 156, 254, 10),
-                          ),
-                        ),
-                      )),
-                ])),
+              margin: const EdgeInsets.only(right: 5.0, left: 5.0),
+              alignment: Alignment.center,
+              width: 400,
+              height: 30,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    color: const Color.fromRGBO(51, 156, 254, 10),
+                    width: 1,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(25))),
+              child: TextField(
+                autofillHints: subjectNames,
+                onChanged: (queury) => {searchSubjects(queury)},
+              ),
+            ),
           ]),
           const SizedBox(
             height: 30,
@@ -142,24 +160,7 @@ class _home extends StatelessWidget {
           Column(
             children: <Widget>[
               const SizedBox(height: 10),
-              Row(children: [
-                subject_icon(
-                    subject: "Natural Science",
-                    imageRef: 'assets/images/natural science.png',
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => subjectScreen(
-                              subject: "Natural science", player: player)));
-                    }),
-                subject_icon(
-                    subject: "Sports",
-                    imageRef: 'assets/images/sports.png',
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => subjectScreen(
-                              subject: "Sports", player: player)));
-                    }),
-              ]),
+              Row(children: currentSubjects),
               const SizedBox(
                 height: 200,
               ),
