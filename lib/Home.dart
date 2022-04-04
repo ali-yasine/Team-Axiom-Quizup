@@ -1,4 +1,4 @@
-
+import 'package:quizup_prototype_1/Profile.dart';
 import 'package:quizup_prototype_1/player.dart';
 import 'package:quizup_prototype_1/question_template.dart';
 import 'package:quizup_prototype_1/subject_icon.dart';
@@ -24,7 +24,6 @@ class _home extends StatelessWidget {
       backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
       body: SingleChildScrollView(
           child: Stack(children: <Widget>[
-
         Column(children: <Widget>[
           Container(
             width: _width,
@@ -178,6 +177,24 @@ class _home extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(51, 156, 254, 10),
         fixedColor: Colors.white,
         unselectedItemColor: Colors.white,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => ProfilePage(
+                        player: player,
+                      )));
+              break;
+            case 1:
+              break;
+            case 2:
+              //TODO ADD LEADERBOARD TO NAVIGATOR
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+              break;
+            default:
+          }
+        },
         items: const [
           BottomNavigationBarItem(
               icon: Icon(IconData(0xe491, fontFamily: 'MaterialIcons')),

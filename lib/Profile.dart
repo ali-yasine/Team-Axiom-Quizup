@@ -1,21 +1,19 @@
-import 'package:quizup_prototype_1/Login.dart';
 import 'package:quizup_prototype_1/player.dart';
 import 'package:flutter/material.dart';
 import 'Home.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  final Player player;
+  const ProfilePage({Key? key, required this.player}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Profile());
+    return MaterialApp(home: Profile(player: player));
   }
 }
 
 class Profile extends StatelessWidget {
-  Player player = Player(username: "user", id: "1234");
-
-  Profile({Key? key}) : super(key: key);
-
+  final Player player;
+  const Profile({Key? key, required this.player}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
@@ -359,6 +357,22 @@ class Profile extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(51, 156, 254, 10),
         fixedColor: Colors.white,
         unselectedItemColor: Colors.white,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              break;
+            case 1:
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+              break;
+            case 2:
+              //TODO ADD LEADERBOARD TO NAVIGATOR
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+              break;
+            default:
+          }
+        },
         items: const [
           BottomNavigationBarItem(
               icon: Icon(IconData(0xe491, fontFamily: 'MaterialIcons')),
