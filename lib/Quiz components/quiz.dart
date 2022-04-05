@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/ResultsScreen.dart';
-import 'package:quizup_prototype_1/question.dart';
-import 'package:quizup_prototype_1/player.dart';
-import 'package:quizup_prototype_1/question_template.dart';
+import 'package:quizup_prototype_1/Screens/ResultsScreen.dart';
+import 'question.dart';
+import 'package:quizup_prototype_1/Utilities/player.dart';
+import 'package:quizup_prototype_1/Utilities/question_template.dart';
 
 class Quiz extends StatefulWidget {
-  final List<question_template> questionsTemplates;
+  final List<QuestionTemplate> questionsTemplates;
   final Player player;
   bool isdone = false;
   final String subject;
@@ -84,7 +84,7 @@ class _quizState extends State<Quiz> {
         height: size.height,
       );
     } else {
-      return results(
+      return Results(
         player: widget.player,
         score: widget.score,
         subject: widget.subject,

@@ -1,16 +1,16 @@
-class question_template {
+class QuestionTemplate {
   final String prompt;
   final List<String> wrongAnswersTxt;
   final String correctAnswerTxt;
   final String subject;
-  question_template(
+  QuestionTemplate(
       {required this.prompt,
       required this.wrongAnswersTxt,
       required this.correctAnswerTxt,
       required this.subject})
       : super();
-  static question_template fromJson(Map<String, dynamic> json) =>
-      question_template(
+  static QuestionTemplate fromJson(Map<String, dynamic> json) =>
+      QuestionTemplate(
         subject: json['category'],
         prompt: json['prompt'],
         correctAnswerTxt: json['correctanswer'],

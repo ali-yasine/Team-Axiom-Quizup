@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/answer.dart';
-import 'package:quizup_prototype_1/player.dart';
-import 'package:quizup_prototype_1/timer.dart';
+import 'answer.dart';
+import 'package:quizup_prototype_1/Utilities/player.dart';
+import 'timer.dart';
 
 class Question extends StatefulWidget {
   final String prompt;
@@ -107,65 +106,75 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment
                 .center, //Center Column contents horizontally,
 
-                 children:[
-                   Container(
-                     width: 60,
-                     height: 60,
-                     margin: const EdgeInsets.only(left: 5,right: 10),
-                     child: const CircleAvatar(
-                       child: CircleAvatar(
-                         radius: 33,
-                         backgroundColor: Colors.grey,
-                         backgroundImage: AssetImage('assets/images/avatar.png'),
-                       ),
-                     ),
-                   ),
+            children: [
+              Container(
+                width: 60,
+                height: 60,
+                margin: const EdgeInsets.only(left: 5, right: 10),
+                child: const CircleAvatar(
+                  child: CircleAvatar(
+                    radius: 33,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: AssetImage('assets/images/avatar.png'),
+                  ),
+                ),
+              ),
               ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-              child:Container(
-              decoration: const BoxDecoration(
-              color:Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(25))),
-
-            child: Text(
-             " "+ widget.player.username + " :" + widget.currentScore.toString()+" ",
-              style:
-                  const TextStyle(fontSize: 18,color: Color.fromRGBO(51,156,254,10) )),
-
-       )),
-
-                 Container(child: const Text("vs",style:  TextStyle(fontSize: 18,color: Color.fromRGBO(51,156,254,10), fontWeight: FontWeight.bold )),margin:const EdgeInsets.only  (left:35.0,right:35.0),),
-             ClipRRect(
-                 borderRadius: BorderRadius.circular(8),
-                 child:Container(
-
-
-                   decoration: const BoxDecoration(
-
-                       color:Colors.white,
-                       borderRadius: BorderRadius.all(Radius.circular(25))),
-
-                   child: Text(
-                       " "+ widget.player.username + " :" + widget.currentScore.toString()+" ",
-                       style:
-                       const TextStyle(fontSize: 18,color: Color.fromRGBO(51,156,254,10) )),
-
-                 )),
-                   Container(
-                     width: 60,
-                     height: 60,
-                     margin: const EdgeInsets.only(left: 5),
-                     child: const CircleAvatar(
-                       child: CircleAvatar(
-                         radius: 33,
-                         backgroundColor: Colors.grey,
-                         backgroundImage: AssetImage('assets/images/avatar.png'),
-                       ),
-                     ),
-                   ),
-
-           ]) ,
-        const SizedBox(height:10,),
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(25))),
+                    child: Text(
+                        " " +
+                            widget.player.username +
+                            " :" +
+                            widget.currentScore.toString() +
+                            " ",
+                        style: const TextStyle(
+                            fontSize: 18,
+                            color: Color.fromRGBO(51, 156, 254, 10))),
+                  )),
+              Container(
+                child: const Text("vs",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Color.fromRGBO(51, 156, 254, 10),
+                        fontWeight: FontWeight.bold)),
+                margin: const EdgeInsets.only(left: 35.0, right: 35.0),
+              ),
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(25))),
+                    child: Text(
+                        " " +
+                            widget.player.username +
+                            " :" +
+                            widget.currentScore.toString() +
+                            " ",
+                        style: const TextStyle(
+                            fontSize: 18,
+                            color: Color.fromRGBO(51, 156, 254, 10))),
+                  )),
+              Container(
+                width: 60,
+                height: 60,
+                margin: const EdgeInsets.only(left: 5),
+                child: const CircleAvatar(
+                  child: CircleAvatar(
+                    radius: 33,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: AssetImage('assets/images/avatar.png'),
+                  ),
+                ),
+              ),
+            ]),
+        const SizedBox(
+          height: 10,
+        ),
         Flexible(
           child: Row(children: [
             Flexible(
@@ -181,10 +190,11 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                            color: Color.fromRGBO(51, 156, 254, 10),
+                            color: const Color.fromRGBO(51, 156, 254, 10),
                             width: 2,
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(25))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(25))),
                       child: ClipRRect(
                           //used to make circular borders
                           borderRadius: BorderRadius.circular(15),

@@ -1,11 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/Login.dart';
-import 'Home.dart';
+import 'package:quizup_prototype_1/Login-Signup/Login.dart';
+import 'package:quizup_prototype_1/Utilities/player.dart';
+import '../Screens/Home.dart';
 
 //Widget for input
 
 class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
   @override
   SignUpState createState() {
     return SignUpState();
@@ -34,12 +35,23 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  TextEditingController FirstnameController = TextEditingController();
-  TextEditingController LastnameController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController ConfirmPasswordController = TextEditingController();
-  TextEditingController CountryController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController countryController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+
+  final Player player = Player(
+    username: "user",
+    email: "email@domain.com",
+    avatar: const AssetImage("assets/images/panda.jpg"),
+    gamesPlayed: 10,
+    gamesWon: 6,
+    avgSecondsToAnswer: 4,
+    rankGlobal: 12,
+    rankByCountry: 3,
+  );
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
@@ -103,7 +115,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   //used to make circular borders
                   borderRadius: BorderRadius.circular(30),
                   child: TextField(
-                    controller: LastnameController,
+                    controller: lastNameController,
                     decoration: const InputDecoration(
                       labelText: '  First name',
                     ),
@@ -124,7 +136,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   //used to make circular borders
                   borderRadius: BorderRadius.circular(30),
                   child: TextField(
-                    controller: FirstnameController,
+                    controller: firstNameController,
                     decoration: const InputDecoration(
                       labelText: '  Last name',
                     ),
@@ -147,7 +159,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 //used to make circular borders
                 borderRadius: BorderRadius.circular(30),
                 child: TextField(
-                  controller: CountryController,
+                  controller: countryController,
                   decoration: const InputDecoration(
                     labelText: '  Country',
                   ),
@@ -216,7 +228,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   borderRadius: BorderRadius.circular(30),
                   child: TextField(
                     obscureText: true,
-                    controller: ConfirmPasswordController,
+                    controller: confirmPasswordController,
                     decoration: const InputDecoration(
                       labelText: '  Confirm password',
                     ),
@@ -226,7 +238,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           const SizedBox(
             height: 10,
           ),
-          Container(
+          SizedBox(
               width: 100,
               height: 50,
               child: ClipRRect(
@@ -234,17 +246,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (passwordController.text ==
-                              ConfirmPasswordController.text &&
+                              confirmPasswordController.text &&
                           passwordController.text != "") {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => const HomePage()));
-                        print(FirstnameController.text);
-                        print(LastnameController.text);
-                        print(CountryController.text);
-                        print(emailController.text);
-                        print(passwordController.text);
+                            builder: (context) => HomePage(player: player)));
                       } else {
-                        child:
                         const Text(
                           "The passwords don't match",
                           style:

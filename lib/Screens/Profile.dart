@@ -1,4 +1,4 @@
-import 'package:quizup_prototype_1/player.dart';
+import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:flutter/material.dart';
 import 'Home.dart';
 
@@ -118,7 +118,9 @@ class Profile extends StatelessWidget {
                         color: Colors.white,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(25))),
-                    child: const Text(" 1", textAlign: TextAlign.center),
+                    child: Text(
+                        (player.gamesWon / player.gamesPlayed).toString(),
+                        textAlign: TextAlign.center),
                   ),
                   Container(
                     margin: const EdgeInsets.only(right: 5.0, left: 5.0),
@@ -132,7 +134,8 @@ class Profile extends StatelessWidget {
                         color: Colors.white,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(25))),
-                    child: const Text(" 1", textAlign: TextAlign.center),
+                    child: Text(player.gamesPlayed.toString(),
+                        textAlign: TextAlign.center),
                   ),
                   Container(
                     margin: const EdgeInsets.only(right: 5.0, left: 5.0),
@@ -146,7 +149,8 @@ class Profile extends StatelessWidget {
                         color: Colors.white,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(25))),
-                    child: const Text(" 1", textAlign: TextAlign.center),
+                    child: Text(player.rankByCountry.toString(),
+                        textAlign: TextAlign.center),
                   ),
                 ]),
                 Row(
@@ -157,7 +161,7 @@ class Profile extends StatelessWidget {
                         height: 38,
                         child: const Center(
                             child: Text(
-                          " High score",
+                          " Win rate",
                           style: TextStyle(
                               fontSize: 14,
                               color: Color.fromRGBO(51, 156, 254, 10),
@@ -206,7 +210,8 @@ class Profile extends StatelessWidget {
                         color: Colors.white,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(25))),
-                    child: const Text(" 1", textAlign: TextAlign.center),
+                    child: Text(player.gamesPlayed.toString(),
+                        textAlign: TextAlign.center),
                   ),
                   Container(
                     margin: const EdgeInsets.only(right: 5.0, left: 5.0),
@@ -220,7 +225,8 @@ class Profile extends StatelessWidget {
                         color: Colors.white,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(25))),
-                    child: const Text(" 1", textAlign: TextAlign.center),
+                    child: Text(player.gamesWon.toString(),
+                        textAlign: TextAlign.center),
                   ),
                   Container(
                     margin: const EdgeInsets.only(right: 5.0, left: 5.0),
@@ -234,7 +240,8 @@ class Profile extends StatelessWidget {
                         color: Colors.white,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(25))),
-                    child: const Text(" 1", textAlign: TextAlign.center),
+                    child: Text(player.avgSecondsToAnswer.toString(),
+                        textAlign: TextAlign.center),
                   ),
                 ]),
                 Row(
@@ -245,7 +252,7 @@ class Profile extends StatelessWidget {
                         height: 38,
                         child: const Center(
                             child: Text(
-                          " Rank By Subject",
+                          " Games Played",
                           style: TextStyle(
                               fontSize: 14,
                               color: Color.fromRGBO(51, 156, 254, 10),
@@ -271,7 +278,7 @@ class Profile extends StatelessWidget {
                         height: 38,
                         child: const Center(
                             child: Text(
-                          "Number Of Games Played",
+                          "Average seconds to answer",
                           style: TextStyle(
                               fontSize: 12,
                               color: Color.fromRGBO(51, 156, 254, 10),
@@ -282,64 +289,6 @@ class Profile extends StatelessWidget {
                 ),
               ]),
               const SizedBox(height: 10),
-              Row(children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 5.0, left: 10.0),
-                  width: _width / 3 - 20,
-                  height: _width / 3 - 20,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color.fromRGBO(51, 156, 254, 10),
-                        width: 2,
-                      ),
-                      color: Colors.white,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(25))),
-                  child: const Text(" 1", textAlign: TextAlign.center),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                  width: _width / 3 - 20,
-                  height: _width / 3 - 20,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color.fromRGBO(51, 156, 254, 10),
-                        width: 2,
-                      ),
-                      color: Colors.white,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(25))),
-                  child: const Text(" 1", textAlign: TextAlign.center),
-                ),
-              ]),
-              Row(children: [
-                Container(
-                    margin: const EdgeInsets.only(left: 25),
-                    width: 80,
-                    height: 38,
-                    child: const Center(
-                        child: Text(
-                      " Percentage of Games Won",
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromRGBO(51, 156, 254, 10),
-                          fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ))),
-                Container(
-                    margin: const EdgeInsets.only(left: 50),
-                    width: 80,
-                    height: 38,
-                    child: const Center(
-                        child: Text(
-                      "Average Number Of Seconds To Answer",
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: Color.fromRGBO(51, 156, 254, 10),
-                          fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ))),
-              ]),
               const SizedBox(
                 height: 200,
               ),
@@ -362,13 +311,13 @@ class Profile extends StatelessWidget {
             case 0:
               break;
             case 1:
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const HomePage()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => HomePage(player: player)));
               break;
             case 2:
               //TODO ADD LEADERBOARD TO NAVIGATOR
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const HomePage()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => HomePage(player: player)));
               break;
             default:
           }

@@ -1,25 +1,62 @@
-import 'package:quizup_prototype_1/Profile.dart';
-import 'package:quizup_prototype_1/player.dart';
-import 'package:quizup_prototype_1/question_template.dart';
-import 'package:quizup_prototype_1/subject_icon.dart';
-import 'package:quizup_prototype_1/subject_screen.dart';
-import 'quiz.dart';
+// ignore_for_file: file_names
+
+import 'package:quizup_prototype_1/Database_management/fireConnect.dart';
+import 'package:quizup_prototype_1/Screens/Profile.dart';
+import 'package:quizup_prototype_1/Utilities/player.dart';
+import 'package:quizup_prototype_1/Utilities/subject_icon.dart';
+import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final Player player;
+  const HomePage({Key? key, required this.player}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: _home());
+    return MaterialApp(home: Home(player: player));
   }
 }
 
-class _home extends StatelessWidget {
-  Player player = Player(username: "user", id: "1234");
+class Home extends StatefulWidget {
+  final Player player;
+  const Home({Key? key, required this.player}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => HomeState();
+}
+
+class HomeState extends State<Home> {
+  bool _loadingSubjects = true;
+  late final List<String> subjects;
+  late final List<SubjectIcon> subjectIcons;
+  Future<void> initializeSubjects() async {
+    subjects = await FireConnect.getSubjects();
+    subjectIcons = subjects
+        .map((subject) => SubjectIcon(
+            subject: subject,
+            imageRef: 'assets/images/natural science.png',
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    SubjectScreen(subject: subject, player: widget.player)))))
+        .toList();
+    _loadingSubjects = false;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    initializeSubjects();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    double _height = MediaQuery.of(context).size.height;
+    if (_loadingSubjects) {
+      return Column(children: const [
+        CircularProgressIndicator(),
+        Text("Loading subjects")
+      ]);
+    }
     return Scaffold(
       backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
       body: SingleChildScrollView(
@@ -79,9 +116,7 @@ class _home extends StatelessWidget {
               Container(
                   margin: const EdgeInsets.only(right: 5.0, left: 70),
                   child: ElevatedButton(
-                    onPressed: () => Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage())),
+                    onPressed: () => {},
                     child: const Icon(
                       IconData(
                         0xe57f,
@@ -124,9 +159,7 @@ class _home extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(300),
                         child: IconButton(
-                          onPressed: () => Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                                  builder: (context) => const HomePage())),
+                          onPressed: () => {},
                           icon: const Icon(
                             Icons.search,
                             size: 18,
@@ -142,24 +175,11 @@ class _home extends StatelessWidget {
           Column(
             children: <Widget>[
               const SizedBox(height: 10),
-              Row(children: [
-                subject_icon(
-                    subject: "Natural Science",
-                    imageRef: 'assets/images/natural science.png',
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => subjectScreen(
-                              subject: "Natural science", player: player)));
-                    }),
-                subject_icon(
-                    subject: "Sports",
-                    imageRef: 'assets/images/sports.png',
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => subjectScreen(
-                              subject: "Sports", player: player)));
-                    }),
-              ]),
+              GridView.count(
+                shrinkWrap: true,
+                crossAxisCount: 3,
+                children: subjectIcons,
+              ),
               const SizedBox(
                 height: 200,
               ),
@@ -182,15 +202,13 @@ class _home extends StatelessWidget {
             case 0:
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => ProfilePage(
-                        player: player,
+                        player: widget.player,
                       )));
               break;
             case 1:
               break;
             case 2:
               //TODO ADD LEADERBOARD TO NAVIGATOR
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const HomePage()));
               break;
             default:
           }

@@ -1,13 +1,21 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/Login.dart';
-import 'package:quizup_prototype_1/Profile.dart';
-
-import 'Home.dart';
-import 'SignUp.dart';
+import 'Screens/Home.dart';
+import 'Utilities/player.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const HomePage());
+  runApp(HomePage(
+    player: Player(
+      username: "user",
+      email: "email@domain.com",
+      avatar: const AssetImage("assets/images/panda.jpg"),
+      gamesPlayed: 10,
+      gamesWon: 6,
+      avgSecondsToAnswer: 4,
+      rankGlobal: 12,
+      rankByCountry: 3,
+    ),
+  ));
 }
