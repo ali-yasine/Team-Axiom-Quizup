@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class subject_icon extends StatelessWidget {
+class SubjectIcon extends StatelessWidget {
   final String subject;
   final String imageRef;
   final VoidCallback onTap;
 
-  const subject_icon(
+  const SubjectIcon(
       {Key? key,
       required this.subject,
       required this.imageRef,

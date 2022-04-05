@@ -24,11 +24,11 @@ class Timer extends StatefulWidget {
   }
 
   @override
-  State<StatefulWidget> createState() => _timerState();
+  State<StatefulWidget> createState() => TimerState();
 }
 
 //TickerProviderStateMixin needed for class that handles animations
-class _timerState extends State<Timer> with TickerProviderStateMixin {
+class TimerState extends State<Timer> with TickerProviderStateMixin {
   late AnimationController _controller;
   void setupController() {
     _controller = AnimationController(
@@ -39,8 +39,8 @@ class _timerState extends State<Timer> with TickerProviderStateMixin {
       });
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.dismissed) {
-        widget._stop=true;
-        widget.timeTaken=widget.time;
+        widget._stop = true;
+        widget.timeTaken = widget.time;
         _controller.stop();
         widget.onFinish();
       }

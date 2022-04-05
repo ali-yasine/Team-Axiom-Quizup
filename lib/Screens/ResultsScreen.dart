@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/main.dart';
-import 'package:quizup_prototype_1/player.dart';
+import 'package:quizup_prototype_1/Utilities/player.dart';
 
 import 'Home.dart';
 
-class results extends StatelessWidget {
+class Results extends StatelessWidget {
   final Player player;
   final int score;
   final String subject;
   final int correct;
   final int incorrect;
   final int opponentScore;
-  const results(
+  const Results(
       {Key? key,
       required this.player,
       required this.score,
@@ -172,10 +171,10 @@ class results extends StatelessWidget {
               ]),
               Row(
                 children: [
-                  Container(
+                  const SizedBox(
                       width: 80,
                       height: 38,
-                      child: const Center(
+                      child: Center(
                           child: Text(
                         "score",
                         style: TextStyle(
@@ -265,9 +264,11 @@ class results extends StatelessWidget {
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: ElevatedButton(
-                        onPressed: () => Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage())),
+                        onPressed: () => Navigator.of(context)
+                            .pushReplacement(MaterialPageRoute(
+                                builder: (context) => HomePage(
+                                      player: player,
+                                    ))),
                         child: const Text(
                           "Leaderboard",
                           style: TextStyle(fontSize: 12, color: Colors.white),
@@ -284,9 +285,11 @@ class results extends StatelessWidget {
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: ElevatedButton(
-                        onPressed: () => Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage())),
+                        onPressed: () => Navigator.of(context)
+                            .pushReplacement(MaterialPageRoute(
+                                builder: (context) => HomePage(
+                                      player: player,
+                                    ))),
                         child: const Text(
                           "Home",
                           style: TextStyle(fontSize: 13, color: Colors.white),
@@ -303,9 +306,11 @@ class results extends StatelessWidget {
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: ElevatedButton(
-                        onPressed: () => Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage())),
+                        onPressed: () => Navigator.of(context)
+                            .pushReplacement(MaterialPageRoute(
+                                builder: (context) => HomePage(
+                                      player: player,
+                                    ))),
                         child: const Text(
                           "Play again",
                           style: TextStyle(fontSize: 13, color: Colors.white),

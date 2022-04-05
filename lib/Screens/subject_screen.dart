@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/fireConnect.dart';
-import 'package:quizup_prototype_1/player.dart';
-import 'package:quizup_prototype_1/quiz.dart';
-import 'package:quizup_prototype_1/subject_icon.dart';
-
+import 'package:quizup_prototype_1/Database_management/fireConnect.dart';
+import 'package:quizup_prototype_1/Utilities/player.dart';
+import '../Quiz components/quiz.dart';
 import 'Home.dart';
-import 'main.dart';
 
-class subjectScreen extends StatelessWidget {
+class SubjectScreen extends StatelessWidget {
   final String subject;
   final Player player;
-  const subjectScreen({
+  const SubjectScreen({
     Key? key,
     required this.subject,
     required this.player,
   }) : super(key: key);
   void play(BuildContext context) async {
-    var questions = await fireConnect.readQuestions(subject);
-
+    var questions = await FireConnect.readQuestions(subject);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) =>
           Quiz(questionsTemplates: questions, player: player, subject: subject),
@@ -37,8 +33,11 @@ class subjectScreen extends StatelessWidget {
         body: Column(children: [
           Container(
             child: IconButton(
-              onPressed: () => Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const HomePage())),
+              onPressed: () =>
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => HomePage(
+                            player: player,
+                          ))),
               icon: const Icon(
                 Icons.arrow_back_rounded,
                 color: Colors.white,
@@ -120,25 +119,25 @@ class subjectScreen extends StatelessWidget {
               width: 250,
               height: 75,
               margin: const EdgeInsets.only(top: 50)),
-          Container(
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: ElevatedButton(
-                    onPressed: () => {},
-                    child: const FittedBox(
-                        child: Text(
-                          "Challenge a Friend",
-                          style: TextStyle(fontSize: 45, color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                        fit: BoxFit.fill),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(buttonColor)),
-                  )),
-              width: 250,
-              height: 75,
-              margin: const EdgeInsets.all(30))
+          // Container(
+          //     child: ClipRRect(
+          //         borderRadius: BorderRadius.circular(25),
+          //         child: ElevatedButton(
+          //           onPressed: () => {},
+          //           child: const FittedBox(
+          //               child: Text(
+          //                 "Challenge a Friend",
+          //                 style: TextStyle(fontSize: 45, color: Colors.white),
+          //                 textAlign: TextAlign.center,
+          //               ),
+          //               fit: BoxFit.fill),
+          //           style: ButtonStyle(
+          //               backgroundColor:
+          //                   MaterialStateProperty.all(buttonColor)),
+          //         )),
+          //     width: 250,
+          //     height: 55,
+          //     margin: const EdgeInsets.all(30))
         ]));
   }
 }

@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/answer.dart';
-import 'package:quizup_prototype_1/player.dart';
-import 'package:quizup_prototype_1/timer.dart';
+import 'answer.dart';
+import 'package:quizup_prototype_1/Utilities/player.dart';
+import 'timer.dart';
 
 class Question extends StatefulWidget {
   final String prompt;
@@ -191,10 +190,11 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                            color: Color.fromRGBO(51, 156, 254, 10),
+                            color: const Color.fromRGBO(51, 156, 254, 10),
                             width: 2,
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(25))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(25))),
                       child: ClipRRect(
                           //used to make circular borders
                           borderRadius: BorderRadius.circular(15),
