@@ -31,7 +31,8 @@ class SubjectScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: backgroundColor,
         body: Column(children: [
-          Container(
+          Flexible(
+              child: Container(
             child: IconButton(
               onPressed: () =>
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -46,98 +47,111 @@ class SubjectScreen extends StatelessWidget {
             ),
             alignment: Alignment.centerLeft,
             margin: const EdgeInsets.all(10),
-          ),
-          Row(children: [
-            Container(
-                child: const CircleAvatar(
-                    child: CircleAvatar(
-                      radius: _profileRadius - 2,
-                      backgroundColor: Colors.grey,
-                      backgroundImage: img,
-                    ),
-                    radius: _profileRadius),
-                margin: const EdgeInsets.only(left: 10)),
-            Container(
-                alignment: Alignment.centerLeft,
-                margin: const EdgeInsets.only(left: 15),
-                width: 150,
-                height: 30,
+          )),
+          Flexible(
+              child: Row(children: [
+                Container(
+                    child: const CircleAvatar(
+                        child: CircleAvatar(
+                          radius: _profileRadius - 2,
+                          backgroundColor: Colors.grey,
+                          backgroundImage: img,
+                        ),
+                        radius: _profileRadius),
+                    margin: const EdgeInsets.only(left: 10)),
+                Container(
+                    alignment: Alignment.centerLeft,
+                    margin: const EdgeInsets.only(left: 15),
+                    width: 150,
+                    height: 30,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: const Color.fromRGBO(51, 156, 254, 10),
+                          width: 1,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(25))),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Center(
+                            child: FittedBox(
+                                child: Text(
+                                  player.username,
+                                  style: const TextStyle(
+                                      color: Color.fromRGBO(51, 156, 254, 10)),
+                                  textAlign: TextAlign.center,
+                                ),
+                                fit: BoxFit.cover)))),
+              ]),
+              flex: 23),
+          Flexible(
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text(subject,
+                      style: const TextStyle(
+                          fontSize: 45,
+                          color: Color.fromRGBO(51, 156, 254, 10),
+                          fontWeight: FontWeight.bold))),
+              flex: 23),
+          Flexible(
+              child: Container(
+                width: 300,
+                height: 250,
                 decoration: BoxDecoration(
+                    image: const DecorationImage(image: img, fit: BoxFit.fill),
                     color: Colors.white,
                     border: Border.all(
                       color: const Color.fromRGBO(51, 156, 254, 10),
-                      width: 1,
+                      width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Center(
-                        child: FittedBox(
+              ),
+              flex: 75),
+          Flexible(
+              child: Container(
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: ElevatedButton(
+                        onPressed: () => play(context),
+                        child: const FittedBox(
                             child: Text(
-                              player.username,
-                              style: const TextStyle(
-                                  color: Color.fromRGBO(51, 156, 254, 10)),
+                              "Play",
+                              style:
+                                  TextStyle(fontSize: 45, color: Colors.white),
                               textAlign: TextAlign.center,
                             ),
-                            fit: BoxFit.cover)))),
-          ]),
-          Container(
-              alignment: Alignment.center,
-              child: Text(subject,
-                  style: const TextStyle(
-                      fontSize: 45,
-                      color: Color.fromRGBO(51, 156, 254, 10),
-                      fontWeight: FontWeight.bold))),
-          Container(
-            width: 300,
-            height: 250,
-            decoration: BoxDecoration(
-                image: const DecorationImage(image: img, fit: BoxFit.fill),
-                color: Colors.white,
-                border: Border.all(
-                  color: const Color.fromRGBO(51, 156, 254, 10),
-                  width: 2,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(25))),
-          ),
-          Container(
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: ElevatedButton(
-                    onPressed: () => play(context),
-                    child: const FittedBox(
-                        child: Text(
-                          "Play",
-                          style: TextStyle(fontSize: 45, color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                        fit: BoxFit.fill),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(buttonColor)),
-                  )),
-              width: 250,
-              height: 75,
-              margin: const EdgeInsets.only(top: 50)),
-          // Container(
-          //     child: ClipRRect(
-          //         borderRadius: BorderRadius.circular(25),
-          //         child: ElevatedButton(
-          //           onPressed: () => {},
-          //           child: const FittedBox(
-          //               child: Text(
-          //                 "Challenge a Friend",
-          //                 style: TextStyle(fontSize: 45, color: Colors.white),
-          //                 textAlign: TextAlign.center,
-          //               ),
-          //               fit: BoxFit.fill),
-          //           style: ButtonStyle(
-          //               backgroundColor:
-          //                   MaterialStateProperty.all(buttonColor)),
-          //         )),
-          //     width: 250,
-          //     height: 55,
-          //     margin: const EdgeInsets.all(30))
+                            fit: BoxFit.fill),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(buttonColor)),
+                      )),
+                  width: 250,
+                  height: 75,
+                  margin: const EdgeInsets.only(top: 50)),
+              flex: 40),
+          Flexible(
+            child: Container(
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: ElevatedButton(
+                      onPressed: () => {},
+                      child: const FittedBox(
+                          child: Text(
+                            "Challenge a Friend",
+                            style: TextStyle(fontSize: 45, color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
+                          fit: BoxFit.fill),
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(buttonColor)),
+                    )),
+                width: 250,
+                height: 75,
+                margin: const EdgeInsets.all(30)),
+            flex: 40,
+          )
         ]));
   }
 }

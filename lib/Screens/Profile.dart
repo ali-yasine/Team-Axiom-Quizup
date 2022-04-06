@@ -90,21 +90,23 @@ class Profile extends StatelessWidget {
                       ),
                       borderRadius:
                           const BorderRadius.all(Radius.circular(25))),
+                  child: Text(
+                    player.email,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                Row(children: [
-                  Container(
-                      margin: const EdgeInsets.only(left: 25),
-                      width: 100,
-                      height: 38,
-                      child: const Center(
-                          child: Text(
-                        " Email Address",
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Color.fromRGBO(51, 156, 254, 10),
-                            fontWeight: FontWeight.bold),
-                      ))),
-                ]),
+                Container(
+                    margin: const EdgeInsets.only(left: 25),
+                    width: 100,
+                    height: 38,
+                    child: const Center(
+                        child: Text(
+                      " Email Address",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Color.fromRGBO(51, 156, 254, 10),
+                          fontWeight: FontWeight.bold),
+                    ))),
                 Row(children: [
                   Container(
                     margin: const EdgeInsets.only(right: 5.0, left: 10.0),
