@@ -126,6 +126,9 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
               playerNum + " Answered " + widget.questionNum.toString()]) {
         widget.onFinish();
       }
+      if (((event.data())![opponentNum + " Score"]) != widget.opponentScore) {
+        widget.opponentScore = ((event.data())![opponentNum + " Score"]);
+      }
     });
   }
 
