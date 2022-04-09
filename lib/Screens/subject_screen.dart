@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/Database_management/fireConnect.dart';
+import 'package:quizup_prototype_1/Screens/MatchingPage.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
-import '../Quiz components/quiz.dart';
 import 'Home.dart';
 
 class SubjectScreen extends StatelessWidget {
@@ -13,11 +12,11 @@ class SubjectScreen extends StatelessWidget {
     required this.player,
   }) : super(key: key);
   void play(BuildContext context) async {
-    var questions = await FireConnect.readQuestions(subject);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) =>
-          Quiz(questionsTemplates: questions, player: player, subject: subject),
-    ));
+        builder: (context) => MatchingPage(
+              subject: subject,
+              player: player,
+            )));
   }
 
   @override

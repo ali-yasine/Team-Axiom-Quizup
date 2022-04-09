@@ -16,4 +16,10 @@ class QuestionTemplate {
         correctAnswerTxt: json['correctanswer'],
         wrongAnswersTxt: json['wronganswers'].cast<String>(),
       );
+  static Map<String, dynamic> toJson(QuestionTemplate template) => {
+        'category': template.subject,
+        'prompt': template.prompt,
+        'correctanswer': template.correctAnswerTxt,
+        'wronganswers': template.wrongAnswersTxt
+      };
 }

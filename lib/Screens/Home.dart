@@ -1,11 +1,11 @@
 // ignore_for_file: file_names
-
-import 'package:quizup_prototype_1/Database_management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/Profile.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:quizup_prototype_1/Utilities/subject_icon.dart';
 import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../Backend Management/fireConnect.dart';
 
 class HomePage extends StatelessWidget {
   final Player player;

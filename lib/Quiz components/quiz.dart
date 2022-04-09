@@ -5,19 +5,25 @@ import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:quizup_prototype_1/Utilities/question_template.dart';
 
 class Quiz extends StatefulWidget {
-  final List<QuestionTemplate> questionsTemplates;
   final Player player;
+  late final Player opponent;
   bool isdone = false;
+  final int gameID;
+  final List<QuestionTemplate> questionTemplates;
   final String subject;
+  final int playerNum;
   List<Question>? questions;
   int currentQuestion = 0;
   int score = 0;
+  int opponentScore = 0;
   int correct = 0;
   int incorrect = 0;
   Quiz(
       {Key? key,
-      required this.questionsTemplates,
+      required this.questionTemplates,
       required this.player,
+      required this.gameID,
+      required this.playerNum,
       required this.subject})
       : super(key: key);
   @override
@@ -26,21 +32,31 @@ class Quiz extends StatefulWidget {
 
 class _quizState extends State<Quiz> {
   int timeTaken = 0;
-  @override
-  void initState() {
-    widget.questions = widget.questionsTemplates
+  late String playerNum;
+  late String opponentNum;
+  void initializeQuestions() {
+    widget.questions = widget.questionTemplates
         .map(
           (temp) => Question(
+            playerNum: widget.playerNum,
             prompt: temp.prompt,
             wrongAnswersTxt: temp.wrongAnswersTxt,
             correctAnswerTxt: temp.correctAnswerTxt,
             subject: widget.subject,
             onFinish: update,
             player: widget.player,
-            currentScore: widget.score,
+            gameID: widget.gameID,
           ),
         )
         .toList();
+  }
+
+  @override
+  void initState() {
+    initializeQuestions();
+    playerNum = "Player" + widget.playerNum.toString();
+    int opponentIntNum = widget.playerNum == 1 ? 2 : 1;
+    opponentNum = "Player" + opponentIntNum.toString();
     super.initState();
   }
 
@@ -55,16 +71,17 @@ class _quizState extends State<Quiz> {
     } else {
       widget.incorrect += 1;
     }
-    widget.questions = widget.questionsTemplates
+    widget.questions = widget.questionTemplates
         .map(
           (temp) => Question(
+            playerNum: widget.playerNum,
             prompt: temp.prompt,
             wrongAnswersTxt: temp.wrongAnswersTxt,
             correctAnswerTxt: temp.correctAnswerTxt,
             subject: widget.subject,
             onFinish: update,
             player: widget.player,
-            currentScore: widget.score,
+            gameID: widget.gameID,
           ),
         )
         .toList();
@@ -75,6 +92,7 @@ class _quizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
+    print("QuestionLength ${widget.questions!.length}");
     var size = MediaQuery.of(context).size;
     if (!widget.isdone) {
       return SizedBox(

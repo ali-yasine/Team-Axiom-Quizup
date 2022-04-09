@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../Utilities/player.dart';
 import '../Utilities/question_template.dart';
 
 class FireConnect {
@@ -23,5 +24,13 @@ class FireConnect {
     var querySnapshot =
         await FirebaseFirestore.instance.collection('Subject').get();
     return List.from(querySnapshot.docs.first["subjects"]);
+  }
+
+  static Future<Player> getPlayer(String username) async {
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection('Player')
+        .where('Username', isEqualTo: username)
+        .get();
+    return Player.fromJson(querySnapshot.docs.first.data());
   }
 }

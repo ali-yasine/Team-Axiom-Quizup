@@ -20,4 +20,13 @@ class Player {
       required this.rankByCountry,
       required this.rankGlobal,
       required this.gamesPlayed});
+  static Player fromJson(Map<String, dynamic> json) => Player(
+      avatar: const AssetImage("assets/images/avatar.png"),
+      username: json["Username"],
+      gamesPlayed: json["GamesPlayed"],
+      email: json["Email"],
+      gamesWon: json["GamesWon"],
+      rankGlobal: json["RankGlobal"],
+      rankByCountry: json["RankByCountry"],
+      avgSecondsToAnswer: json["AvgSecondsToAnswer"]);
 }

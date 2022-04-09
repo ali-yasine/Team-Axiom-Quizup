@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'answer.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
@@ -9,18 +10,21 @@ class Question extends StatefulWidget {
   final String correctAnswerTxt;
   final String subject;
   final Player player;
-  late int currentScore;
+  int currentScore = 0;
+  final int playerNum;
+  int opponentScore = 0;
   final VoidCallback onFinish;
-
+  final int gameID;
   // ignore: prefer_const_constructors_in_immutables
   Question(
       {Key? key,
+      required this.gameID,
       required this.prompt,
       required this.wrongAnswersTxt,
       required this.correctAnswerTxt,
+      required this.playerNum,
       required this.subject,
       required this.player,
-      required this.currentScore,
       required this.onFinish})
       : super(key: key);
   late bool increaseScore;
@@ -32,6 +36,8 @@ class Question extends StatefulWidget {
 
 class _QuestionState extends State<Question> with TickerProviderStateMixin {
   static const int time = 10; //Time for each question
+  late final String playerNum;
+  late final String opponentNum;
   late Timer timer;
   late Timer opponentTimer;
   void animationHandler() {
@@ -39,7 +45,15 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     opponentTimer.stop();
   }
 
-  void done(bool incScore) {
+  @override
+  void initState() {
+    playerNum = "Player" + widget.playerNum.toString();
+    int opponentIntNum = widget.playerNum == 1 ? 2 : 1;
+    opponentNum = "Player" + opponentIntNum.toString();
+    super.initState();
+  }
+
+  void done(bool incScore) async {
     setState(() {
       widget.increaseScore = incScore;
       widget.timeTaken = timer.timeTaken;
@@ -47,6 +61,17 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
         widget.currentScore += 10 - (timer.timeTaken);
       }
     });
+    updateDoc();
+    while ((timer.controller.isAnimating ||
+        opponentTimer.controller.isAnimating)) {}
+    widget.onFinish();
+  }
+
+  Future<void> updateDoc() async {
+    var game = FirebaseFirestore.instance
+        .collection('contest')
+        .doc(widget.gameID.toString());
+    game.update({playerNum: widget.currentScore});
   }
 
   void beginTimer() {
@@ -86,9 +111,25 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     return answers;
   }
 
+  void beginListener() async {
+    var game = FirebaseFirestore.instance
+        .collection('contest')
+        .doc(widget.gameID.toString());
+    game.snapshots().listen((event) {
+      var gameData = event.data();
+      int newOppScore = (gameData![opponentNum]).toInt();
+      if (newOppScore != widget.opponentScore) {
+        opponentTimer.stop();
+        widget.opponentScore = newOppScore;
+        setState(() {});
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     beginTimer();
+    beginListener();
     var answers = makeAnswers();
     return Scaffold(
       backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
@@ -153,7 +194,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                         " " +
                             widget.player.username +
                             " :" +
-                            widget.currentScore.toString() +
+                            widget.opponentScore.toString() +
                             " ",
                         style: const TextStyle(
                             fontSize: 18,

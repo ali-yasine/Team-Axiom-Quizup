@@ -6,7 +6,8 @@ class Timer extends StatefulWidget {
   final Alignment alignment;
   final int time;
   final VoidCallback onFinish;
-  bool _stop = false;
+  late AnimationController controller;
+  bool hasFinished = false;
   Timer(
       {Key? key,
       required this.alignment,
@@ -14,11 +15,11 @@ class Timer extends StatefulWidget {
       required this.onFinish})
       : super(key: key);
   void stop() {
-    _stop = true;
+    hasFinished = true;
   }
 
   void getTime() {
-    if (!_stop) {
+    if (!hasFinished) {
       stop();
     }
   }
@@ -29,33 +30,32 @@ class Timer extends StatefulWidget {
 
 //TickerProviderStateMixin needed for class that handles animations
 class TimerState extends State<Timer> with TickerProviderStateMixin {
-  late AnimationController _controller;
   void setupController() {
-    _controller = AnimationController(
+    widget.controller = AnimationController(
       vsync: this, //always needed
       duration: Duration(seconds: widget.time),
     )..addListener(() {
         setState(() {});
       });
-    _controller.addStatusListener((status) {
+    widget.controller.addStatusListener((status) {
       if (status == AnimationStatus.dismissed) {
-        widget._stop = true;
+        widget.hasFinished = true;
         widget.timeTaken = widget.time;
-        _controller.stop();
+        widget.controller.stop();
         widget.onFinish();
       }
     });
-    _controller.addListener(() {
-      if (widget._stop == true) {
+    widget.controller.addListener(() {
+      if (widget.hasFinished == true) {
         widget.timeTaken = timeElapsed();
-        _controller.stop();
+        widget.controller.stop();
       }
     });
   }
 
   void start() {
-    if (!_controller.isAnimating && !widget._stop) {
-      _controller.reverse(from: widget.time.toDouble());
+    if (!widget.controller.isAnimating && !widget.hasFinished) {
+      widget.controller.reverse(from: widget.time.toDouble());
     }
   }
 
@@ -65,14 +65,8 @@ class TimerState extends State<Timer> with TickerProviderStateMixin {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   int timeElapsed() {
-    return _controller.lastElapsedDuration!.inSeconds.toInt();
+    return widget.controller.lastElapsedDuration!.inSeconds.toInt();
   }
 
   @override
@@ -83,13 +77,13 @@ class TimerState extends State<Timer> with TickerProviderStateMixin {
       child: RotatedBox(
         quarterTurns: -1,
         child: Container(
-            color: Color.fromRGBO(245, 219, 78, 200),
+            color: const Color.fromRGBO(245, 219, 78, 200),
             child: ClipRRect(
                 //used to make circular borders
                 borderRadius: BorderRadius.circular(8),
                 child: LinearProgressIndicator(
                   color: const Color.fromRGBO(245, 219, 78, 20),
-                  value: _controller.value,
+                  value: widget.controller.value,
                   //1
                   semanticsLabel: 'Timer',
                 )),
