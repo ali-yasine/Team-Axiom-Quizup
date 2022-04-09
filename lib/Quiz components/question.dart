@@ -13,15 +13,18 @@ class Question extends StatefulWidget {
   int currentScore = 0;
   final int playerNum;
   int opponentScore = 0;
+  int questionNum;
   final VoidCallback onFinish;
   final int gameID;
   // ignore: prefer_const_constructors_in_immutables
   Question(
       {Key? key,
+      required this.questionNum,
       required this.gameID,
       required this.prompt,
       required this.wrongAnswersTxt,
       required this.correctAnswerTxt,
+      required this.currentScore,
       required this.playerNum,
       required this.subject,
       required this.player,
@@ -40,11 +43,6 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
   late final String opponentNum;
   late Timer timer;
   late Timer opponentTimer;
-  void animationHandler() {
-    timer.stop();
-    opponentTimer.stop();
-  }
-
   @override
   void initState() {
     playerNum = "Player" + widget.playerNum.toString();
@@ -62,16 +60,16 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
       }
     });
     updateDoc();
-    while ((timer.controller.isAnimating ||
-        opponentTimer.controller.isAnimating)) {}
-    widget.onFinish();
   }
 
   Future<void> updateDoc() async {
     var game = FirebaseFirestore.instance
         .collection('contest')
         .doc(widget.gameID.toString());
-    game.update({playerNum: widget.currentScore});
+    game.update({
+      (playerNum + " Score"): widget.currentScore,
+      (playerNum + " Answered " + widget.questionNum.toString()): true
+    });
   }
 
   void beginTimer() {
@@ -90,14 +88,14 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
   List<Answer> makeAnswers() {
     late final Answer correctAnswer = Answer(
         ans: widget.correctAnswerTxt,
-        handleAnimation: () => animationHandler(),
+        handleAnimation: () => timer.stop(),
         colorOnPress: Colors.green,
         ontap: () => {done(true), widget.onFinish()});
     late final List<Answer> wrongAnswers = widget.wrongAnswersTxt
         .map((e) => Answer(
               ans: e,
               colorOnPress: Colors.red,
-              handleAnimation: () => animationHandler(),
+              handleAnimation: () => timer.stop(),
               ontap: () => {done(false), widget.onFinish()},
             ))
         .toList();
@@ -116,12 +114,17 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
         .collection('contest')
         .doc(widget.gameID.toString());
     game.snapshots().listen((event) {
-      var gameData = event.data();
-      int newOppScore = (gameData![opponentNum]).toInt();
-      if (newOppScore != widget.opponentScore) {
+      if ((event.data())![
+          opponentNum + " Answered " + widget.questionNum.toString()]) {
         opponentTimer.stop();
-        widget.opponentScore = newOppScore;
+        widget.opponentScore = event[opponentNum + " Score"];
         setState(() {});
+      }
+      if ((event.data())![
+              opponentNum + " Answered " + widget.questionNum.toString()] &&
+          (event.data())![
+              playerNum + " Answered " + widget.questionNum.toString()]) {
+        widget.onFinish();
       }
     });
   }

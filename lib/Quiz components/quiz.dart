@@ -38,6 +38,8 @@ class _quizState extends State<Quiz> {
     widget.questions = widget.questionTemplates
         .map(
           (temp) => Question(
+            questionNum: widget.currentQuestion,
+            currentScore: widget.score,
             playerNum: widget.playerNum,
             prompt: temp.prompt,
             wrongAnswersTxt: temp.wrongAnswersTxt,
@@ -74,6 +76,8 @@ class _quizState extends State<Quiz> {
     widget.questions = widget.questionTemplates
         .map(
           (temp) => Question(
+            questionNum: widget.currentQuestion,
+            currentScore: widget.score,
             playerNum: widget.playerNum,
             prompt: temp.prompt,
             wrongAnswersTxt: temp.wrongAnswersTxt,

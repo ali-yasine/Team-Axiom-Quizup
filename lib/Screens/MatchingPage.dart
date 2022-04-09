@@ -19,7 +19,6 @@ class MatchingPage extends StatelessWidget {
   }) : super(key: key);
   Future hasFoundOpponent() async {
     gameID = await MatchMaker.getGameId();
-    print("Gameid: $gameID");
     var gameref =
         FirebaseFirestore.instance.collection("contest").doc(gameID.toString());
     var gameMade = false;
@@ -28,7 +27,6 @@ class MatchingPage extends StatelessWidget {
     });
     await waitforData(gameref);
     var data = await gameref.get();
-    print("data: ${data.exists}");
     playerNum = data["Player1"] == player.username ? 1 : 2;
   }
 
@@ -49,7 +47,6 @@ class MatchingPage extends StatelessWidget {
   Future<void> startMatch(context) async {
     await hasFoundOpponent();
     await getQuestions();
-    print(questionTemplates.length);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => Quiz(
               player: player,

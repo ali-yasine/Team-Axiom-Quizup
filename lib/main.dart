@@ -7,7 +7,7 @@ import 'Utilities/player.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var player = Player(
-    username: "user",
+    username: "User2",
     email: "email@domain.com",
     avatar: const AssetImage("assets/images/panda.jpg"),
     gamesPlayed: 10,

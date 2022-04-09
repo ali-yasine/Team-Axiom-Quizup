@@ -24,6 +24,8 @@ class MatchMaker {
           createContest(player.username, opponentUsername, questions);
         }
       });
+    } else {
+      return true;
     }
     return false;
   }
@@ -48,14 +50,24 @@ class MatchMaker {
       String player, String opponent, List<QuestionTemplate> questions) async {
     var db = FirebaseFirestore.instance;
     var gameid = await getGameId();
-    db.collection("contest").doc(gameid.toString()).set(({
-          "Player1": player,
-          "Player2": opponent,
-          "Questions":
-              questions.map((e) => QuestionTemplate.toJson(e)).toList(),
-          "Player1 Score": 0,
-          "Player2 Score": 0
-        }));
+    Map<String, dynamic> hasAnswered = {};
+    print("QuestionLength ${questions.length}");
+
+    for (int i = 0; i < questions.length; i++) {
+      hasAnswered.addAll({
+        "Player1 Answered " + i.toString(): false,
+        "Player2 Answered " + i.toString(): false
+      });
+    }
+    Map<String, dynamic> entryMap = {
+      "Player1": player,
+      "Player2": opponent,
+      "Questions": questions.map((e) => QuestionTemplate.toJson(e)).toList(),
+      "Player1 Score": 0,
+      "Player2 Score": 0,
+    };
+    entryMap.addAll(hasAnswered);
+    db.collection("contest").doc(gameid.toString()).set(entryMap);
     incGameId();
   }
 }
