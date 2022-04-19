@@ -14,6 +14,7 @@ class Question extends StatefulWidget {
   final int playerNum;
   int opponentScore = 0;
   int questionNum;
+  bool opponentHasAnswered = false;
   final VoidCallback onFinish;
   final int gameID;
   // ignore: prefer_const_constructors_in_immutables
@@ -76,7 +77,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     timer = Timer(
       alignment: Alignment.centerLeft,
       time: time,
-      onFinish: () => {done(false), widget.onFinish()},
+      onFinish: () async => {done(false), widget.onFinish()},
     );
     opponentTimer = Timer(
       alignment: Alignment.centerRight,
@@ -118,6 +119,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
           opponentNum + " Answered " + widget.questionNum.toString()]) {
         opponentTimer.stop();
         widget.opponentScore = event[opponentNum + " Score"];
+        widget.opponentHasAnswered = true;
         setState(() {});
       }
       if ((event.data())![
@@ -127,7 +129,8 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
         widget.onFinish();
       }
       if (((event.data())![opponentNum + " Score"]) != widget.opponentScore) {
-        widget.opponentScore = ((event.data())![opponentNum + " Score"]);
+        widget.opponentScore =
+            int.parse((event.data())![opponentNum + " Score"]);
       }
     });
   }

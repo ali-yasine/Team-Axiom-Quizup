@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../Utilities/player.dart';
 import '../Utilities/question_template.dart';
@@ -10,6 +13,17 @@ class FireConnect {
     await docUser.set(json);
   }
 
+  static Future<void> uploadAvatar(String filepath, String username) async {
+    final storage = FirebaseStorage.instance;
+    var file = File(filepath);
+    try {
+      await storage.ref("Players/$username").putFile(file);
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+  }
+
+// static Future<List<Asset
   static Future<List<QuestionTemplate>> readQuestions(String subject) async {
     var querySnapshot = await FirebaseFirestore.instance
         .collection('Question')

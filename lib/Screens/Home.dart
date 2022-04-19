@@ -33,7 +33,7 @@ class HomeState extends State<Home> {
     subjectIcons = subjects
         .map((subject) => SubjectIcon(
             subject: subject,
-            imageRef: 'assets/images/Sports.png',
+            imageRef: 'assets/images/sports.png',
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) =>
                     SubjectScreen(subject: subject, player: widget.player)))))

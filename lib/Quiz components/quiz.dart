@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/ResultsScreen.dart';
 import 'question.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
@@ -63,16 +64,6 @@ class _quizState extends State<Quiz> {
   }
 
   void update() async {
-    var currQuestion = widget.questions!.elementAt(widget.currentQuestion);
-    if (widget.currentQuestion + 1 == (widget.questions!.length)) {
-      widget.isdone = true;
-    }
-    if (currQuestion.increaseScore == true) {
-      widget.correct += 1;
-      widget.score += 10 - (currQuestion.timeTaken);
-    } else {
-      widget.incorrect += 1;
-    }
     widget.questions = widget.questionTemplates
         .map(
           (temp) => Question(
@@ -89,14 +80,25 @@ class _quizState extends State<Quiz> {
           ),
         )
         .toList();
-    setState(() {
-      widget.currentQuestion++;
-    });
+    var currQuestion = widget.questions!.elementAt(widget.currentQuestion);
+    if (widget.currentQuestion + 1 == (widget.questions!.length)) {
+      widget.isdone = true;
+    }
+    if (currQuestion.increaseScore == true) {
+      widget.correct += 1;
+      widget.score += 10 - (currQuestion.timeTaken);
+    } else {
+      widget.incorrect += 1;
+    }
+    if (currQuestion.opponentHasAnswered) {
+      setState(() {
+        widget.currentQuestion++;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    print("QuestionLength ${widget.questions!.length}");
     var size = MediaQuery.of(context).size;
     if (!widget.isdone) {
       return SizedBox(
