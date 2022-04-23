@@ -1,66 +1,109 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/Backend%20Management/matchMaker.dart';
+import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Quiz%20components/quiz.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:quizup_prototype_1/Utilities/question_template.dart';
 import 'Home.dart';
 
-class MatchingPage extends StatelessWidget {
+class MatchingPge extends StatelessWidget {
   final String subject;
   final Player player;
-  late int gameID;
-  List<QuestionTemplate> questionTemplates = [];
-  late int playerNum;
-  MatchingPage({
-    Key? key,
-    required this.subject,
-    required this.player,
-  }) : super(key: key);
-  Future hasFoundOpponent() async {
-    gameID = await MatchMaker.getGameId();
-    var gameref =
-        FirebaseFirestore.instance.collection("contest").doc(gameID.toString());
-    var gameMade = false;
-    gameref.snapshots().listen((event) {
-      gameMade = true;
-    });
-    await waitforData(gameref);
-    var data = await gameref.get();
-    playerNum = data["Player1"] == player.username ? 1 : 2;
-  }
-
-  Future<void> waitforData(DocumentReference<Map<String, dynamic>> ref) async {
-    while (!((await ref.get()).exists)) {}
-  }
-
-  Future<void> getQuestions() async {
-    var docData = await (FirebaseFirestore.instance
-            .collection("contest")
-            .doc(gameID.toString()))
+  late final Player opponent;
+  static const _questionNumber = 7;
+  // ignore: prefer_const_constructors_in_immutables
+  MatchingPge({Key? key, required this.subject, required this.player})
+      : super(key: key);
+  Future<int> getGameId(String subject) async {
+    var doc = await FirebaseFirestore.instance
+        .collection('Contests')
+        .doc(subject)
         .get();
-    questionTemplates = docData["Questions"]
-        .map<QuestionTemplate>((elem) => QuestionTemplate.fromJson(elem))
-        .toList();
+    return doc['CurrentID'];
   }
 
-  Future<void> startMatch(context) async {
-    await hasFoundOpponent();
-    await getQuestions();
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => Quiz(
+  Future<void> incGameId(String subject) async {
+    var id = await getGameId(subject);
+    FirebaseFirestore.instance
+        .collection("Contests")
+        .doc(subject)
+        .set({'CurrentID': id + 1});
+  }
+
+  Future<void> findOpponent(
+      Player player, String subject, BuildContext context) async {
+    var games = await FirebaseFirestore.instance
+        .collection('Contests')
+        .doc(subject)
+        .collection('contests')
+        .where('Player2', isEqualTo: "")
+        .get();
+    if (games.docs.isEmpty) {
+      var questions = await FireConnect.readQuestions(subject, _questionNumber);
+      createContest(player, subject, questions, context);
+    } else {
+      var gamedoc = games.docs.first;
+      var gameID = gamedoc.reference.id;
+      await gamedoc.reference.update({"Player2": player.username});
+      Player opponent = await FireConnect.getPlayer(gamedoc.data()["Player1"]);
+      List<QuestionTemplate> questions = gamedoc
+          .data()["Questions"]
+          .map<QuestionTemplate>((e) => QuestionTemplate.fromJson(e))
+          .toList();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => Quiz(
+              opponent: opponent,
+              questionTemplates: questions,
               player: player,
-              gameID: gameID,
-              subject: subject,
-              questionTemplates: questionTemplates,
-              playerNum: playerNum,
-            )));
+              gameID: int.parse(gameID),
+              playerNum: 2,
+              subject: subject)));
+    }
+  }
+
+  Future<void> createContest(Player player, String subject,
+      List<QuestionTemplate> questions, BuildContext context) async {
+    var gameID = await getGameId(subject);
+    Map<String, dynamic> hasAnswered = {};
+    for (int i = 0; i < questions.length; i++) {
+      hasAnswered.addAll({
+        "Player1 Answered " + i.toString(): false,
+        "Player2 Answered " + i.toString(): false
+      });
+    }
+    Map<String, dynamic> entryMap = {
+      ("Player1"): player.username,
+      ("Player2"): "",
+      "Questions": questions.map((e) => QuestionTemplate.toJson(e)).toList(),
+      "Player1 Score": 0,
+      "Player2 Score": 0,
+    };
+    entryMap.addAll(hasAnswered);
+    var gamedoc = FirebaseFirestore.instance
+        .collection('Contests')
+        .doc(subject)
+        .collection('contests')
+        .doc(gameID.toString());
+    gamedoc.set(entryMap);
+    incGameId(subject);
+    gamedoc.snapshots().listen((event) async {
+      if (event.data()!["Player2"] != "") {
+        opponent = await FireConnect.getPlayer(event.data()!["Player2"]);
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => Quiz(
+                opponent: opponent,
+                questionTemplates: questions,
+                player: player,
+                gameID: gameID,
+                playerNum: 1,
+                subject: subject)));
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    MatchMaker.findOpponent(player, subject);
-    startMatch(context);
+    findOpponent(player, subject, context);
     const img = AssetImage('assets/images/panda.jpg');
     const backgroundColor = Color.fromRGBO(207, 232, 255, 20);
     const _iconSize = 40.0;

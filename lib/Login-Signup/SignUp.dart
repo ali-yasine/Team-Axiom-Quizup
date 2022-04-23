@@ -15,7 +15,6 @@ class SignUp extends StatefulWidget {
 
 class SignUpState extends State<SignUp> {
   @override
-  @override
   Widget build(BuildContext context) {
     const backgroundColor = Color.fromRGBO(207, 232, 255, 20);
     return const MaterialApp(

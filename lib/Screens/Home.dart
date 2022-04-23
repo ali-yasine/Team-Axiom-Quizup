@@ -105,10 +105,10 @@ class HomeState extends State<Home> {
                   child: ClipRRect(
                       //used to make circular borders
                       borderRadius: BorderRadius.circular(15),
-                      child: const Center(
+                      child: Center(
                           child: Text(
-                        " username",
-                        style: TextStyle(
+                        widget.player.username,
+                        style: const TextStyle(
                             fontSize: 12,
                             color: Color.fromRGBO(51, 156, 254, 10)),
                         textAlign: TextAlign.center,

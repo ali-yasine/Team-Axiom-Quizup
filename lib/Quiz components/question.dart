@@ -10,19 +10,21 @@ class Question extends StatefulWidget {
   final String correctAnswerTxt;
   final String subject;
   final Player player;
-  int currentScore = 0;
+  int currentScore;
   final int playerNum;
-  int opponentScore = 0;
+  final Player opponent;
+  int opponentScore;
   int questionNum;
-  bool opponentHasAnswered = false;
   final VoidCallback onFinish;
   final int gameID;
   // ignore: prefer_const_constructors_in_immutables
   Question(
       {Key? key,
       required this.questionNum,
+      required this.opponentScore,
       required this.gameID,
       required this.prompt,
+      required this.opponent,
       required this.wrongAnswersTxt,
       required this.correctAnswerTxt,
       required this.currentScore,
@@ -39,7 +41,9 @@ class Question extends StatefulWidget {
 }
 
 class _QuestionState extends State<Question> with TickerProviderStateMixin {
-  static const int time = 10; //Time for each question
+  bool isDone = false;
+  late List<Answer> answers;
+  static const int time = 1000; //Time for each question
   late final String playerNum;
   late final String opponentNum;
   late Timer timer;
@@ -49,23 +53,45 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     playerNum = "Player" + widget.playerNum.toString();
     int opponentIntNum = widget.playerNum == 1 ? 2 : 1;
     opponentNum = "Player" + opponentIntNum.toString();
+    beginTimer();
+    beginListener();
     super.initState();
   }
 
-  void done(bool incScore) async {
-    setState(() {
-      widget.increaseScore = incScore;
-      widget.timeTaken = timer.timeTaken;
-      if (incScore) {
-        widget.currentScore += 10 - (timer.timeTaken);
-      }
-    });
+  @override
+  void dispose() {
+    if (timer.controller != null) {
+      timer.controller!.dispose();
+    }
+    if (opponentTimer.controller != null) {
+      opponentTimer.controller!.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant Question oldWidget) {
+    print("old: ${oldWidget.correctAnswerTxt}");
+    print("current: ${widget.correctAnswerTxt}");
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void done(bool incScore) {
+    widget.increaseScore = incScore;
+
+    widget.timeTaken = timer.timeTaken;
+    if (widget.increaseScore) {
+      widget.currentScore += 10 - (timer.timeTaken);
+    }
+    setState(() {});
     updateDoc();
   }
 
   Future<void> updateDoc() async {
     var game = FirebaseFirestore.instance
-        .collection('contest')
+        .collection('Contests')
+        .doc(widget.subject)
+        .collection('contests')
         .doc(widget.gameID.toString());
     game.update({
       (playerNum + " Score"): widget.currentScore,
@@ -77,7 +103,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     timer = Timer(
       alignment: Alignment.centerLeft,
       time: time,
-      onFinish: () async => {done(false), widget.onFinish()},
+      onFinish: () => {done(false), widget.onFinish()},
     );
     opponentTimer = Timer(
       alignment: Alignment.centerRight,
@@ -88,16 +114,18 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
 
   List<Answer> makeAnswers() {
     late final Answer correctAnswer = Answer(
+        prompt: widget.prompt,
         ans: widget.correctAnswerTxt,
         handleAnimation: () => timer.stop(),
         colorOnPress: Colors.green,
-        ontap: () => {done(true), widget.onFinish()});
+        ontap: () => {done(true)});
     late final List<Answer> wrongAnswers = widget.wrongAnswersTxt
         .map((e) => Answer(
+              prompt: widget.prompt,
               ans: e,
               colorOnPress: Colors.red,
               handleAnimation: () => timer.stop(),
-              ontap: () => {done(false), widget.onFinish()},
+              ontap: () => {done(false)},
             ))
         .toList();
     late List<Answer> answers = [
@@ -110,36 +138,32 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     return answers;
   }
 
-  void beginListener() async {
+  void beginListener() {
     var game = FirebaseFirestore.instance
-        .collection('contest')
+        .collection('Contests')
+        .doc(widget.subject)
+        .collection('contests')
         .doc(widget.gameID.toString());
     game.snapshots().listen((event) {
       if ((event.data())![
           opponentNum + " Answered " + widget.questionNum.toString()]) {
         opponentTimer.stop();
-        widget.opponentScore = event[opponentNum + " Score"];
-        widget.opponentHasAnswered = true;
+        widget.opponentScore = event.data()![opponentNum + " Score"];
         setState(() {});
       }
       if ((event.data())![
               opponentNum + " Answered " + widget.questionNum.toString()] &&
           (event.data())![
               playerNum + " Answered " + widget.questionNum.toString()]) {
-        widget.onFinish();
-      }
-      if (((event.data())![opponentNum + " Score"]) != widget.opponentScore) {
-        widget.opponentScore =
-            int.parse((event.data())![opponentNum + " Score"]);
+        Future.delayed(const Duration(milliseconds: 300))
+            .then((value) => widget.onFinish());
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    beginTimer();
-    beginListener();
-    var answers = makeAnswers();
+    answers = makeAnswers();
     return Scaffold(
       backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
       body: Column(children: [
@@ -155,7 +179,6 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                 MainAxisAlignment.center, //Center Column contents vertically,
             crossAxisAlignment: CrossAxisAlignment
                 .center, //Center Column contents horizontally,
-
             children: [
               Container(
                 width: 60,
@@ -201,7 +224,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                         borderRadius: BorderRadius.all(Radius.circular(25))),
                     child: Text(
                         " " +
-                            widget.player.username +
+                            widget.opponent.username +
                             " :" +
                             widget.opponentScore.toString() +
                             " ",

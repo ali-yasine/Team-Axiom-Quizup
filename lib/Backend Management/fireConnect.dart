@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../Utilities/player.dart';
 import '../Utilities/question_template.dart';
@@ -23,21 +24,33 @@ class FireConnect {
     }
   }
 
-// static Future<List<Asset
-  static Future<List<QuestionTemplate>> readQuestions(String subject) async {
+  static Future<Map<String, AssetImage>> getSubjectIcons() async {
+    //TODO implement
+    throw UnimplementedError();
+  }
+
+  static Future<List<QuestionTemplate>> readQuestions(
+      String subject, int questionNumber) async {
+    List<T> pickRandomItemsAsList<T>(List<T> items, int count) =>
+        (items.toList()..shuffle()).take(count).toList();
     var querySnapshot = await FirebaseFirestore.instance
-        .collection('Question')
-        .where('category', isEqualTo: subject)
+        .collection('Questions')
+        .doc(subject)
+        .collection('questions')
         .get();
-    return querySnapshot.docs
+    var allquestions = querySnapshot.docs
         .map((e) => QuestionTemplate.fromJson(e.data()))
         .toList();
+    var questions = pickRandomItemsAsList(allquestions, questionNumber);
+    return questions;
   }
 
   static Future<List<String>> getSubjects() async {
-    var querySnapshot =
-        await FirebaseFirestore.instance.collection('Subject').get();
-    return List.from(querySnapshot.docs.first["subjects"]);
+    var subjectsCollection =
+        await FirebaseFirestore.instance.collection('Questions').get();
+    List<String> subjectnames =
+        subjectsCollection.docs.map((e) => e.reference.id).toList();
+    return subjectnames;
   }
 
   static Future<Player> getPlayer(String username) async {
@@ -46,5 +59,19 @@ class FireConnect {
         .where('Username', isEqualTo: username)
         .get();
     return Player.fromJson(querySnapshot.docs.first.data());
+  }
+
+  static Future<bool> addPlayer(String username, String password) async {
+    var playerAuthDoc = FirebaseFirestore.instance
+        .collection('PlayerAuthentication')
+        .doc(username);
+    if ((await playerAuthDoc.get()).exists) {
+      return false;
+    }
+    FirebaseFirestore.instance
+        .collection('PlayerAuthentication')
+        .doc(username)
+        .set({"password": password});
+    return true;
   }
 }
