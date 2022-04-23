@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
+import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
 import 'package:quizup_prototype_1/Screens/Profile.dart';
+import 'package:quizup_prototype_1/Screens/Settings.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:quizup_prototype_1/Utilities/subject_icon.dart';
 import 'package:quizup_prototype_1/Screens/subject_screen.dart';
@@ -50,6 +52,7 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    Color blue = Color.fromARGB(255, 13, 77, 174);
     double _width = MediaQuery.of(context).size.width;
     if (_loadingSubjects) {
       return Column(children: const [
@@ -58,7 +61,7 @@ class HomeState extends State<Home> {
       ]);
     }
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
+      backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
           child: Stack(children: <Widget>[
         Column(children: <Widget>[
@@ -66,9 +69,8 @@ class HomeState extends State<Home> {
             width: _width,
             height: 100,
             decoration: BoxDecoration(
-              color: const Color.fromRGBO(51, 156, 254, 10),
+              color: blue,
               border: Border.all(
-                color: const Color.fromRGBO(51, 156, 254, 10),
                 width: 2,
               ),
               borderRadius: const BorderRadius.only(
@@ -97,7 +99,7 @@ class HomeState extends State<Home> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(
-                        color: const Color.fromRGBO(51, 156, 254, 10),
+                        color: blue,
                         width: 1,
                       ),
                       borderRadius:
@@ -110,13 +112,17 @@ class HomeState extends State<Home> {
                         " username",
                         style: TextStyle(
                             fontSize: 12,
-                            color: Color.fromRGBO(51, 156, 254, 10)),
+                            color: Color.fromARGB(255, 13, 77, 174)),
                         textAlign: TextAlign.center,
                       )))),
               Container(
                   margin: const EdgeInsets.only(right: 5.0, left: 70),
+                  color: blue,
                   child: ElevatedButton(
-                    onPressed: () => {},
+                    onPressed: () => {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const Settings()))
+                    },
                     child: const Icon(
                       IconData(
                         0xe57f,
@@ -137,7 +143,7 @@ class HomeState extends State<Home> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: blue,
                       width: 1,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -146,7 +152,7 @@ class HomeState extends State<Home> {
                       child: Text(
                     "search",
                     style: TextStyle(
-                        fontSize: 12, color: Color.fromRGBO(51, 156, 254, 10)),
+                        fontSize: 12, color: Color.fromARGB(255, 13, 77, 174)),
                     textAlign: TextAlign.center,
                   )),
                   Container(
@@ -163,7 +169,7 @@ class HomeState extends State<Home> {
                           icon: const Icon(
                             Icons.search,
                             size: 18,
-                            color: Color.fromRGBO(51, 156, 254, 10),
+                            color: Color.fromARGB(255, 13, 77, 174),
                           ),
                         ),
                       )),
@@ -175,9 +181,8 @@ class HomeState extends State<Home> {
           Column(
             children: <Widget>[
               const SizedBox(height: 10),
-              GridView.count(
+              ListView(
                 shrinkWrap: true,
-                crossAxisCount: 3,
                 children: subjectIcons,
               ),
               const SizedBox(
@@ -194,7 +199,7 @@ class HomeState extends State<Home> {
         ]),
       ])),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromRGBO(51, 156, 254, 10),
+        backgroundColor: blue,
         fixedColor: Colors.white,
         unselectedItemColor: Colors.white,
         onTap: (index) {
@@ -208,7 +213,8 @@ class HomeState extends State<Home> {
             case 1:
               break;
             case 2:
-              //TODO ADD LEADERBOARD TO NAVIGATOR
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const Leaderboard()));
               break;
             default:
           }

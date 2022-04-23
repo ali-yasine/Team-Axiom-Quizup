@@ -17,8 +17,8 @@ class SignUpState extends State<SignUp> {
   @override
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = Color.fromRGBO(207, 232, 255, 20);
-    return const MaterialApp(
+    var backgroundColor = Colors.grey[300];
+    return MaterialApp(
       home: Scaffold(
         backgroundColor: backgroundColor,
         body: MyStatefulWidget(),
@@ -77,7 +77,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: const Text(
                 'Sign Up',
                 style: TextStyle(
-                  color: Color.fromRGBO(51, 156, 254, 10),
+                  color: Color.fromARGB(255, 13, 77, 174),
                   fontWeight: FontWeight.bold,
                   fontSize: 34,
                 ),
@@ -107,7 +107,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: const Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -128,7 +128,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: const Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -151,7 +151,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
-                    color: const Color.fromRGBO(51, 156, 254, 10),
+                    color: const Color.fromARGB(255, 13, 77, 174),
                     width: 2,
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -173,7 +173,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
-                    color: const Color.fromRGBO(51, 156, 254, 10),
+                    color: const Color.fromARGB(255, 13, 77, 174),
                     width: 2,
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -197,7 +197,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: const Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -219,7 +219,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: const Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -266,7 +266,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     ),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                            const Color.fromRGBO(51, 156, 254, 10))),
+                            const Color.fromARGB(255, 13, 77, 174))),
                   )))
         ]));
   }

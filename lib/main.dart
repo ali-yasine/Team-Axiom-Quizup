@@ -3,13 +3,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Backend%20Management/matchMaker.dart';
+import 'package:quizup_prototype_1/Login-Signup/Login.dart';
+import 'package:quizup_prototype_1/Screens/PlayerAssigned.dart';
+import 'package:quizup_prototype_1/Screens/Settings.dart';
 import 'Screens/Home.dart';
+import 'Screens/ChallengeAFriend.dart';
+
+import 'Screens/JoinARoom.dart';
 import 'Utilities/player.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var player = Player(
-    username: "User2",
+  var player4 = Player(
+    username: "User3",
     email: "email@domain.com",
     avatar: const AssetImage("assets/images/panda.jpg"),
     gamesPlayed: 10,
@@ -18,12 +24,18 @@ Future main() async {
     rankGlobal: 12,
     rankByCountry: 3,
   );
+  var player3 = Player(
+    username: "User4",
+    email: "email1@domain.com",
+    avatar: const AssetImage("assets/images/panda.jpg"),
+    gamesPlayed: 10,
+    gamesWon: 6,
+    avgSecondsToAnswer: 4,
+    rankGlobal: 12,
+    rankByCountry: 3,
+  );
   await Firebase.initializeApp();
-  runApp(MaterialApp(
-    home: HomePage(
-      player: player,
-    ),
-  ));
+  runApp(MaterialApp(home: Login()));
 }
 
 class UploadImages extends StatelessWidget {

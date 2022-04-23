@@ -27,7 +27,7 @@ class Results extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.green,
               border: Border.all(
-                color: const Color.fromRGBO(51, 156, 254, 10),
+                color: const Color.fromARGB(255, 13, 77, 174),
                 width: 2,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -47,7 +47,7 @@ class Results extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.red,
               border: Border.all(
-                color: const Color.fromRGBO(51, 156, 254, 10),
+                color: const Color.fromARGB(255, 13, 77, 174),
                 width: 2,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -66,7 +66,7 @@ class Results extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
+        backgroundColor: Colors.grey[300],
         body: Column(children: [
           const SizedBox(height: 50),
           Flexible(
@@ -75,7 +75,7 @@ class Results extends StatelessWidget {
                   child: Text(subject,
                       style: const TextStyle(
                           fontSize: 35,
-                          color: Color.fromRGBO(51, 156, 254, 10),
+                          color: Color.fromARGB(255, 13, 77, 174),
                           fontWeight: FontWeight.bold))),
               flex: 10),
           const SizedBox(height: 30),
@@ -86,7 +86,7 @@ class Results extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(
-                        color: const Color.fromRGBO(51, 156, 254, 10),
+                        color: const Color.fromARGB(255, 13, 77, 174),
                         width: 2,
                       ),
                       borderRadius:
@@ -99,7 +99,7 @@ class Results extends StatelessWidget {
                         subject,
                         style: const TextStyle(
                             fontSize: 26,
-                            color: Color.fromRGBO(51, 156, 254, 10)),
+                            color: Color.fromARGB(255, 13, 77, 174)),
                         textAlign: TextAlign.center,
                       )))),
               flex: 20),
@@ -113,7 +113,7 @@ class Results extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(51, 156, 254, 10)))),
+                          color: Color.fromARGB(255, 13, 77, 174)))),
               flex: 7),
           const SizedBox(height: 20),
           Flexible(
@@ -135,7 +135,7 @@ class Results extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
-                          color: const Color.fromRGBO(51, 156, 254, 10),
+                          color: const Color.fromARGB(255, 13, 77, 174),
                           width: 1,
                         ),
                         borderRadius:
@@ -148,7 +148,7 @@ class Results extends StatelessWidget {
                           player.username,
                           style: const TextStyle(
                               fontSize: 18,
-                              color: Color.fromRGBO(51, 156, 254, 10)),
+                              color: Color.fromARGB(255, 13, 77, 174)),
                           textAlign: TextAlign.center,
                         )))),
                 const SizedBox(height: 10),
@@ -159,7 +159,7 @@ class Results extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                            color: const Color.fromRGBO(51, 156, 254, 10),
+                            color: const Color.fromARGB(255, 13, 77, 174),
                             width: 1,
                           ),
                           borderRadius:
@@ -171,7 +171,7 @@ class Results extends StatelessWidget {
                             score.toString(),
                             style: const TextStyle(
                                 fontSize: 18,
-                                color: Color.fromRGBO(51, 156, 254, 10)),
+                                color: Color.fromARGB(255, 13, 77, 174)),
                             textAlign: TextAlign.center,
                           )))),
                   Container(
@@ -181,7 +181,7 @@ class Results extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                            color: const Color.fromRGBO(51, 156, 254, 10),
+                            color: const Color.fromARGB(255, 13, 77, 174),
                             width: 1,
                           ),
                           borderRadius:
@@ -193,7 +193,7 @@ class Results extends StatelessWidget {
                             correct.toString(),
                             style: const TextStyle(
                                 fontSize: 18,
-                                color: Color.fromRGBO(51, 156, 254, 10)),
+                                color: Color.fromARGB(255, 13, 77, 174)),
                             textAlign: TextAlign.center,
                           )))),
                   Container(
@@ -203,7 +203,7 @@ class Results extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                            color: const Color.fromRGBO(51, 156, 254, 10),
+                            color: const Color.fromARGB(255, 13, 77, 174),
                             width: 1,
                           ),
                           borderRadius:
@@ -215,7 +215,7 @@ class Results extends StatelessWidget {
                             incorrect.toString(),
                             style: const TextStyle(
                                 fontSize: 18,
-                                color: Color.fromRGBO(51, 156, 254, 10)),
+                                color: Color.fromARGB(255, 13, 77, 174)),
                             textAlign: TextAlign.center,
                           )))),
                 ]),
@@ -229,7 +229,7 @@ class Results extends StatelessWidget {
                           "score",
                           style: TextStyle(
                               fontSize: 14,
-                              color: Color.fromRGBO(51, 156, 254, 10),
+                              color: Color.fromARGB(255, 13, 77, 174),
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ))),
@@ -242,7 +242,7 @@ class Results extends StatelessWidget {
                           " correct answer",
                           style: TextStyle(
                               fontSize: 14,
-                              color: Color.fromRGBO(51, 156, 254, 10),
+                              color: Color.fromARGB(255, 13, 77, 174),
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ))),
@@ -255,7 +255,7 @@ class Results extends StatelessWidget {
                           "incorrect answer",
                           style: TextStyle(
                               fontSize: 14,
-                              color: Color.fromRGBO(51, 156, 254, 10),
+                              color: Color.fromARGB(255, 13, 77, 174),
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ))),
