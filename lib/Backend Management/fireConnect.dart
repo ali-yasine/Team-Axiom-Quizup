@@ -25,7 +25,7 @@ class FireConnect {
   }
 
   static Future<Map<String, AssetImage>> getSubjectIcons() async {
-    //TODO implement
+    //TODO  implement
     throw UnimplementedError();
   }
 
@@ -38,6 +38,7 @@ class FireConnect {
         .doc(subject)
         .collection('questions')
         .get();
+    print(querySnapshot.docs.length);
     var allquestions = querySnapshot.docs
         .map((e) => QuestionTemplate.fromJson(e.data()))
         .toList();
