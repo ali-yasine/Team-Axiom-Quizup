@@ -19,7 +19,7 @@ class QuestionTemplate {
   }
 
   static Map<String, dynamic> toJson(QuestionTemplate template) => {
-        'category': template.subject,
+        'subject': template.subject,
         'prompt': template.prompt,
         'correctanswer': template.correctAnswerTxt,
         'wronganswers': template.wrongAnswersTxt
