@@ -11,6 +11,7 @@ class MatchingPge extends StatelessWidget {
   final Player player;
   late final Player opponent;
   static const _questionNumber = 7;
+  bool oppfound = false;
   // ignore: prefer_const_constructors_in_immutables
   MatchingPge({Key? key, required this.subject, required this.player})
       : super(key: key);
@@ -87,16 +88,19 @@ class MatchingPge extends StatelessWidget {
     gamedoc.set(entryMap);
     incGameId(subject);
     gamedoc.snapshots().listen((event) async {
-      if (event.data()!["Player2"] != "") {
-        opponent = await FireConnect.getPlayer(event.data()!["Player2"]);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => Quiz(
-                opponent: opponent,
-                questionTemplates: questions,
-                player: player,
-                gameID: gameID,
-                playerNum: 1,
-                subject: subject)));
+      if (!oppfound) {
+        if (event.data()!["Player2"] != "") {
+          opponent = await FireConnect.getPlayer(event.data()!["Player2"]);
+          oppfound = true;
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => Quiz(
+                  opponent: opponent,
+                  questionTemplates: questions,
+                  player: player,
+                  gameID: gameID,
+                  playerNum: 1,
+                  subject: subject)));
+        }
       }
     });
   }

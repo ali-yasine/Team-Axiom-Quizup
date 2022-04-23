@@ -43,7 +43,7 @@ class Question extends StatefulWidget {
 class _QuestionState extends State<Question> with TickerProviderStateMixin {
   bool isDone = false;
   late List<Answer> answers;
-  static const int time = 1000; //Time for each question
+  static const int time = 10; //Time for each question
   late final String playerNum;
   late final String opponentNum;
   late Timer timer;
