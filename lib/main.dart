@@ -5,6 +5,7 @@ import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Backend%20Management/matchMaker.dart';
 import 'package:quizup_prototype_1/Login-Signup/Login.dart';
 import 'package:quizup_prototype_1/Screens/PlayerAssigned.dart';
+import 'package:quizup_prototype_1/Screens/ResultsScreen.dart';
 import 'package:quizup_prototype_1/Screens/Settings.dart';
 import 'Screens/Home.dart';
 import 'Screens/ChallengeAFriend.dart';
@@ -35,7 +36,7 @@ Future main() async {
     rankByCountry: 3,
   );
   await Firebase.initializeApp();
-  runApp(MaterialApp(home: Login()));
+  runApp(const MaterialApp(home: Login()));
 }
 
 class UploadImages extends StatelessWidget {

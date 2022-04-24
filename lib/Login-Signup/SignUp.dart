@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Login-Signup/Login.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
@@ -52,6 +53,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     rankGlobal: 12,
     rankByCountry: 3,
   );
+  Future signUp() async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
@@ -248,8 +258,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       if (passwordController.text ==
                               confirmPasswordController.text &&
                           passwordController.text != "") {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => HomePage(player: player)));
+                        signUp();
+                        FirebaseAuth.instance
+                            .authStateChanges()
+                            .listen((User? user) {
+                          if (user == null) {
+                            print("didn't work");
+                          } else {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        HomePage(player: player)));
+                          }
+                        });
                       } else {
                         const Text(
                           "The passwords don't match",

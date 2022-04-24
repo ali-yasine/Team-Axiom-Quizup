@@ -143,6 +143,11 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Flexible(
+            flex: 4,
+            child: Container(
+              color: Colors.grey[300],
+            )),
         Row(
             mainAxisAlignment:
                 MainAxisAlignment.center, //Center Column contents vertically,

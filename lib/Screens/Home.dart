@@ -1,4 +1,5 @@
 // ignore_for_file: file_names
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
 import 'package:quizup_prototype_1/Screens/Profile.dart';
 import 'package:quizup_prototype_1/Screens/Settings.dart';
@@ -27,6 +28,7 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+  final user = FirebaseAuth.instance.currentUser!;
   bool _loadingSubjects = true;
   late final List<String> subjects;
   late final List<SubjectIcon> subjectIcons;
@@ -91,9 +93,13 @@ class HomeState extends State<Home> {
                   ),
                 ),
               ),
+              Flexible(
+                  flex: 1,
+                  child: Container(
+                    color: blue,
+                  )),
               Container(
                   alignment: Alignment.center,
-                  margin: const EdgeInsets.only(right: 15.0, left: 20.0),
                   width: 150,
                   height: 30,
                   decoration: BoxDecoration(
@@ -109,14 +115,18 @@ class HomeState extends State<Home> {
                       borderRadius: BorderRadius.circular(15),
                       child: const Center(
                           child: Text(
-                        " username",
+                        "username",
                         style: TextStyle(
                             fontSize: 12,
                             color: Color.fromARGB(255, 13, 77, 174)),
                         textAlign: TextAlign.center,
                       )))),
+              Flexible(
+                  flex: 4,
+                  child: Container(
+                    color: blue,
+                  )),
               Container(
-                  margin: const EdgeInsets.only(right: 5.0, left: 70),
                   color: blue,
                   child: ElevatedButton(
                     onPressed: () => {
@@ -131,7 +141,12 @@ class HomeState extends State<Home> {
                       color: Colors.white,
                       size: 33,
                     ),
-                  ))
+                  )),
+              Flexible(
+                  flex: 1,
+                  child: Container(
+                    color: blue,
+                  )),
             ]),
           ),
           Row(children: [
@@ -155,11 +170,15 @@ class HomeState extends State<Home> {
                         fontSize: 12, color: Color.fromARGB(255, 13, 77, 174)),
                     textAlign: TextAlign.center,
                   )),
+                  Flexible(
+                      flex: 3,
+                      child: Container(
+                        color: Colors.white,
+                      )),
                   Container(
                       alignment: Alignment.center,
                       width: 30,
                       height: 30,
-                      margin: const EdgeInsets.only(right: 5.0, left: 327),
                       decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(300))),
                       child: ClipRRect(

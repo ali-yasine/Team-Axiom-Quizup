@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Screens/Home.dart';
 
+import '../Login-Signup/Login.dart';
 import '../Screens/Home.dart';
 import '../Utilities/player.dart';
 
@@ -42,6 +44,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
     return Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
@@ -98,118 +101,55 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             const SizedBox(
               height: 20,
             ),
-            const Text("Current password",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Color.fromARGB(255, 13, 77, 174),
-                ),
-                textAlign: TextAlign.left),
-            Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 13, 77, 174),
-                      width: 2,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(25))),
-                child: ClipRRect(
-                  //used to make circular borders
-                  borderRadius: BorderRadius.circular(30),
-                  child: TextField(
-                    obscureText: true,
-                    controller: currentController,
-                    decoration: const InputDecoration(),
-                  ),
-                )),
+            Flexible(
+              flex: 4,
+              child: Container(
+                  width: _width - 30,
+                  height: 50,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    HomePage(player: player))),
+                        child: const Text(
+                          "Change password",
+                          style: TextStyle(fontSize: 13, color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color.fromARGB(255, 13, 77, 174))),
+                      ))),
+            ),
             const SizedBox(
               height: 10,
             ),
-            const Text("New password",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Color.fromARGB(255, 13, 77, 174),
-                ),
-                textAlign: TextAlign.left),
-            Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 13, 77, 174),
-                      width: 2,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(25))),
-                child: ClipRRect(
-                  //used to make circular borders
-                  borderRadius: BorderRadius.circular(30),
-                  child: TextField(
-                    obscureText: true,
-                    controller: newController,
-                    decoration: const InputDecoration(),
-                  ),
-                )),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text("Confirm new password",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Color.fromARGB(255, 13, 77, 174),
-                ),
-                textAlign: TextAlign.left),
-            Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 13, 77, 174),
-                      width: 2,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(25))),
-                child: ClipRRect(
-                  //used to make circular borders
-                  borderRadius: BorderRadius.circular(30),
-                  child: TextField(
-                    obscureText: true,
-                    controller: confirmController,
-                    decoration: const InputDecoration(),
-                  ),
-                )),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-                width: 100,
-                height: 50,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (newController.text == confirmController.text &&
-                            newController.text != "") {
+            Flexible(
+              flex: 4,
+              child: Container(
+                  width: _width - 30,
+                  height: 50,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut();
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      HomePage(player: player)));
-                        } else {
-                          const Text(
-                            "The passwords don't match",
-                            style: TextStyle(
-                                fontSize: 13, color: Colors.redAccent),
-                            textAlign: TextAlign.center,
-                          );
-                        }
-                      },
-                      child: const Text(
-                        "Change password",
-                        style: TextStyle(fontSize: 13, color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              const Color.fromARGB(255, 13, 77, 174))),
-                    )))
+                                  builder: (context) => const Login()));
+                        },
+                        child: const Text(
+                          "Sign out",
+                          style: TextStyle(fontSize: 13, color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color.fromARGB(255, 13, 77, 174))),
+                      ))),
+            ),
           ],
         ));
   }

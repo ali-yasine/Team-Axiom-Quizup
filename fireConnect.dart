@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:quizup_prototype_1/Utilities/player.dart';
+import 'package:quizup_prototype_1/Utilities/question_template.dart';
 
 import '../Utilities/player.dart';
 import '../Utilities/question_template.dart';
