@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Screens/Home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Screens/Home.dart';
 import '../Utilities/player.dart';
+import '../Login-SignUp/Login.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
@@ -209,7 +211,32 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                               const Color.fromARGB(255, 13, 77, 174))),
+                    ))),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+                width: 100,
+                height: 50,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                        Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) =>Login()));
+                      },
+                      child: const Text(
+                        "Sign Out",
+                        style: TextStyle(fontSize: 13, color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color.fromARGB(255, 13, 77, 174))),
                     )))
+
           ],
         ));
   }

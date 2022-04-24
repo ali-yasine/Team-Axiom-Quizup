@@ -6,6 +6,8 @@ import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:quizup_prototype_1/Utilities/subject_icon.dart';
 import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 import '../Backend Management/fireConnect.dart';
 
@@ -27,6 +29,7 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+  final user = FirebaseAuth.instance.currentUser!;
   bool _loadingSubjects = true;
   late final List<String> subjects;
   late final List<SubjectIcon> subjectIcons;
@@ -107,9 +110,9 @@ class HomeState extends State<Home> {
                   child: ClipRRect(
                       //used to make circular borders
                       borderRadius: BorderRadius.circular(15),
-                      child: const Center(
+                      child:  Center(
                           child: Text(
-                        " username",
+                        user.email!,
                         style: TextStyle(
                             fontSize: 12,
                             color: Color.fromARGB(255, 13, 77, 174)),

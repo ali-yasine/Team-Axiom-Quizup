@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Screens/Home.dart';
 import 'package:quizup_prototype_1/Login-Signup/SignUp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Screens/Home.dart';
 import '../Utilities/player.dart';
@@ -31,6 +32,22 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  Future signIn() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: nameController.text, password: passwordController.text);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
+  Future resetPassword() async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: nameController.text);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
   final img = const AssetImage("assets/images/panda.jpg");
 
   @override
@@ -100,6 +117,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 )),
             TextButton(
               onPressed: () {
+                resetPassword();
                 //forgot password screen
               },
               child: const Text(
@@ -113,7 +131,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     borderRadius: BorderRadius.circular(25),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        signIn();
+                        FirebaseAuth.instance.authStateChanges().listen((User? user) {
+                          if (user == null) {print('User is currently signed out!');
+                        } else { Navigator.of(context).pushReplacement(MaterialPageRoute(
                             //TODO fix hardcoded player
                             builder: (context) => HomePage(
                                   player: Player(
@@ -126,7 +147,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                     rankGlobal: 12,
                                     rankByCountry: 3,
                                   ),
-                                )));
+                                )));}
+  });
                       },
                       child: const Text(
                         "Login",
