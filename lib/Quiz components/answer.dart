@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 
 class Answer extends StatefulWidget {
   final String ans;
+  final String prompt;
   final Color colorOnPress;
   final VoidCallback ontap;
   final VoidCallback handleAnimation;
-  const Answer(
+  bool isDisabled;
+  Answer(
       {Key? key,
       required this.ans,
+      required this.prompt,
       required this.colorOnPress,
       required this.ontap,
-      required this.handleAnimation})
+      required this.handleAnimation,
+      this.isDisabled = false})
       : super(key: key);
   @override
   _AnswerState createState() => _AnswerState();
@@ -18,24 +22,25 @@ class Answer extends StatefulWidget {
 
 class _AnswerState extends State<Answer> {
   static const Color standardColor = Color.fromRGBO(51, 156, 244, 100);
-  static const int delayInMili = 750;
   Color color = standardColor;
-  void answered() {
-    color = widget.colorOnPress;
-    setState(() {});
+
+  void update() {
+    if (!widget.isDisabled) {
+      widget.handleAnimation();
+      setState(() {
+        color = widget.colorOnPress;
+      });
+      Future.delayed(const Duration(milliseconds: 50))
+          .then((value) => widget.ontap());
+    }
   }
 
   @override
-  void didUpdateWidget(Answer oldWidget) {
+  void didUpdateWidget(covariant Answer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    color = standardColor;
-  }
-
-  void update() async {
-    answered();
-    widget.handleAnimation();
-    await Future.delayed(const Duration(milliseconds: delayInMili))
-        .then((value) => widget.ontap());
+    if (oldWidget.prompt != widget.prompt) {
+      color = standardColor;
+    }
   }
 
   @override

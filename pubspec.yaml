@@ -38,6 +38,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   cloud_firestore: ^3.1.10
   firebase_core: ^1.13.1
+  file_picker: ^4.5.1
+  firebase_storage: ^10.2.12
+  device_info_plus: ^3.0.1
+  crypto: ^3.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -60,7 +65,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/images/Sports.png
+    - assets/images/sports.png
     - assets/images/NaturalScience.png
     - assets/images/avatar.png
     - assets/images/panda.jpg
@@ -92,5 +97,5 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
-  # For details regarding fonts from package dependencies,
+    # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

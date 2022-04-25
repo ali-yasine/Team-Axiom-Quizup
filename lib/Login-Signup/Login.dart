@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/Home.dart';
 import 'package:quizup_prototype_1/Login-Signup/SignUp.dart';
 
@@ -112,21 +113,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(25),
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        Player player =
+                            await FireConnect.getPlayer(nameController.text);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            //TODO fix hardcoded player
-                            builder: (context) => HomePage(
-                                  player: Player(
-                                    username: "user",
-                                    email: "email@domain.com",
-                                    avatar: img,
-                                    gamesPlayed: 10,
-                                    gamesWon: 6,
-                                    avgSecondsToAnswer: 4,
-                                    rankGlobal: 12,
-                                    rankByCountry: 3,
-                                  ),
-                                )));
+                            //TODO Authenticate Player
+                            builder: (context) => HomePage(player: player)));
                       },
                       child: const Text(
                         "Login",
