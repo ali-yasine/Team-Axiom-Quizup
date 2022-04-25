@@ -6,13 +6,15 @@ class Answer extends StatefulWidget {
   final Color colorOnPress;
   final VoidCallback ontap;
   final VoidCallback handleAnimation;
-  const Answer(
+  bool isDisabled;
+  Answer(
       {Key? key,
       required this.ans,
       required this.prompt,
       required this.colorOnPress,
       required this.ontap,
-      required this.handleAnimation})
+      required this.handleAnimation,
+      this.isDisabled = false})
       : super(key: key);
   @override
   _AnswerState createState() => _AnswerState();
@@ -22,13 +24,15 @@ class _AnswerState extends State<Answer> {
   static const Color standardColor = Color.fromRGBO(51, 156, 244, 100);
   Color color = standardColor;
 
-  void update() async {
-    widget.handleAnimation();
-    setState(() {
-      color = widget.colorOnPress;
-    });
-    await Future.delayed(const Duration(milliseconds: 20));
-    widget.ontap();
+  void update() {
+    if (!widget.isDisabled) {
+      widget.handleAnimation();
+      setState(() {
+        color = widget.colorOnPress;
+      });
+      Future.delayed(const Duration(milliseconds: 50))
+          .then((value) => widget.ontap());
+    }
   }
 
   @override

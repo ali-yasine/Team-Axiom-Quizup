@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
@@ -6,15 +8,22 @@ import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:quizup_prototype_1/Utilities/question_template.dart';
 import 'Home.dart';
 
-class MatchingPge extends StatelessWidget {
+class MatchingPge extends StatefulWidget {
   final String subject;
   final Player player;
-  late final Player opponent;
   static const _questionNumber = 7;
-  bool oppfound = false;
-  // ignore: prefer_const_constructors_in_immutables
-  MatchingPge({Key? key, required this.subject, required this.player})
+
+  const MatchingPge({Key? key, required this.subject, required this.player})
       : super(key: key);
+
+  @override
+  State<MatchingPge> createState() => _MatchingPgeState();
+}
+
+class _MatchingPgeState extends State<MatchingPge> {
+  late final Player opponent;
+  bool oppfound = false;
+  DocumentReference<Map<String, dynamic>>? _gameDoc;
   Future<int> getGameId(String subject) async {
     var doc = await FirebaseFirestore.instance
         .collection('Contests')
@@ -33,6 +42,25 @@ class MatchingPge extends StatelessWidget {
 
   Future<void> findOpponent(
       Player player, String subject, BuildContext context) async {
+    var delays = [
+      0,
+      100,
+      200,
+      300,
+      400,
+      500,
+      600,
+      700,
+      800,
+      900,
+      1000,
+      1200,
+      1400,
+      1600,
+      1800
+    ];
+    var delay = (delays..shuffle()).first;
+    await Future.delayed(Duration(milliseconds: delay));
     var games = await FirebaseFirestore.instance
         .collection('Contests')
         .doc(subject)
@@ -40,7 +68,8 @@ class MatchingPge extends StatelessWidget {
         .where('Player2', isEqualTo: "")
         .get();
     if (games.docs.isEmpty) {
-      var questions = await FireConnect.readQuestions(subject, _questionNumber);
+      var questions =
+          await FireConnect.readQuestions(subject, MatchingPge._questionNumber);
       createContest(player, subject, questions, context);
     } else {
       var gamedoc = games.docs.first;
@@ -62,6 +91,11 @@ class MatchingPge extends StatelessWidget {
     }
   }
 
+  Future<void> CheckforSimultaneousOpponent(
+      Player player,
+      String subject,
+      BuildContext context,
+      DocumentReference<Map<String, dynamic>> doc) async {}
   Future<void> createContest(Player player, String subject,
       List<QuestionTemplate> questions, BuildContext context) async {
     var gameID = await getGameId(subject);
@@ -87,6 +121,7 @@ class MatchingPge extends StatelessWidget {
         .doc(gameID.toString());
     gamedoc.set(entryMap);
     incGameId(subject);
+    _gameDoc = gamedoc;
     gamedoc.snapshots().listen((event) async {
       if (!oppfound) {
         if (event.data()!["Player2"] != "") {
@@ -105,9 +140,25 @@ class MatchingPge extends StatelessWidget {
     });
   }
 
+  Future<void> removeGameDoc(
+      DocumentReference<Map<String, dynamic>>? gamedoc) async {
+    if (gamedoc != null) {
+      var data = await gamedoc.get();
+      if (data.data()!["Player2"] == "") {
+        gamedoc.delete();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    removeGameDoc(_gameDoc);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    findOpponent(player, subject, context);
+    findOpponent(widget.player, widget.subject, context);
     const img = AssetImage('assets/images/panda.jpg');
     const backgroundColor = Color.fromRGBO(207, 232, 255, 20);
     const _iconSize = 40.0;
@@ -119,7 +170,7 @@ class MatchingPge extends StatelessWidget {
               onPressed: () =>
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => HomePage(
-                            player: player,
+                            player: widget.player,
                           ))),
               icon: const Icon(
                 Icons.arrow_back_rounded,
@@ -132,7 +183,7 @@ class MatchingPge extends StatelessWidget {
           ),
           Container(
               alignment: Alignment.center,
-              child: Text(subject,
+              child: Text(widget.subject,
                   style: const TextStyle(
                       fontSize: 35,
                       color: Color.fromRGBO(51, 156, 254, 10),
@@ -192,7 +243,7 @@ class MatchingPge extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       child: Center(
                           child: Text(
-                        player.username,
+                        widget.player.username,
                         style: const TextStyle(
                             fontSize: 18,
                             color: Color.fromRGBO(51, 156, 254, 10)),

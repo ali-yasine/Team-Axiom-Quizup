@@ -7,30 +7,23 @@ import 'package:flutter/material.dart';
 
 import '../Backend Management/fireConnect.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final Player player;
   const HomePage({Key? key, required this.player}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: Home(player: player));
-  }
-}
-
-class Home extends StatefulWidget {
-  final Player player;
-  const Home({Key? key, required this.player}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => HomeState();
 }
 
-class HomeState extends State<Home> {
-  bool _loadingSubjects = true;
-  late final List<String> subjects;
+class HomeState extends State<HomePage> {
+  List<SubjectIcon> currentSubjectIcons = [];
+  late final List<String> subjectNames;
   late final List<SubjectIcon> subjectIcons;
+  bool _loadingSubjects = true;
+
   Future<void> initializeSubjects() async {
-    subjects = await FireConnect.getSubjects();
-    subjectIcons = subjects
+    subjectNames = await FireConnect.getSubjects();
+    subjectIcons = subjectNames
         .map((subject) => SubjectIcon(
             subject: subject,
             imageRef: 'assets/images/sports.png',
@@ -38,8 +31,28 @@ class HomeState extends State<Home> {
                 builder: (context) =>
                     SubjectScreen(subject: subject, player: widget.player)))))
         .toList();
+    currentSubjectIcons.addAll(subjectIcons);
     _loadingSubjects = false;
     setState(() {});
+  }
+
+  void searchSubjects(String query) {
+    if (query.isNotEmpty) {
+      List<SubjectIcon> result = [];
+      for (var item in subjectIcons) {
+        if (item.subject.toLowerCase().contains(query.toLowerCase())) {
+          result.add(item);
+        }
+      }
+      print(result.map((e) => e.subject).toList());
+      setState(() {
+        currentSubjectIcons = result;
+      });
+    } else {
+      setState(() {
+        currentSubjectIcons = subjectIcons;
+      });
+    }
   }
 
   @override
@@ -52,10 +65,7 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     if (_loadingSubjects) {
-      return Column(children: const [
-        CircularProgressIndicator(),
-        Text("Loading subjects")
-      ]);
+      return Container();
     }
     return Scaffold(
       backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
@@ -130,44 +140,22 @@ class HomeState extends State<Home> {
           ),
           Row(children: [
             Container(
-                margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                alignment: Alignment.center,
-                width: 400,
-                height: 30,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
-                      width: 1,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(25))),
-                child: Row(children: [
-                  const Center(
-                      child: Text(
-                    "search",
-                    style: TextStyle(
-                        fontSize: 12, color: Color.fromRGBO(51, 156, 254, 10)),
-                    textAlign: TextAlign.center,
-                  )),
-                  Container(
-                      alignment: Alignment.center,
-                      width: 30,
-                      height: 30,
-                      margin: const EdgeInsets.only(right: 5.0, left: 327),
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(300))),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(300),
-                        child: IconButton(
-                          onPressed: () => {},
-                          icon: const Icon(
-                            Icons.search,
-                            size: 18,
-                            color: Color.fromRGBO(51, 156, 254, 10),
-                          ),
-                        ),
-                      )),
-                ])),
+              margin: const EdgeInsets.only(right: 5.0, left: 5.0),
+              alignment: Alignment.center,
+              width: 400,
+              height: 30,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    color: const Color.fromRGBO(51, 156, 254, 10),
+                    width: 1,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(25))),
+              child: TextField(
+                autofillHints: subjectNames,
+                onChanged: (queury) => {searchSubjects(queury)},
+              ),
+            ),
           ]),
           const SizedBox(
             height: 30,
@@ -178,7 +166,7 @@ class HomeState extends State<Home> {
               GridView.count(
                 shrinkWrap: true,
                 crossAxisCount: 3,
-                children: subjectIcons,
+                children: currentSubjectIcons,
               ),
               const SizedBox(
                 height: 200,

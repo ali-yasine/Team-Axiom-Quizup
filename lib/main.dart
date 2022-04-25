@@ -7,8 +7,6 @@ Future main() async {
   await Firebase.initializeApp();
   runApp(const MaterialApp(home: Login()));
 }
-
-// class UploadImages extends StatelessWidget {
 //   const UploadImages({Key? key}) : super(key: key);
 //   @override
 //   Widget build(BuildContext context) {

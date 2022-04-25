@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 
 import 'Home.dart';
@@ -319,7 +320,8 @@ class Results extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () => Navigator.of(context)
                             .pushReplacement(MaterialPageRoute(
-                                builder: (context) => HomePage(
+                                builder: (context) => SubjectScreen(
+                                      subject: subject,
                                       player: player,
                                     ))),
                         child: const Text(

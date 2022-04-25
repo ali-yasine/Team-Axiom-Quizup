@@ -41,8 +41,9 @@ class Question extends StatefulWidget {
 }
 
 class _QuestionState extends State<Question> with TickerProviderStateMixin {
-  bool isDone = false;
-  late List<Answer> answers;
+  bool hasAnswered = false;
+  bool shuffled = false;
+  List<Answer>? answers;
   static const int time = 10; //Time for each question
   late final String playerNum;
   late final String opponentNum;
@@ -71,15 +72,17 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
 
   @override
   void didUpdateWidget(covariant Question oldWidget) {
-    print("old: ${oldWidget.correctAnswerTxt}");
-    print("current: ${widget.correctAnswerTxt}");
     super.didUpdateWidget(oldWidget);
+    hasAnswered = false;
+    shuffled = false;
+    answers = null;
+    beginTimer();
   }
 
   void done(bool incScore) {
     widget.increaseScore = incScore;
-
     widget.timeTaken = timer.timeTaken;
+    hasAnswered = true;
     if (widget.increaseScore) {
       widget.currentScore += 10 - (timer.timeTaken);
     }
@@ -112,30 +115,43 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
     );
   }
 
-  List<Answer> makeAnswers() {
-    late final Answer correctAnswer = Answer(
-        prompt: widget.prompt,
-        ans: widget.correctAnswerTxt,
-        handleAnimation: () => timer.stop(),
-        colorOnPress: Colors.green,
-        ontap: () => {done(true)});
-    late final List<Answer> wrongAnswers = widget.wrongAnswersTxt
-        .map((e) => Answer(
-              prompt: widget.prompt,
-              ans: e,
-              colorOnPress: Colors.red,
-              handleAnimation: () => timer.stop(),
-              ontap: () => {done(false)},
-            ))
-        .toList();
-    late List<Answer> answers = [
-      correctAnswer,
-      wrongAnswers.first,
-      wrongAnswers.elementAt(1),
-      wrongAnswers.last
-    ];
-    answers.shuffle();
-    return answers;
+  void makeAnswers(bool hasAnswered) {
+    if (answers == null) {
+      final Answer correctAnswer = Answer(
+          prompt: widget.prompt,
+          ans: widget.correctAnswerTxt,
+          handleAnimation: () => timer.stop(),
+          colorOnPress: Colors.green,
+          ontap: () => {done(true)});
+      final List<Answer> wrongAnswers = widget.wrongAnswersTxt
+          .map((e) => Answer(
+                prompt: widget.prompt,
+                ans: e,
+                colorOnPress: Colors.red,
+                handleAnimation: () => timer.stop(),
+                ontap: () => {done(false)},
+                isDisabled: hasAnswered,
+              ))
+          .toList();
+      answers = [
+        correctAnswer,
+        wrongAnswers.first,
+        wrongAnswers.elementAt(1),
+        wrongAnswers.last
+      ];
+      answers!.shuffle();
+    } else {
+      answers = answers!
+          .map((e) => Answer(
+                ans: e.ans,
+                prompt: e.prompt,
+                colorOnPress: e.colorOnPress,
+                ontap: e.ontap,
+                handleAnimation: e.handleAnimation,
+                isDisabled: hasAnswered,
+              ))
+          .toList();
+    }
   }
 
   void beginListener() {
@@ -155,7 +171,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
               opponentNum + " Answered " + widget.questionNum.toString()] &&
           (event.data())![
               playerNum + " Answered " + widget.questionNum.toString()]) {
-        Future.delayed(const Duration(milliseconds: 300))
+        Future.delayed(const Duration(milliseconds: 500))
             .then((value) => widget.onFinish());
       }
     });
@@ -163,7 +179,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    answers = makeAnswers();
+    makeAnswers(hasAnswered);
     return Scaffold(
       backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
       body: Column(children: [
@@ -281,13 +297,13 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                             textAlign: TextAlign.center,
                           )))),
                   const SizedBox(height: 60),
-                  answers.first,
+                  answers!.first,
                   const SizedBox(height: 20),
-                  answers.elementAt(1),
+                  answers!.elementAt(1),
                   const SizedBox(height: 20),
-                  answers.elementAt(2),
+                  answers!.elementAt(2),
                   const SizedBox(height: 20),
-                  answers.last,
+                  answers!.last,
                 ])),
             Flexible(
               child: Container(

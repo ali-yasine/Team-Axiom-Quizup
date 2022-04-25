@@ -38,7 +38,6 @@ class FireConnect {
         .doc(subject)
         .collection('questions')
         .get();
-    print(querySnapshot.docs.length);
     var allquestions = querySnapshot.docs
         .map((e) => QuestionTemplate.fromJson(e.data()))
         .toList();
