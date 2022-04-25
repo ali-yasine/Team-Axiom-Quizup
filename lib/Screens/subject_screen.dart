@@ -17,7 +17,7 @@ class SubjectScreen extends StatelessWidget {
   }) : super(key: key);
   void play(BuildContext context) async {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => MatchingPage(
+        builder: (context) => MatchingPge(
               subject: subject,
               player: player,
             )));

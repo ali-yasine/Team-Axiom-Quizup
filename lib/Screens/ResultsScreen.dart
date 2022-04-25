@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 
 import 'Home.dart';
@@ -440,9 +441,10 @@ class Results extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () => Navigator.of(context)
                                 .pushReplacement(MaterialPageRoute(
-                                    builder: (context) => HomePage(
-                                          player: player,
-                                        ))),
+                                    builder: (context) => SubjectScreen(
+                                      subject: subject,
+                                      player: player,
+                                    ))),
                             child: const Text(
                               "Play again",
                               style:
@@ -454,6 +456,7 @@ class Results extends StatelessWidget {
                               const Color.fromARGB(255, 13, 77, 174),
                             )),
                           ))))
+
             ]),
             flex: 10,
           )

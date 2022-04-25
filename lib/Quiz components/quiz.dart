@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/ResultsScreen.dart';
 import 'question.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
@@ -7,7 +6,7 @@ import 'package:quizup_prototype_1/Utilities/question_template.dart';
 
 class Quiz extends StatefulWidget {
   final Player player;
-  late final Player opponent;
+  final Player opponent;
   bool isdone = false;
   final int gameID;
   final List<QuestionTemplate> questionTemplates;
@@ -21,6 +20,7 @@ class Quiz extends StatefulWidget {
   int incorrect = 0;
   Quiz(
       {Key? key,
+      required this.opponent,
       required this.questionTemplates,
       required this.player,
       required this.gameID,
@@ -39,8 +39,10 @@ class _quizState extends State<Quiz> {
     widget.questions = widget.questionTemplates
         .map(
           (temp) => Question(
+            opponent: widget.opponent,
             questionNum: widget.currentQuestion,
             currentScore: widget.score,
+            opponentScore: widget.opponentScore,
             playerNum: widget.playerNum,
             prompt: temp.prompt,
             wrongAnswersTxt: temp.wrongAnswersTxt,
@@ -64,41 +66,25 @@ class _quizState extends State<Quiz> {
   }
 
   void update() async {
-    widget.questions = widget.questionTemplates
-        .map(
-          (temp) => Question(
-            questionNum: widget.currentQuestion,
-            currentScore: widget.score,
-            playerNum: widget.playerNum,
-            prompt: temp.prompt,
-            wrongAnswersTxt: temp.wrongAnswersTxt,
-            correctAnswerTxt: temp.correctAnswerTxt,
-            subject: widget.subject,
-            onFinish: update,
-            player: widget.player,
-            gameID: widget.gameID,
-          ),
-        )
-        .toList();
     var currQuestion = widget.questions!.elementAt(widget.currentQuestion);
     if (widget.currentQuestion + 1 == (widget.questions!.length)) {
       widget.isdone = true;
     }
     if (currQuestion.increaseScore == true) {
       widget.correct += 1;
-      widget.score += 10 - (currQuestion.timeTaken);
+      widget.score = currQuestion.currentScore;
+      widget.opponentScore = currQuestion.opponentScore;
     } else {
       widget.incorrect += 1;
     }
-    if (currQuestion.opponentHasAnswered) {
-      setState(() {
-        widget.currentQuestion++;
-      });
-    }
+    setState(() {
+      ++widget.currentQuestion;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    initializeQuestions();
     var size = MediaQuery.of(context).size;
     if (!widget.isdone) {
       return SizedBox(
@@ -114,7 +100,7 @@ class _quizState extends State<Quiz> {
         subject: widget.subject,
         correct: widget.correct,
         incorrect: widget.incorrect,
-        opponentScore: 0,
+        opponentScore: widget.opponentScore,
       );
     }
   }

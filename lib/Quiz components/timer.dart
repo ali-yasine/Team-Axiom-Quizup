@@ -43,13 +43,15 @@ class TimerState extends State<Timer> with TickerProviderStateMixin {
           widget.hasFinished = true;
           widget.timeTaken = widget.time;
           widget.controller!.stop();
+
           widget.onFinish();
         }
       });
       widget.controller!.addListener(() {
-        if (widget.hasFinished == true) {
-          widget.timeTaken = timeElapsed();
+        if (widget.hasFinished) {
+          widget.timeTaken = widget.controller!.lastElapsedDuration!.inSeconds;
           widget.controller!.stop();
+          widget.controller!.clearListeners();
         }
       });
     }

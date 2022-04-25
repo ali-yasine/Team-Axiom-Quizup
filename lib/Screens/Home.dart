@@ -10,31 +10,24 @@ import 'package:flutter/material.dart';
 
 import '../Backend Management/fireConnect.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final Player player;
   const HomePage({Key? key, required this.player}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: Home(player: player));
-  }
-}
-
-class Home extends StatefulWidget {
-  final Player player;
-  const Home({Key? key, required this.player}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => HomeState();
 }
 
-class HomeState extends State<Home> {
+class HomeState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
-  bool _loadingSubjects = true;
-  late final List<String> subjects;
+  List<SubjectIcon> currentSubjectIcons = [];
+  late final List<String> subjectNames;
   late final List<SubjectIcon> subjectIcons;
+  bool _loadingSubjects = true;
+
   Future<void> initializeSubjects() async {
-    subjects = await FireConnect.getSubjects();
-    subjectIcons = subjects
+    subjectNames = await FireConnect.getSubjects();
+    subjectIcons = subjectNames
         .map((subject) => SubjectIcon(
             subject: subject,
             imageRef: 'assets/images/sports.png',
@@ -42,8 +35,28 @@ class HomeState extends State<Home> {
                 builder: (context) =>
                     SubjectScreen(subject: subject, player: widget.player)))))
         .toList();
+    currentSubjectIcons.addAll(subjectIcons);
     _loadingSubjects = false;
     setState(() {});
+  }
+
+  void searchSubjects(String query) {
+    if (query.isNotEmpty) {
+      List<SubjectIcon> result = [];
+      for (var item in subjectIcons) {
+        if (item.subject.toLowerCase().contains(query.toLowerCase())) {
+          result.add(item);
+        }
+      }
+      print(result.map((e) => e.subject).toList());
+      setState(() {
+        currentSubjectIcons = result;
+      });
+    } else {
+      setState(() {
+        currentSubjectIcons = subjectIcons;
+      });
+    }
   }
 
   @override
@@ -57,10 +70,7 @@ class HomeState extends State<Home> {
     Color blue = Color.fromARGB(255, 13, 77, 174);
     double _width = MediaQuery.of(context).size.width;
     if (_loadingSubjects) {
-      return Column(children: const [
-        CircularProgressIndicator(),
-        Text("Loading subjects")
-      ]);
+      return Container();
     }
     return Scaffold(
       backgroundColor: Colors.grey[300],
@@ -113,10 +123,11 @@ class HomeState extends State<Home> {
                   child: ClipRRect(
                       //used to make circular borders
                       borderRadius: BorderRadius.circular(15),
-                      child: const Center(
+                      child: Center(
                           child: Text(
-                        "username",
-                        style: TextStyle(
+
+                        widget.player.username,
+                        style: const TextStyle(
                             fontSize: 12,
                             color: Color.fromARGB(255, 13, 77, 174)),
                         textAlign: TextAlign.center,
@@ -163,13 +174,12 @@ class HomeState extends State<Home> {
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
                 child: Row(children: [
-                  const Center(
-                      child: Text(
-                    "search",
-                    style: TextStyle(
-                        fontSize: 12, color: Color.fromARGB(255, 13, 77, 174)),
-                    textAlign: TextAlign.center,
-                  )),
+                  Center(
+                      child: TextField(
+                autofillHints: subjectNames,
+                onChanged: (queury) => {searchSubjects(queury)},
+              ),
+            ),
                   Flexible(
                       flex: 3,
                       child: Container(
@@ -193,6 +203,7 @@ class HomeState extends State<Home> {
                         ),
                       )),
                 ])),
+
           ]),
           const SizedBox(
             height: 30,
@@ -202,7 +213,9 @@ class HomeState extends State<Home> {
               const SizedBox(height: 10),
               ListView(
                 shrinkWrap: true,
-                children: subjectIcons,
+
+                crossAxisCount: 3,
+                children: currentSubjectIcons,
               ),
               const SizedBox(
                 height: 200,

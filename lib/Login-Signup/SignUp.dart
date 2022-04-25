@@ -16,7 +16,6 @@ class SignUp extends StatefulWidget {
 
 class SignUpState extends State<SignUp> {
   @override
-  @override
   Widget build(BuildContext context) {
     var backgroundColor = Colors.grey[300];
     return MaterialApp(
