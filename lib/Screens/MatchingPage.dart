@@ -158,6 +158,7 @@ class _MatchingPgeState extends State<MatchingPge> {
 
   @override
   Widget build(BuildContext context) {
+             color: Color.fromARGB(255, 28, 109, 175)))),
     findOpponent(widget.player, widget.subject, context);
     const img = AssetImage('assets/images/panda.jpg');
     const backgroundColor = Color.fromRGBO(207, 232, 255, 20);
@@ -266,13 +267,6 @@ class _MatchingPgeState extends State<MatchingPge> {
           const SizedBox(
             height: 5,
           ),
-          Container(
-              margin: const EdgeInsets.only(left: 30.0),
-              alignment: Alignment.centerLeft,
-              child: const Text(
-                  "Please wait , we are assigning a player for you",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 20, color: Colors.grey))),
           const CircularProgressIndicator(),
         ]));
   }

@@ -21,7 +21,7 @@ class Answer extends StatefulWidget {
 }
 
 class _AnswerState extends State<Answer> {
-  static const Color standardColor = Color.fromRGBO(51, 156, 244, 100);
+  static const Color standardColor = Color.fromARGB(255, 13, 77, 174);
   Color color = standardColor;
 
   void update() {

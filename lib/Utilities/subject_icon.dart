@@ -14,7 +14,7 @@ class SubjectIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    return Column(children: [
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Container(
         margin: const EdgeInsets.only(right: 5.0, left: 5.0),
         child: InkWell(
@@ -22,7 +22,7 @@ class SubjectIcon extends StatelessWidget {
           splashColor: Colors.white10, // Splash color over image
           child: Ink.image(
             fit: BoxFit.cover, // Fixes border issues
-            width: _width / 3 - 20,
+            width: _width - 50,
             height: _width / 3 - 20,
             image: AssetImage(imageRef),
           ),
@@ -32,8 +32,8 @@ class SubjectIcon extends StatelessWidget {
         subject,
         textAlign: TextAlign.center,
         style: const TextStyle(
-          fontSize: 16,
-          color: Color.fromRGBO(51, 156, 254, 10),
+          fontSize: 22,
+          color: Color.fromARGB(255, 13, 77, 174),
           fontWeight: FontWeight.bold,
         ),
       ),

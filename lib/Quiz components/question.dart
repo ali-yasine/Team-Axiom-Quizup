@@ -10,6 +10,7 @@ class Question extends StatefulWidget {
   final String correctAnswerTxt;
   final String subject;
   final Player player;
+
   int currentScore;
   final int playerNum;
   final Player opponent;
@@ -164,6 +165,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
       if ((event.data())![
           opponentNum + " Answered " + widget.questionNum.toString()]) {
         opponentTimer.stop();
+
         widget.opponentScore = event.data()![opponentNum + " Score"];
         setState(() {});
       }
@@ -181,82 +183,94 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     makeAnswers(hasAnswered);
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
-      body: Column(children: [
-        const SizedBox(height: 50),
-        Text(widget.subject,
-            style: const TextStyle(
-                fontSize: 35,
-                color: Color.fromRGBO(51, 156, 254, 10),
-                fontWeight: FontWeight.bold)),
-        const SizedBox(height: 100),
+      backgroundColor: Colors.grey[300],
+      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Flexible(
+            flex: 4,
+            child: Container(
+              color: Colors.grey[300],
+            )),
         Row(
             mainAxisAlignment:
                 MainAxisAlignment.center, //Center Column contents vertically,
             crossAxisAlignment: CrossAxisAlignment
                 .center, //Center Column contents horizontally,
             children: [
-              Container(
-                width: 60,
-                height: 60,
-                margin: const EdgeInsets.only(left: 5, right: 10),
-                child: const CircleAvatar(
-                  child: CircleAvatar(
-                    radius: 33,
-                    backgroundColor: Colors.grey,
-                    backgroundImage: AssetImage('assets/images/avatar.png'),
+              Flexible(
+                flex: 5,
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  margin: const EdgeInsets.only(left: 5, right: 10),
+                  child: const CircleAvatar(
+                    child: CircleAvatar(
+                      radius: 33,
+                      backgroundColor: Colors.grey,
+                      backgroundImage: AssetImage('assets/images/avatar.png'),
+                    ),
                   ),
                 ),
               ),
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    child: Text(
-                        " " +
-                            widget.player.username +
-                            " :" +
-                            widget.currentScore.toString() +
-                            " ",
-                        style: const TextStyle(
-                            fontSize: 18,
-                            color: Color.fromRGBO(51, 156, 254, 10))),
-                  )),
-              Container(
-                child: const Text("vs",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Color.fromRGBO(51, 156, 254, 10),
-                        fontWeight: FontWeight.bold)),
-                margin: const EdgeInsets.only(left: 35.0, right: 35.0),
+              Flexible(
+                flex: 6,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(25))),
+                      child: Text(
+                          " " +
+                              widget.player.username +
+                              " :" +
+                              widget.currentScore.toString() +
+                              " ",
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 13, 77, 174))),
+                    )),
               ),
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    child: Text(
-                        " " +
-                            widget.opponent.username +
-                            " :" +
-                            widget.opponentScore.toString() +
-                            " ",
-                        style: const TextStyle(
-                            fontSize: 18,
-                            color: Color.fromRGBO(51, 156, 254, 10))),
-                  )),
-              Container(
-                width: 60,
-                height: 60,
-                margin: const EdgeInsets.only(left: 5),
-                child: const CircleAvatar(
-                  child: CircleAvatar(
-                    radius: 33,
-                    backgroundColor: Colors.grey,
-                    backgroundImage: AssetImage('assets/images/avatar.png'),
+              Flexible(
+                flex: 10,
+                child: Container(
+                  child: const Text("vs",
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: Color.fromARGB(255, 255, 235, 59),
+                          fontWeight: FontWeight.bold)),
+                ),
+              ),
+              Flexible(
+                flex: 6,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(25))),
+                      child: Text(
+                          " " +
+                              widget.opponent.username +
+                              " :" +
+                              widget.opponentScore.toString() +
+                              " ",
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 13, 77, 174))),
+                    )),
+              ),
+              Flexible(
+                flex: 5,
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  child: const CircleAvatar(
+                    child: CircleAvatar(
+                      radius: 33,
+                      backgroundColor: Colors.grey,
+                      backgroundImage: AssetImage('assets/images/avatar.png'),
+                    ),
+
                   ),
                 ),
               ),
@@ -279,7 +293,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                            color: const Color.fromRGBO(51, 156, 254, 10),
+                            color: const Color.fromARGB(255, 13, 77, 174),
                             width: 2,
                           ),
                           borderRadius:
@@ -293,7 +307,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                             style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(40, 156, 254, 50)),
+                                color: Color.fromARGB(255, 13, 77, 174)),
                             textAlign: TextAlign.center,
                           )))),
                   const SizedBox(height: 60),

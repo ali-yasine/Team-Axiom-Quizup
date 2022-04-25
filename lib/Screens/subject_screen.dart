@@ -1,5 +1,9 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
+import 'package:quizup_prototype_1/Screens/ChallengeAFriend.dart';
 import 'package:quizup_prototype_1/Screens/MatchingPage.dart';
+import 'package:quizup_prototype_1/Utilities/Rank.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'Home.dart';
 
@@ -21,14 +25,15 @@ class SubjectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
     const img = AssetImage('assets/images/panda.jpg');
-    const backgroundColor = Color.fromRGBO(207, 232, 255, 20);
+
     const _profileRadius = 35.0;
     const _iconSize = 40.0;
     const buttonColor = Color.fromRGBO(51, 156, 251, 0);
 
     return Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor: Colors.grey[300],
         body: Column(children: [
           Flexible(
               child: Container(
@@ -66,7 +71,7 @@ class SubjectScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
-                          color: const Color.fromRGBO(51, 156, 254, 10),
+                          color: const Color.fromARGB(255, 13, 77, 174),
                           width: 1,
                         ),
                         borderRadius:
@@ -78,21 +83,39 @@ class SubjectScreen extends StatelessWidget {
                                 child: Text(
                                   player.username,
                                   style: const TextStyle(
-                                      color: Color.fromRGBO(51, 156, 254, 10)),
+                                      color: Color.fromARGB(255, 13, 77, 174)),
                                   textAlign: TextAlign.center,
                                 ),
                                 fit: BoxFit.cover)))),
               ]),
               flex: 23),
           Flexible(
+              flex: 2,
               child: Container(
-                  alignment: Alignment.center,
-                  child: Text(subject,
-                      style: const TextStyle(
-                          fontSize: 45,
-                          color: Color.fromRGBO(51, 156, 254, 10),
-                          fontWeight: FontWeight.bold))),
-              flex: 23),
+                color: Colors.grey[300],
+              )),
+          Flexible(
+              child: Container(
+                width: _width - 20,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Color.fromARGB(255, 13, 77, 174)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                    child: Text(
+                  subject,
+                  style: const TextStyle(
+                      fontSize: 26, color: Color.fromARGB(255, 13, 77, 174)),
+                  textAlign: TextAlign.center,
+                )),
+              ),
+              flex: 10),
+          Flexible(
+              flex: 2,
+              child: Container(
+                color: Colors.grey[300],
+              )),
           Flexible(
               child: Container(
                 width: 300,
@@ -101,14 +124,57 @@ class SubjectScreen extends StatelessWidget {
                     image: const DecorationImage(image: img, fit: BoxFit.fill),
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: const Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
               ),
-              flex: 75),
+              flex: 35),
           Flexible(
               child: Container(
+                  alignment: Alignment.center,
+                  child: const Text("Top players",
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Color.fromARGB(255, 13, 77, 174),
+                          fontWeight: FontWeight.bold))),
+              flex: 8),
+          Flexible(
+            child: Container(
+              child: const Rank(
+                  rankNumber: 1,
+                  username: "husseindakroub",
+                  score: 68,
+                  country: "Brazil"),
+            ),
+            flex: 10,
+          ),
+          Flexible(
+            child: Container(
+              child: const Rank(
+                  rankNumber: 2,
+                  username: "Safifakih",
+                  score: 57,
+                  country: "Germany"),
+            ),
+            flex: 10,
+          ),
+          Flexible(
+            child: Container(
+              child: const Rank(
+                  rankNumber: 3,
+                  username: "aliyassine",
+                  score: 40,
+                  country: "Lebanon"),
+            ),
+            flex: 10,
+          ),
+          Row(children: [
+            const SizedBox(
+              width: 10,
+            ),
+            Flexible(
+                child: Container(
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: ElevatedButton(
@@ -117,40 +183,49 @@ class SubjectScreen extends StatelessWidget {
                             child: Text(
                               "Play",
                               style:
-                                  TextStyle(fontSize: 45, color: Colors.white),
+                                  TextStyle(fontSize: 20, color: Colors.white),
                               textAlign: TextAlign.center,
                             ),
                             fit: BoxFit.fill),
                         style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(buttonColor)),
+                            backgroundColor: MaterialStateProperty.all(
+                          const Color.fromARGB(255, 13, 77, 174),
+                        )),
                       )),
-                  width: 250,
                   height: 75,
-                  margin: const EdgeInsets.only(top: 50)),
-              flex: 40),
-          Flexible(
-            child: Container(
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: ElevatedButton(
-                      onPressed: () => {},
-                      child: const FittedBox(
-                          child: Text(
-                            "Challenge a Friend",
-                            style: TextStyle(fontSize: 45, color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
-                          fit: BoxFit.fill),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(buttonColor)),
-                    )),
-                width: 250,
-                height: 75,
-                margin: const EdgeInsets.all(30)),
-            flex: 40,
-          )
+                  width: _width / 2,
+                ),
+                flex: 75),
+            Flexible(
+              child: Container(
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: ElevatedButton(
+                        onPressed: () => {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => ChallengeAFriend(
+                                      subject: subject, player: player)))
+                        },
+                        child: const FittedBox(
+                            child: Text(
+                              "Challenge a Friend",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                              textAlign: TextAlign.center,
+                            ),
+                            fit: BoxFit.fill),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                          const Color.fromARGB(255, 13, 77, 174),
+                        )),
+                      )),
+                  height: 75,
+                  width: _width / 2,
+                  margin: const EdgeInsets.all(30)),
+              flex: 100,
+            )
+          ]),
         ]));
   }
 }

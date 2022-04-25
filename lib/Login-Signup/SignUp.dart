@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Login-Signup/Login.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
@@ -16,8 +17,8 @@ class SignUp extends StatefulWidget {
 class SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = Color.fromRGBO(207, 232, 255, 20);
-    return const MaterialApp(
+    var backgroundColor = Colors.grey[300];
+    return MaterialApp(
       home: Scaffold(
         backgroundColor: backgroundColor,
         body: MyStatefulWidget(),
@@ -51,6 +52,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     rankGlobal: 12,
     rankByCountry: 3,
   );
+  Future signUp() async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
@@ -76,7 +86,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: const Text(
                 'Sign Up',
                 style: TextStyle(
-                  color: Color.fromRGBO(51, 156, 254, 10),
+                  color: Color.fromARGB(255, 13, 77, 174),
                   fontWeight: FontWeight.bold,
                   fontSize: 34,
                 ),
@@ -106,7 +116,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: const Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -127,7 +137,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: const Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -150,7 +160,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
-                    color: const Color.fromRGBO(51, 156, 254, 10),
+                    color: const Color.fromARGB(255, 13, 77, 174),
                     width: 2,
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -172,7 +182,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
-                    color: const Color.fromRGBO(51, 156, 254, 10),
+                    color: const Color.fromARGB(255, 13, 77, 174),
                     width: 2,
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -196,7 +206,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: const Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -218,7 +228,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: const Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -247,8 +257,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       if (passwordController.text ==
                               confirmPasswordController.text &&
                           passwordController.text != "") {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => HomePage(player: player)));
+                        signUp();
+                        FirebaseAuth.instance
+                            .authStateChanges()
+                            .listen((User? user) {
+                          if (user == null) {
+                            print("didn't work");
+                          } else {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        HomePage(player: player)));
+                          }
+                        });
                       } else {
                         const Text(
                           "The passwords don't match",
@@ -265,7 +286,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     ),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                            const Color.fromRGBO(51, 156, 254, 10))),
+                            const Color.fromARGB(255, 13, 77, 174))),
                   )))
         ]));
   }

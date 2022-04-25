@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/Home.dart';
@@ -13,8 +14,8 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = Color.fromRGBO(207, 232, 255, 20);
-    return const MaterialApp(
+    var backgroundColor = Colors.grey[300];
+    return MaterialApp(
       home: Scaffold(
         backgroundColor: backgroundColor,
         body: MyStatefulWidget(),
@@ -33,6 +34,23 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final img = const AssetImage("assets/images/panda.jpg");
+  Future signIn() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: nameController.text, password: passwordController.text);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
+
+  Future resetPassword() async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: nameController.text);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +67,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: const Text(
                   'Login',
                   style: TextStyle(
-                    color: Color.fromRGBO(51, 156, 254, 10),
+                    color: Color.fromARGB(255, 13, 77, 174),
                     fontWeight: FontWeight.bold,
                     fontSize: 34,
                   ),
@@ -62,7 +80,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: const Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -84,7 +102,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: const Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -101,7 +119,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 )),
             TextButton(
               onPressed: () {
-                //forgot password screen
+                resetPassword();
               },
               child: const Text(
                 'Forgot Password',
@@ -113,12 +131,31 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(25),
                     child: ElevatedButton(
-                      onPressed: () async {
-                        Player player =
-                            await FireConnect.getPlayer(nameController.text);
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            //TODO Authenticate Player
-                            builder: (context) => HomePage(player: player)));
+                      onPressed: () {
+                        signIn();
+                        FirebaseAuth.instance
+                            .authStateChanges()
+                            .listen((User? user) {
+                          if (user == null) {
+                            print('User is currently signed out!');
+                          } else {
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                                    //TODO fix hardcoded player
+                                    builder: (context) => HomePage(
+                                          player: Player(
+                                            username: "user",
+                                            email: "email@domain.com",
+                                            avatar: img,
+                                            gamesPlayed: 10,
+                                            gamesWon: 6,
+                                            avgSecondsToAnswer: 4,
+                                            rankGlobal: 12,
+                                            rankByCountry: 3,
+                                          ),
+                                        )));
+                          }
+                        });
                       },
                       child: const Text(
                         "Login",
@@ -127,13 +164,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       ),
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              const Color.fromRGBO(51, 156, 254, 10))),
+                              const Color.fromARGB(255, 13, 77, 174))),
                     ))),
             Row(
               children: <Widget>[
                 const Text('Do not have account?',
                     style: TextStyle(
-                      color: Color.fromRGBO(51, 156, 254, 10),
+                      color: Color.fromARGB(255, 13, 77, 174),
                     )),
                 TextButton(
                   child: const Text(

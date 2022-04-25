@@ -1,3 +1,4 @@
+import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:flutter/material.dart';
 import 'Home.dart';
@@ -18,7 +19,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(207, 232, 255, 20),
+      backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
         child: Stack(children: <Widget>[
           Column(
@@ -26,7 +27,7 @@ class Profile extends StatelessWidget {
               Container(
                 width: _width,
                 height: 100,
-                color: const Color.fromRGBO(51, 156, 254, 10),
+                color: Color.fromARGB(255, 13, 77, 174),
                 child: Container(
                   margin: const EdgeInsets.only(top: 60),
                   child: const Text(
@@ -40,9 +41,9 @@ class Profile extends StatelessWidget {
                   width: _width,
                   height: 120,
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(51, 156, 254, 10),
+                    color: Color.fromARGB(255, 13, 77, 174),
                     border: Border.all(
-                      color: const Color.fromRGBO(51, 156, 254, 10),
+                      color: Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.only(
@@ -74,7 +75,7 @@ class Profile extends StatelessWidget {
                 Text(player.username,
                     style: const TextStyle(
                       fontSize: 20,
-                      color: Color.fromRGBO(51, 156, 254, 10),
+                      color: Color.fromARGB(255, 13, 77, 174),
                     ),
                     textAlign: TextAlign.center),
                 const SizedBox(height: 10),
@@ -85,15 +86,19 @@ class Profile extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(
-                        color: const Color.fromRGBO(51, 156, 254, 10),
+                        color: const Color.fromARGB(255, 13, 77, 174),
                         width: 2,
                       ),
                       borderRadius:
                           const BorderRadius.all(Radius.circular(25))),
-                  child: Text(
+                  child: Center(
+                      child: Text(
                     player.email,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 13, 77, 174)),
                     textAlign: TextAlign.center,
-                  ),
+                  )),
                 ),
                 Container(
                     margin: const EdgeInsets.only(left: 25),
@@ -104,7 +109,7 @@ class Profile extends StatelessWidget {
                       " Email Address",
                       style: TextStyle(
                           fontSize: 14,
-                          color: Color.fromRGBO(51, 156, 254, 10),
+                          color: Color.fromARGB(255, 13, 77, 174),
                           fontWeight: FontWeight.bold),
                     ))),
                 Row(children: [
@@ -114,46 +119,64 @@ class Profile extends StatelessWidget {
                     height: _width / 3 - 20,
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: const Color.fromRGBO(51, 156, 254, 10),
+                          color: const Color.fromARGB(255, 13, 77, 174),
                           width: 2,
                         ),
                         color: Colors.white,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(25))),
-                    child: Text(
+                    child: Center(
+                      child: Text(
                         (player.gamesWon / player.gamesPlayed).toString(),
-                        textAlign: TextAlign.center),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 40,
+                            color: Color.fromARGB(255, 13, 77, 174)),
+                      ),
+                    ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                    width: _width / 3 - 20,
-                    height: _width / 3 - 20,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color.fromRGBO(51, 156, 254, 10),
-                          width: 2,
+                      margin: const EdgeInsets.only(right: 5.0, left: 5.0),
+                      width: _width / 3 - 20,
+                      height: _width / 3 - 20,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color.fromARGB(255, 13, 77, 174),
+                            width: 2,
+                          ),
+                          color: Colors.white,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(25))),
+                      child: Center(
+                        child: Text(
+                          player.gamesPlayed.toString(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 40,
+                              color: Color.fromARGB(255, 13, 77, 174)),
                         ),
-                        color: Colors.white,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25))),
-                    child: Text(player.gamesPlayed.toString(),
-                        textAlign: TextAlign.center),
-                  ),
+                      )),
                   Container(
-                    margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                    width: _width / 3 - 20,
-                    height: _width / 3 - 20,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color.fromRGBO(51, 156, 254, 10),
-                          width: 2,
+                      margin: const EdgeInsets.only(right: 5.0, left: 5.0),
+                      width: _width / 3 - 20,
+                      height: _width / 3 - 20,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color.fromARGB(255, 13, 77, 174),
+                            width: 2,
+                          ),
+                          color: Colors.white,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(25))),
+                      child: Center(
+                        child: Text(
+                          player.rankByCountry.toString(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 40,
+                              color: Color.fromARGB(255, 13, 77, 174)),
                         ),
-                        color: Colors.white,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25))),
-                    child: Text(player.rankByCountry.toString(),
-                        textAlign: TextAlign.center),
-                  ),
+                      )),
                 ]),
                 Row(
                   children: [
@@ -166,7 +189,7 @@ class Profile extends StatelessWidget {
                           " Win rate",
                           style: TextStyle(
                               fontSize: 14,
-                              color: Color.fromRGBO(51, 156, 254, 10),
+                              color: Color.fromARGB(255, 13, 77, 174),
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ))),
@@ -179,7 +202,7 @@ class Profile extends StatelessWidget {
                           " Global Rank",
                           style: TextStyle(
                               fontSize: 14,
-                              color: Color.fromRGBO(51, 156, 254, 10),
+                              color: Color.fromARGB(255, 13, 77, 174),
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ))),
@@ -192,7 +215,7 @@ class Profile extends StatelessWidget {
                           "Rank By Country",
                           style: TextStyle(
                               fontSize: 14,
-                              color: Color.fromRGBO(51, 156, 254, 10),
+                              color: Color.fromARGB(255, 13, 77, 174),
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ))),
@@ -201,50 +224,68 @@ class Profile extends StatelessWidget {
                 const SizedBox(height: 10),
                 Row(children: [
                   Container(
-                    margin: const EdgeInsets.only(right: 5.0, left: 10.0),
-                    width: _width / 3 - 20,
-                    height: _width / 3 - 20,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color.fromRGBO(51, 156, 254, 10),
-                          width: 2,
+                      margin: const EdgeInsets.only(right: 5.0, left: 10.0),
+                      width: _width / 3 - 20,
+                      height: _width / 3 - 20,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color.fromARGB(255, 13, 77, 174),
+                            width: 2,
+                          ),
+                          color: Colors.white,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(25))),
+                      child: Center(
+                        child: Text(
+                          player.gamesPlayed.toString(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 40,
+                              color: Color.fromARGB(255, 13, 77, 174)),
                         ),
-                        color: Colors.white,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25))),
-                    child: Text(player.gamesPlayed.toString(),
-                        textAlign: TextAlign.center),
-                  ),
+                      )),
                   Container(
-                    margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                    width: _width / 3 - 20,
-                    height: _width / 3 - 20,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color.fromRGBO(51, 156, 254, 10),
-                          width: 2,
+                      margin: const EdgeInsets.only(right: 5.0, left: 5.0),
+                      width: _width / 3 - 20,
+                      height: _width / 3 - 20,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color.fromARGB(255, 13, 77, 174),
+                            width: 2,
+                          ),
+                          color: Colors.white,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(25))),
+                      child: Center(
+                        child: Text(
+                          player.gamesWon.toString(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 40,
+                              color: Color.fromARGB(255, 13, 77, 174)),
                         ),
-                        color: Colors.white,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25))),
-                    child: Text(player.gamesWon.toString(),
-                        textAlign: TextAlign.center),
-                  ),
+                      )),
                   Container(
-                    margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                    width: _width / 3 - 20,
-                    height: _width / 3 - 20,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color.fromRGBO(51, 156, 254, 10),
-                          width: 2,
+                      margin: const EdgeInsets.only(right: 5.0, left: 5.0),
+                      width: _width / 3 - 20,
+                      height: _width / 3 - 20,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color.fromARGB(255, 13, 77, 174),
+                            width: 2,
+                          ),
+                          color: Colors.white,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(25))),
+                      child: Center(
+                        child: Text(
+                          player.avgSecondsToAnswer.toString(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 40,
+                              color: Color.fromARGB(255, 13, 77, 174)),
                         ),
-                        color: Colors.white,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25))),
-                    child: Text(player.avgSecondsToAnswer.toString(),
-                        textAlign: TextAlign.center),
-                  ),
+                      )),
                 ]),
                 Row(
                   children: [
@@ -257,7 +298,7 @@ class Profile extends StatelessWidget {
                           " Games Played",
                           style: TextStyle(
                               fontSize: 14,
-                              color: Color.fromRGBO(51, 156, 254, 10),
+                              color: Color.fromARGB(255, 13, 77, 174),
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ))),
@@ -270,7 +311,7 @@ class Profile extends StatelessWidget {
                           " Number Of Games Won",
                           style: TextStyle(
                               fontSize: 14,
-                              color: Color.fromRGBO(51, 156, 254, 10),
+                              color: Color.fromARGB(255, 13, 77, 174),
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ))),
@@ -283,7 +324,7 @@ class Profile extends StatelessWidget {
                           "Average seconds to answer",
                           style: TextStyle(
                               fontSize: 12,
-                              color: Color.fromRGBO(51, 156, 254, 10),
+                              color: Color.fromARGB(255, 13, 77, 174),
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ))),
@@ -305,7 +346,7 @@ class Profile extends StatelessWidget {
         ]),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromRGBO(51, 156, 254, 10),
+        backgroundColor: Color.fromARGB(255, 13, 77, 174),
         fixedColor: Colors.white,
         unselectedItemColor: Colors.white,
         onTap: (index) {
@@ -317,9 +358,8 @@ class Profile extends StatelessWidget {
                   builder: (context) => HomePage(player: player)));
               break;
             case 2:
-              //TODO ADD LEADERBOARD TO NAVIGATOR
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => HomePage(player: player)));
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const Leaderboard()));
               break;
             default:
           }
