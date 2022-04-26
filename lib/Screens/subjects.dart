@@ -7,28 +7,12 @@ import 'countries.dart';
 
 import 'package:flutter/material.dart';
 
-class subjects extends StatelessWidget {
-  const subjects({Key? key}) : super(key: key);
+class Subjects extends StatelessWidget {
+  final Player player;
+  const Subjects({Key? key, required this.player}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: _subjects());
-  }
-}
-
-class _subjects extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var player = Player(
-        email: 'ud',
-        username: "jd",
-        avatar: const AssetImage("assets/images/panda.jpg"),
-        gamesWon: 12,
-        avgSecondsToAnswer: 1,
-        rankByCountry: 1,
-        rankGlobal: 1,
-        gamesPlayed: 1);
     double _width = MediaQuery.of(context).size.width;
-    double _height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
@@ -119,10 +103,11 @@ class _subjects extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const subjects()));
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                        builder: (context) => Subjects(
+                                              player: player,
+                                            )));
                               },
                               child: const Text(
                                 "By Subject",
@@ -145,10 +130,11 @@ class _subjects extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const countries()));
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                        builder: (context) => countries(
+                                              player: player,
+                                            )));
                               },
                               child: const Text(
                                 "By Country",
@@ -171,10 +157,11 @@ class _subjects extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Leaderboard()));
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                        builder: (context) => Leaderboard(
+                                              player: player,
+                                            )));
                               },
                               child: const Text(
                                 "Global",
@@ -326,8 +313,10 @@ class _subjects extends StatelessWidget {
               break;
 
             case (2):
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const subjects()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => Leaderboard(
+                        player: player,
+                      )));
               break;
           }
         },

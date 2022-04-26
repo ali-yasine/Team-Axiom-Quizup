@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -42,24 +44,7 @@ class _MatchingPgeState extends State<MatchingPge> {
 
   Future<void> findOpponent(
       Player player, String subject, BuildContext context) async {
-    var delays = [
-      0,
-      100,
-      200,
-      300,
-      400,
-      500,
-      600,
-      700,
-      800,
-      900,
-      1000,
-      1200,
-      1400,
-      1600,
-      1800
-    ];
-    var delay = (delays..shuffle()).first;
+    var delay = Random().nextInt(1250);
     await Future.delayed(Duration(milliseconds: delay));
     var games = await FirebaseFirestore.instance
         .collection('Contests')
@@ -91,11 +76,6 @@ class _MatchingPgeState extends State<MatchingPge> {
     }
   }
 
-  Future<void> CheckforSimultaneousOpponent(
-      Player player,
-      String subject,
-      BuildContext context,
-      DocumentReference<Map<String, dynamic>> doc) async {}
   Future<void> createContest(Player player, String subject,
       List<QuestionTemplate> questions, BuildContext context) async {
     var gameID = await getGameId(subject);
@@ -158,7 +138,6 @@ class _MatchingPgeState extends State<MatchingPge> {
 
   @override
   Widget build(BuildContext context) {
-             color: Color.fromARGB(255, 28, 109, 175)))),
     findOpponent(widget.player, widget.subject, context);
     const img = AssetImage('assets/images/panda.jpg');
     const backgroundColor = Color.fromRGBO(207, 232, 255, 20);

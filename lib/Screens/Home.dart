@@ -48,7 +48,6 @@ class HomeState extends State<HomePage> {
           result.add(item);
         }
       }
-      print(result.map((e) => e.subject).toList());
       setState(() {
         currentSubjectIcons = result;
       });
@@ -67,7 +66,7 @@ class HomeState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Color blue = Color.fromARGB(255, 13, 77, 174);
+    Color blue = const Color.fromARGB(255, 13, 77, 174);
     double _width = MediaQuery.of(context).size.width;
     if (_loadingSubjects) {
       return Container();
@@ -125,7 +124,6 @@ class HomeState extends State<HomePage> {
                       borderRadius: BorderRadius.circular(15),
                       child: Center(
                           child: Text(
-
                         widget.player.username,
                         style: const TextStyle(
                             fontSize: 12,
@@ -174,12 +172,14 @@ class HomeState extends State<HomePage> {
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
                 child: Row(children: [
-                  Center(
+                  Flexible(
+                    child: Center(
                       child: TextField(
-                autofillHints: subjectNames,
-                onChanged: (queury) => {searchSubjects(queury)},
-              ),
-            ),
+                        autofillHints: subjectNames,
+                        onChanged: (queury) => {searchSubjects(queury)},
+                      ),
+                    ),
+                  ),
                   Flexible(
                       flex: 3,
                       child: Container(
@@ -203,30 +203,16 @@ class HomeState extends State<HomePage> {
                         ),
                       )),
                 ])),
-
           ]),
           const SizedBox(
             height: 30,
           ),
-          Column(
-            children: <Widget>[
-              const SizedBox(height: 10),
-              ListView(
-                shrinkWrap: true,
-
-                crossAxisCount: 3,
-                children: currentSubjectIcons,
-              ),
-              const SizedBox(
-                height: 200,
-              ),
-              const SizedBox(
-                height: 200,
-              ),
-              const SizedBox(
-                height: 200,
-              ),
-            ],
+          const SizedBox(height: 10),
+          ListView(
+            padding: const EdgeInsets.all(10.0),
+            shrinkWrap: true,
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: currentSubjectIcons,
           ),
         ]),
       ])),
@@ -245,8 +231,10 @@ class HomeState extends State<HomePage> {
             case 1:
               break;
             case 2:
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const Leaderboard()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => Leaderboard(
+                        player: widget.player,
+                      )));
               break;
             default:
           }

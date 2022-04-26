@@ -10,12 +10,11 @@ class Question extends StatefulWidget {
   final String correctAnswerTxt;
   final String subject;
   final Player player;
-
+  int opponentScore;
+  int questionNum;
   int currentScore;
   final int playerNum;
   final Player opponent;
-  int opponentScore;
-  int questionNum;
   final VoidCallback onFinish;
   final int gameID;
   // ignore: prefer_const_constructors_in_immutables
@@ -182,152 +181,158 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     makeAnswers(hasAnswered);
+    var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.grey[300],
-      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Flexible(
-            flex: 4,
-            child: Container(
-              color: Colors.grey[300],
-            )),
-        Row(
-            mainAxisAlignment:
-                MainAxisAlignment.center, //Center Column contents vertically,
-            crossAxisAlignment: CrossAxisAlignment
-                .center, //Center Column contents horizontally,
-            children: [
-              Flexible(
-                flex: 5,
+        backgroundColor: Colors.grey[300],
+        body: SizedBox(
+          width: size.width,
+          height: size.height,
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Flexible(
+                flex: 4,
                 child: Container(
-                  width: 60,
-                  height: 60,
-                  margin: const EdgeInsets.only(left: 5, right: 10),
-                  child: const CircleAvatar(
-                    child: CircleAvatar(
-                      radius: 33,
-                      backgroundColor: Colors.grey,
-                      backgroundImage: AssetImage('assets/images/avatar.png'),
+                  color: Colors.grey[300],
+                )),
+            Row(
+                mainAxisAlignment: MainAxisAlignment
+                    .center, //Center Column contents vertically,
+                crossAxisAlignment: CrossAxisAlignment
+                    .center, //Center Column contents horizontally,
+                children: [
+                  Flexible(
+                    flex: 5,
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      margin: const EdgeInsets.only(left: 5, right: 10),
+                      child: const CircleAvatar(
+                        child: CircleAvatar(
+                          radius: 33,
+                          backgroundColor: Colors.grey,
+                          backgroundImage:
+                              AssetImage('assets/images/avatar.png'),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              Flexible(
-                flex: 6,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(25))),
-                      child: Text(
-                          " " +
-                              widget.player.username +
-                              " :" +
-                              widget.currentScore.toString() +
-                              " ",
-                          style: const TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(255, 13, 77, 174))),
-                    )),
-              ),
-              Flexible(
-                flex: 10,
-                child: Container(
-                  child: const Text("vs",
-                      style: TextStyle(
-                          fontSize: 30,
-                          color: Color.fromARGB(255, 255, 235, 59),
-                          fontWeight: FontWeight.bold)),
-                ),
-              ),
-              Flexible(
-                flex: 6,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(25))),
-                      child: Text(
-                          " " +
-                              widget.opponent.username +
-                              " :" +
-                              widget.opponentScore.toString() +
-                              " ",
-                          style: const TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(255, 13, 77, 174))),
-                    )),
-              ),
-              Flexible(
-                flex: 5,
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  child: const CircleAvatar(
-                    child: CircleAvatar(
-                      radius: 33,
-                      backgroundColor: Colors.grey,
-                      backgroundImage: AssetImage('assets/images/avatar.png'),
-                    ),
-
+                  Flexible(
+                    flex: 6,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25))),
+                          child: Text(
+                              " " +
+                                  widget.player.username +
+                                  " :" +
+                                  widget.currentScore.toString() +
+                                  " ",
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 13, 77, 174))),
+                        )),
                   ),
+                  const Flexible(
+                    flex: 10,
+                    child: Text("vs",
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Color.fromARGB(255, 255, 235, 59),
+                            fontWeight: FontWeight.bold)),
+                  ),
+                  Flexible(
+                    flex: 6,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25))),
+                          child: Text(
+                              " " +
+                                  widget.opponent.username +
+                                  " :" +
+                                  widget.opponentScore.toString() +
+                                  " ",
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 13, 77, 174))),
+                        )),
+                  ),
+                  Flexible(
+                    flex: 5,
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      child: const CircleAvatar(
+                        child: CircleAvatar(
+                          radius: 33,
+                          backgroundColor: Colors.grey,
+                          backgroundImage:
+                              AssetImage('assets/images/avatar.png'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
+            const SizedBox(
+              height: 10,
+            ),
+            Flexible(
+              child: Row(children: [
+                Flexible(
+                  child:
+                      Container(child: timer, margin: const EdgeInsets.all(10)),
+                  flex: 2,
                 ),
-              ),
-            ]),
-        const SizedBox(
-          height: 10,
-        ),
-        Flexible(
-          child: Row(children: [
-            Flexible(
-              child: Container(child: timer, margin: const EdgeInsets.all(10)),
-              flex: 2,
-            ),
-            Flexible(
-                flex: 10,
-                child: Column(children: [
-                  Container(
-                      width: 1000,
-                      height: 100,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 13, 77, 174),
-                            width: 2,
-                          ),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(25))),
-                      child: ClipRRect(
-                          //used to make circular borders
-                          borderRadius: BorderRadius.circular(15),
-                          child: Center(
-                              child: Text(
-                            widget.prompt,
-                            style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 13, 77, 174)),
-                            textAlign: TextAlign.center,
-                          )))),
-                  const SizedBox(height: 60),
-                  answers!.first,
-                  const SizedBox(height: 20),
-                  answers!.elementAt(1),
-                  const SizedBox(height: 20),
-                  answers!.elementAt(2),
-                  const SizedBox(height: 20),
-                  answers!.last,
-                ])),
-            Flexible(
-              child: Container(
-                  child: opponentTimer, margin: const EdgeInsets.all(10)),
-              flex: 2,
-            ),
+                Flexible(
+                    flex: 10,
+                    child: Column(children: [
+                      Container(
+                          width: 1000,
+                          height: 100,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: const Color.fromARGB(255, 13, 77, 174),
+                                width: 2,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(25))),
+                          child: ClipRRect(
+                              //used to make circular borders
+                              borderRadius: BorderRadius.circular(15),
+                              child: Center(
+                                  child: Text(
+                                widget.prompt,
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 13, 77, 174)),
+                                textAlign: TextAlign.center,
+                              )))),
+                      const SizedBox(height: 60),
+                      answers!.first,
+                      const SizedBox(height: 20),
+                      answers!.elementAt(1),
+                      const SizedBox(height: 20),
+                      answers!.elementAt(2),
+                      const SizedBox(height: 20),
+                      answers!.last,
+                    ])),
+                Flexible(
+                  child: Container(
+                      child: opponentTimer, margin: const EdgeInsets.all(10)),
+                  flex: 2,
+                ),
+              ]),
+              flex: 7,
+            )
           ]),
-          flex: 7,
-        )
-      ]),
-    );
+        ));
   }
 }

@@ -1,9 +1,9 @@
+// ignore_for_file: file_names
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
-
 import '../Utilities/player.dart';
 import '../Utilities/question_template.dart';
 
@@ -22,11 +22,6 @@ class FireConnect {
     } on FirebaseException catch (e) {
       print(e);
     }
-  }
-
-  static Future<Map<String, AssetImage>> getSubjectIcons() async {
-    //TODO  implement
-    throw UnimplementedError();
   }
 
   static Future<List<QuestionTemplate>> readQuestions(
@@ -61,17 +56,30 @@ class FireConnect {
     return Player.fromJson(querySnapshot.docs.first.data());
   }
 
-  static Future<bool> addPlayer(String username, String password) async {
-    var playerAuthDoc = FirebaseFirestore.instance
-        .collection('PlayerAuthentication')
-        .doc(username);
-    if ((await playerAuthDoc.get()).exists) {
-      return false;
+  static Future<Player> getPlayerByEmail(String email) async {
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection('Player')
+        .where('Email', isEqualTo: email)
+        .get();
+    return Player.fromJson(querySnapshot.docs.first.data());
+  }
+
+  static Future<void> addPlayer(
+      String username, String email, String country) async {
+    var query = await FirebaseFirestore.instance
+        .collection('Player')
+        .where('email', isEqualTo: email)
+        .get();
+    if (query.docs.isEmpty) {
+      Map<String, dynamic> playerData = {
+        'Username': username,
+        'Email': email,
+        'Country': country,
+        'GamesPlayed': 0,
+        'GamesWon': 0,
+        'AvgSecondsToAnswer': 0
+      };
+      await FirebaseFirestore.instance.collection('Player').add(playerData);
     }
-    FirebaseFirestore.instance
-        .collection('PlayerAuthentication')
-        .doc(username)
-        .set({"password": password});
-    return true;
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +29,7 @@ class Profile extends StatelessWidget {
               Container(
                 width: _width,
                 height: 100,
-                color: Color.fromARGB(255, 13, 77, 174),
+                color: const Color.fromARGB(255, 13, 77, 174),
                 child: Container(
                   margin: const EdgeInsets.only(top: 60),
                   child: const Text(
@@ -41,9 +43,9 @@ class Profile extends StatelessWidget {
                   width: _width,
                   height: 120,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 13, 77, 174),
+                    color: const Color.fromARGB(255, 13, 77, 174),
                     border: Border.all(
-                      color: Color.fromARGB(255, 13, 77, 174),
+                      color: const Color.fromARGB(255, 13, 77, 174),
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.only(
@@ -141,7 +143,7 @@ class Profile extends StatelessWidget {
                       height: _width / 3 - 20,
                       decoration: BoxDecoration(
                           border: Border.all(
-                            color: Color.fromARGB(255, 13, 77, 174),
+                            color: const Color.fromARGB(255, 13, 77, 174),
                             width: 2,
                           ),
                           color: Colors.white,
@@ -162,17 +164,18 @@ class Profile extends StatelessWidget {
                       height: _width / 3 - 20,
                       decoration: BoxDecoration(
                           border: Border.all(
-                            color: Color.fromARGB(255, 13, 77, 174),
+                            color: const Color.fromARGB(255, 13, 77, 174),
                             width: 2,
                           ),
                           color: Colors.white,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(25))),
-                      child: Center(
+                      child: const Center(
                         child: Text(
-                          player.rankByCountry.toString(),
+                          //TODO fix hardcoded rank
+                          "3",
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 40,
                               color: Color.fromARGB(255, 13, 77, 174)),
                         ),
@@ -229,7 +232,7 @@ class Profile extends StatelessWidget {
                       height: _width / 3 - 20,
                       decoration: BoxDecoration(
                           border: Border.all(
-                            color: Color.fromARGB(255, 13, 77, 174),
+                            color: const Color.fromARGB(255, 13, 77, 174),
                             width: 2,
                           ),
                           color: Colors.white,
@@ -250,7 +253,7 @@ class Profile extends StatelessWidget {
                       height: _width / 3 - 20,
                       decoration: BoxDecoration(
                           border: Border.all(
-                            color: Color.fromARGB(255, 13, 77, 174),
+                            color: const Color.fromARGB(255, 13, 77, 174),
                             width: 2,
                           ),
                           color: Colors.white,
@@ -271,7 +274,7 @@ class Profile extends StatelessWidget {
                       height: _width / 3 - 20,
                       decoration: BoxDecoration(
                           border: Border.all(
-                            color: Color.fromARGB(255, 13, 77, 174),
+                            color: const Color.fromARGB(255, 13, 77, 174),
                             width: 2,
                           ),
                           color: Colors.white,
@@ -346,7 +349,7 @@ class Profile extends StatelessWidget {
         ]),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color.fromARGB(255, 13, 77, 174),
+        backgroundColor: const Color.fromARGB(255, 13, 77, 174),
         fixedColor: Colors.white,
         unselectedItemColor: Colors.white,
         onTap: (index) {
@@ -358,8 +361,10 @@ class Profile extends StatelessWidget {
                   builder: (context) => HomePage(player: player)));
               break;
             case 2:
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const Leaderboard()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => Leaderboard(
+                        player: player,
+                      )));
               break;
             default:
           }

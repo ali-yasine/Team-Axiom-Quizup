@@ -5,28 +5,32 @@ class Player {
   AssetImage avatar;
   final String email;
   int gamesWon;
-  int rankByCountry;
-  int rankGlobal;
   int avgSecondsToAnswer;
   int gamesPlayed;
-
+  final String country;
   Player(
       {Key? key,
       required this.email,
+      required this.country,
       required this.username,
       required this.avatar,
       required this.gamesWon,
       required this.avgSecondsToAnswer,
-      required this.rankByCountry,
-      required this.rankGlobal,
       required this.gamesPlayed});
   static Player fromJson(Map<String, dynamic> json) => Player(
       avatar: const AssetImage("assets/images/avatar.png"),
+      country: json['Country'],
       username: json["Username"],
       gamesPlayed: json["GamesPlayed"],
       email: json["Email"],
       gamesWon: json["GamesWon"],
-      rankGlobal: json["RankGlobal"],
-      rankByCountry: json["RankByCountry"],
       avgSecondsToAnswer: json["AvgSecondsToAnswer"]);
+  static Map<String, dynamic> toJson(Player player) => {
+        'Username': player.username,
+        'Email': player.email,
+        'GamesPlayed': player.gamesPlayed,
+        'GamesWon': player.gamesWon,
+        'AvgSecondsToAnswer': player.avgSecondsToAnswer,
+        'Country': player.country
+      };
 }

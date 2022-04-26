@@ -9,28 +9,14 @@ import 'package:flutter/material.dart';
 import 'Leaderboard.dart';
 
 class countries extends StatelessWidget {
-  const countries({Key? key}) : super(key: key);
+  final Player player;
+  const countries({Key? key, required this.player}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: _countries());
-  }
-}
-
-class _countries extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var player = Player(
-        email: 'ud',
-        username: "jd",
-        avatar: const AssetImage("assets/images/panda.jpg"),
-        gamesWon: 12,
-        avgSecondsToAnswer: 1,
-        rankByCountry: 1,
-        rankGlobal: 1,
-        gamesPlayed: 1);
     double _width = MediaQuery.of(context).size.width;
     double _height = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
           child: Stack(
@@ -120,10 +106,11 @@ class _countries extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const subjects()));
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                        builder: (context) => Subjects(
+                                              player: player,
+                                            )));
                               },
                               child: const Text(
                                 "By Subject",
@@ -146,10 +133,11 @@ class _countries extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const countries()));
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                        builder: (context) => countries(
+                                              player: player,
+                                            )));
                               },
                               child: const Text(
                                 "By Country",
@@ -172,10 +160,11 @@ class _countries extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Leaderboard()));
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                        builder: (context) => Leaderboard(
+                                              player: player,
+                                            )));
                               },
                               child: const Text(
                                 "Global",
@@ -327,8 +316,10 @@ class _countries extends StatelessWidget {
               break;
 
             case (2):
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const countries()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => countries(
+                        player: player,
+                      )));
               break;
           }
         },
@@ -342,6 +333,6 @@ class _countries extends StatelessWidget {
               label: "leaderboard"),
         ],
       ),
-    );
+    ));
   }
 }

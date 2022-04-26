@@ -34,12 +34,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final img = const AssetImage("assets/images/panda.jpg");
   var player = Player(
       email: 'ud',
+      country: 'Lebanon',
       username: "jd",
       avatar: const AssetImage("assets/images/panda.jpg"),
       gamesWon: 12,
       avgSecondsToAnswer: 1,
-      rankByCountry: 1,
-      rankGlobal: 1,
       gamesPlayed: 1);
 
   @override

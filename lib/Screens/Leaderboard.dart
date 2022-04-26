@@ -2,36 +2,19 @@ import 'package:quizup_prototype_1/Screens/Profile.dart';
 import 'package:quizup_prototype_1/Screens/countries.dart';
 import 'package:quizup_prototype_1/Screens/subjects.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
-import 'package:quizup_prototype_1/Utilities/subject_icon.dart';
-import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 import 'package:flutter/material.dart';
 import 'Home.dart';
-import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Utilities/Rank.dart';
 
 class Leaderboard extends StatelessWidget {
-  const Leaderboard({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: _board());
-  }
-}
+  Player player;
+  Leaderboard({Key? key, required this.player}) : super(key: key);
 
-class _board extends StatelessWidget {
-  var player = Player(
-      email: 'ud',
-      username: "jd",
-      avatar: AssetImage("assets/images/panda.jpg"),
-      gamesWon: 12,
-      avgSecondsToAnswer: 1,
-      rankByCountry: 1,
-      rankGlobal: 1,
-      gamesPlayed: 1);
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    double _height = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
           child: Stack(
@@ -121,10 +104,11 @@ class _board extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const subjects()));
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                        builder: (context) => Subjects(
+                                              player: player,
+                                            )));
                               },
                               child: const Text(
                                 "By Subject",
@@ -147,10 +131,11 @@ class _board extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const countries()));
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                        builder: (context) => countries(
+                                              player: player,
+                                            )));
                               },
                               child: const Text(
                                 "By Country",
@@ -332,8 +317,6 @@ class _board extends StatelessWidget {
               break;
 
             case (2):
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const Leaderboard()));
               break;
           }
         },
@@ -347,6 +330,6 @@ class _board extends StatelessWidget {
               label: "leaderboard"),
         ],
       ),
-    );
+    ));
   }
 }

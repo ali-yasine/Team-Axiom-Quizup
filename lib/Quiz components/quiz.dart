@@ -28,10 +28,10 @@ class Quiz extends StatefulWidget {
       required this.subject})
       : super(key: key);
   @override
-  _quizState createState() => _quizState();
+  _QuizState createState() => _QuizState();
 }
 
-class _quizState extends State<Quiz> {
+class _QuizState extends State<Quiz> {
   int timeTaken = 0;
   late String playerNum;
   late String opponentNum;
