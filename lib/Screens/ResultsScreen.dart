@@ -81,7 +81,8 @@ class Results extends StatelessWidget {
                 width: _width - 20,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: Color.fromARGB(255, 13, 77, 174)),
+                  border:
+                      Border.all(color: const Color.fromARGB(255, 13, 77, 174)),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Center(

@@ -64,22 +64,58 @@ class FireConnect {
     return Player.fromJson(querySnapshot.docs.first.data());
   }
 
-  static Future<void> addPlayer(
+  static Future<Map<String, dynamic>> getLeaderBoard(String subject) async {
+    var doc = await FirebaseFirestore.instance
+        .collection('Leaderboard')
+        .doc(subject)
+        .get();
+    if (doc.exists) {
+      if (doc.data() != null) {
+        if (doc.data()!["players"] != null) {
+          return doc.data()!["players"];
+        }
+      }
+    }
+    return {};
+  }
+
+  static Future<Map<String, dynamic>> getGlobalLeaderBoard() async {
+    return getLeaderBoard('Global');
+  }
+
+  static Future<String> addPlayer(
       String username, String email, String country) async {
-    var query = await FirebaseFirestore.instance
+    var emailQuery = await FirebaseFirestore.instance
         .collection('Player')
         .where('email', isEqualTo: email)
         .get();
-    if (query.docs.isEmpty) {
-      Map<String, dynamic> playerData = {
-        'Username': username,
-        'Email': email,
-        'Country': country,
-        'GamesPlayed': 0,
-        'GamesWon': 0,
-        'AvgSecondsToAnswer': 0
-      };
-      await FirebaseFirestore.instance.collection('Player').add(playerData);
+
+    if (emailQuery.docs.isNotEmpty) {
+      return "Email already in Use";
     }
+    var userQuery = await FirebaseFirestore.instance
+        .collection('Player')
+        .where('Username', isEqualTo: username)
+        .get();
+    if (userQuery.docs.isNotEmpty) {
+      return "Username already in Use ";
+    }
+    Map<String, dynamic> playerData = {
+      'Username': username,
+      'Email': email,
+      'Country': country,
+      'GamesPlayed': 0,
+      'GamesWon': 0,
+      'AvgSecondsToAnswer': 0
+    };
+    bool errorOccured = false;
+    await FirebaseFirestore.instance
+        .collection('Player')
+        .add(playerData)
+        .catchError((error) {
+      errorOccured = true;
+    });
+    if (errorOccured) return "An Error Occured";
+    return "Player added";
   }
 }

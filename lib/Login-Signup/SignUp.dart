@@ -19,29 +19,53 @@ class SignUpState extends State<SignUp> {
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-
+  String errorTxt = "";
   Future<void> signUp() async {
     if (passwordController.text == confirmPasswordController.text &&
         passwordController.text != "") {
-      var email = emailController.text;
-      var country = countryController.text;
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email, password: passwordController.text);
-      //TODO fix hardcoded player
-      await FireConnect.addPlayer('username', email, country);
-      var player = await FireConnect.getPlayerByEmail(email);
-      FirebaseAuth.instance.authStateChanges().listen((User? user) {
-        if (user != null) {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => HomePage(player: player)));
+      if (passwordController.text.length < 6) {
+        setState(() {
+          errorTxt = "Password should be at least 6 characters";
+        });
+      } else {
+        var email = emailController.text;
+        var country = countryController.text;
+        bool succesfulCreation = true;
+        try {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              email: email, password: passwordController.text);
+        } on FirebaseAuthException catch (err) {
+          switch (err.message) {
+            case "The email address is already in use by another account.":
+              errorTxt = err.message!;
+              succesfulCreation = false;
+              setState(() {});
+          }
+        } catch (error) {
+          succesfulCreation = false;
+          rethrow;
         }
-      });
+        if (succesfulCreation) {
+          var addResult =
+              await FireConnect.addPlayer('username', email, country);
+          if (addResult != "Player added") {
+            setState(() {
+              errorTxt = addResult;
+            });
+          }
+          var player = await FireConnect.getPlayerByEmail(email);
+          FirebaseAuth.instance.authStateChanges().listen((User? user) {
+            if (user != null) {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => HomePage(player: player)));
+            }
+          });
+        }
+      }
     } else {
-      const Text(
-        "The passwords don't match",
-        style: TextStyle(fontSize: 13, color: Colors.redAccent),
-        textAlign: TextAlign.center,
-      );
+      setState(() {
+        errorTxt = "Passwords do not  match";
+      });
     }
   }
 
@@ -99,153 +123,167 @@ class SignUpState extends State<SignUp> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Row(children: [
-                    Container(
-                        height: 50,
-                        width: _width / 2 - 20,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 13, 77, 174),
-                              width: 2,
+                  Flexible(
+                    flex: 6,
+                    child: Row(children: [
+                      Container(
+                          height: 50,
+                          width: _width / 2 - 20,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: const Color.fromARGB(255, 13, 77, 174),
+                                width: 2,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(25))),
+                          child: ClipRRect(
+                            //used to make circular borders
+                            borderRadius: BorderRadius.circular(30),
+                            child: TextField(
+                              controller: lastNameController,
+                              decoration: const InputDecoration(
+                                labelText: '  First name',
+                              ),
                             ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(25))),
-                        child: ClipRRect(
-                          //used to make circular borders
-                          borderRadius: BorderRadius.circular(30),
-                          child: TextField(
-                            controller: lastNameController,
-                            decoration: const InputDecoration(
-                              labelText: '  First name',
+                          )),
+                      Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          height: 50,
+                          width: _width / 2 - 20,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: const Color.fromARGB(255, 13, 77, 174),
+                                width: 2,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(25))),
+                          child: ClipRRect(
+                            //used to make circular borders
+                            borderRadius: BorderRadius.circular(30),
+                            child: TextField(
+                              controller: firstNameController,
+                              decoration: const InputDecoration(
+                                labelText: '  Last name',
+                              ),
                             ),
-                          ),
-                        )),
-                    Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        height: 50,
-                        width: _width / 2 - 20,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 13, 77, 174),
-                              width: 2,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(25))),
-                        child: ClipRRect(
-                          //used to make circular borders
-                          borderRadius: BorderRadius.circular(30),
-                          child: TextField(
-                            controller: firstNameController,
-                            decoration: const InputDecoration(
-                              labelText: '  Last name',
-                            ),
-                          ),
-                        )),
-                  ]),
+                          )),
+                    ]),
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 13, 77, 174),
-                            width: 2,
+                  Flexible(
+                    flex: 6,
+                    child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: const Color.fromARGB(255, 13, 77, 174),
+                              width: 2,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(25))),
+                        child: ClipRRect(
+                          //used to make circular borders
+                          borderRadius: BorderRadius.circular(30),
+                          child: TextField(
+                            controller: countryController,
+                            decoration: const InputDecoration(
+                              labelText: '  Country',
+                            ),
                           ),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(25))),
-                      child: ClipRRect(
-                        //used to make circular borders
-                        borderRadius: BorderRadius.circular(30),
-                        child: TextField(
-                          controller: countryController,
-                          decoration: const InputDecoration(
-                            labelText: '  Country',
+                        )),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Flexible(
+                    flex: 6,
+                    child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: const Color.fromARGB(255, 13, 77, 174),
+                              width: 2,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(25))),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: TextField(
+                            controller: emailController,
+                            decoration: const InputDecoration(
+                              labelText: '  email address',
+                            ),
                           ),
-                        ),
+                        )),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Flexible(
+                    flex: 6,
+                    child: Row(children: [
+                      Container(
+                          height: 50,
+                          width: _width / 2 - 20,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: const Color.fromARGB(255, 13, 77, 174),
+                                width: 2,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(25))),
+                          child: ClipRRect(
+                            //used to make circular borders
+                            borderRadius: BorderRadius.circular(30),
+                            child: TextField(
+                              obscureText: true,
+                              controller: passwordController,
+                              decoration: const InputDecoration(
+                                labelText: '  Password',
+                              ),
+                            ),
+                          )),
+                      Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          height: 50,
+                          width: _width / 2 - 20,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: const Color.fromARGB(255, 13, 77, 174),
+                                width: 2,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(25))),
+                          child: ClipRRect(
+                            //used to make circular borders
+                            borderRadius: BorderRadius.circular(30),
+                            child: TextField(
+                              obscureText: true,
+                              controller: confirmPasswordController,
+                              decoration: const InputDecoration(
+                                labelText: '  Confirm password',
+                              ),
+                            ),
+                          )),
+                    ]),
+                  ),
+                  Flexible(
+                      flex: 6,
+                      fit: FlexFit.tight,
+                      child: Text(
+                        errorTxt,
+                        style: const TextStyle(fontSize: 34),
                       )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 13, 77, 174),
-                            width: 2,
-                          ),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(25))),
-                      child: ClipRRect(
-                        //used to make circular borders
-                        borderRadius: BorderRadius.circular(30),
-                        child: TextField(
-                          controller: emailController,
-                          decoration: const InputDecoration(
-                            labelText: '  email address',
-                          ),
-                        ),
-                      )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(children: [
-                    Container(
-                        height: 50,
-                        width: _width / 2 - 20,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 13, 77, 174),
-                              width: 2,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(25))),
-                        child: ClipRRect(
-                          //used to make circular borders
-                          borderRadius: BorderRadius.circular(30),
-                          child: TextField(
-                            obscureText: true,
-                            controller: passwordController,
-                            decoration: const InputDecoration(
-                              labelText: '  Password',
-                            ),
-                          ),
-                        )),
-                    Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        height: 50,
-                        width: _width / 2 - 20,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 13, 77, 174),
-                              width: 2,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(25))),
-                        child: ClipRRect(
-                          //used to make circular borders
-                          borderRadius: BorderRadius.circular(30),
-                          child: TextField(
-                            obscureText: true,
-                            controller: confirmPasswordController,
-                            decoration: const InputDecoration(
-                              labelText: '  Confirm password',
-                            ),
-                          ),
-                        )),
-                  ]),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                      width: 100,
-                      height: 50,
+                  Flexible(
+                      flex: 10,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(25),
                           child: ElevatedButton(
