@@ -3,6 +3,7 @@ import 'package:quizup_prototype_1/Login-Signup/Login.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import '../Screens/Home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:country_picker/country_picker.dart';
 
 //Widget for input
 
@@ -33,6 +34,7 @@ class MyStatefulWidget extends StatefulWidget {
 
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
@@ -155,25 +157,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           const SizedBox(
             height: 10,
           ),
-          Container(
-              height: 50,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 13, 77, 174),
-                    width: 2,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(25))),
-              child: ClipRRect(
-                //used to make circular borders
-                borderRadius: BorderRadius.circular(30),
-                child: TextField(
-                  controller: countryController,
-                  decoration: const InputDecoration(
-                    labelText: '  Country',
-                  ),
-                ),
-              )),
+          
           const SizedBox(
             height: 10,
           ),
@@ -257,6 +241,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       if (passwordController.text ==
                               confirmPasswordController.text &&
                           passwordController.text != "") {
+                            
                             signUp();
                             FirebaseAuth.instance.authStateChanges().listen((User? user) {
                               if (user == null) {

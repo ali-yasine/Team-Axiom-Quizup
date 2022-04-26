@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import '../Utilities/player.dart';
-import '../Utilities/question_template.dart';
+import '../../../Utilities/player.dart';
+import '../../../Utilities/question_template.dart';
 
 class FireConnect {
   static Future createPlayer({required String name}) async {
