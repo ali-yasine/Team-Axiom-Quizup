@@ -20,6 +20,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
+    const img = AssetImage('assets/images/panda.jpg');
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
@@ -27,21 +28,8 @@ class Profile extends StatelessWidget {
           Column(
             children: <Widget>[
               Container(
-                width: _width,
-                height: 100,
-                color: const Color.fromARGB(255, 13, 77, 174),
-                child: Container(
-                  margin: const EdgeInsets.only(top: 60),
-                  child: const Text(
-                    "User Profile",
-                    style: TextStyle(fontSize: 30, color: Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              Container(
                   width: _width,
-                  height: 120,
+                  height: 150,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 13, 77, 174),
                     border: Border.all(
@@ -54,17 +42,22 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                   child: Column(children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Row(children: [
-                      Container(
-                        width: 115,
-                        height: 115,
-                        margin: const EdgeInsets.only(left: 140.0),
-                        child: const CircleAvatar(
-                          child: CircleAvatar(
-                            radius: 57.5,
-                            backgroundColor: Colors.grey,
-                            backgroundImage:
-                                AssetImage('assets/images/avatar.png'),
+                      Center(
+                        child: Container(
+                          width: 120,
+                          height: 120,
+                          margin: const EdgeInsets.only(left: 140.0),
+                          child: const CircleAvatar(
+                            child: CircleAvatar(
+                              radius: 60.0,
+                              backgroundColor: Colors.grey,
+                              backgroundImage:
+                                  AssetImage('assets/images/avatar.png'),
+                            ),
                           ),
                         ),
                       ),
@@ -74,12 +67,14 @@ class Profile extends StatelessWidget {
                 height: 10,
               ),
               Column(children: <Widget>[
-                Text(player.username,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 13, 77, 174),
-                    ),
-                    textAlign: TextAlign.center),
+                Center(
+                  child: Text(player.username,
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: Color.fromARGB(255, 13, 77, 174),
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center),
+                ),
                 const SizedBox(height: 10),
                 Container(
                   height: 50,
@@ -103,22 +98,21 @@ class Profile extends StatelessWidget {
                   )),
                 ),
                 Container(
-                    margin: const EdgeInsets.only(left: 25),
-                    width: 100,
+                    width: _width,
                     height: 38,
                     child: const Center(
                         child: Text(
                       " Email Address",
                       style: TextStyle(
-                          fontSize: 14,
-                          color: Color.fromARGB(255, 13, 77, 174),
-                          fontWeight: FontWeight.bold),
+                        fontSize: 14,
+                        color: Color.fromARGB(255, 13, 77, 174),
+                      ),
                     ))),
                 Row(children: [
                   Container(
                     margin: const EdgeInsets.only(right: 5.0, left: 10.0),
                     width: _width / 3 - 20,
-                    height: _width / 3 - 20,
+                    height: 60,
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: const Color.fromARGB(255, 13, 77, 174),
@@ -140,7 +134,7 @@ class Profile extends StatelessWidget {
                   Container(
                       margin: const EdgeInsets.only(right: 5.0, left: 5.0),
                       width: _width / 3 - 20,
-                      height: _width / 3 - 20,
+                      height: 60,
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: const Color.fromARGB(255, 13, 77, 174),
@@ -161,7 +155,7 @@ class Profile extends StatelessWidget {
                   Container(
                       margin: const EdgeInsets.only(right: 5.0, left: 5.0),
                       width: _width / 3 - 20,
-                      height: _width / 3 - 20,
+                      height: 60,
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: const Color.fromARGB(255, 13, 77, 174),
@@ -191,9 +185,9 @@ class Profile extends StatelessWidget {
                             child: Text(
                           " Win rate",
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 13, 77, 174),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 13, 77, 174),
+                          ),
                           textAlign: TextAlign.center,
                         ))),
                     Container(
@@ -204,9 +198,9 @@ class Profile extends StatelessWidget {
                             child: Text(
                           " Global Rank",
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 13, 77, 174),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 13, 77, 174),
+                          ),
                           textAlign: TextAlign.center,
                         ))),
                     Container(
@@ -217,9 +211,9 @@ class Profile extends StatelessWidget {
                             child: Text(
                           "Rank By Country",
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 13, 77, 174),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 13, 77, 174),
+                          ),
                           textAlign: TextAlign.center,
                         ))),
                   ],
@@ -229,7 +223,7 @@ class Profile extends StatelessWidget {
                   Container(
                       margin: const EdgeInsets.only(right: 5.0, left: 10.0),
                       width: _width / 3 - 20,
-                      height: _width / 3 - 20,
+                      height: 60,
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: const Color.fromARGB(255, 13, 77, 174),
@@ -250,7 +244,7 @@ class Profile extends StatelessWidget {
                   Container(
                       margin: const EdgeInsets.only(right: 5.0, left: 5.0),
                       width: _width / 3 - 20,
-                      height: _width / 3 - 20,
+                      height: 60,
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: const Color.fromARGB(255, 13, 77, 174),
@@ -271,7 +265,7 @@ class Profile extends StatelessWidget {
                   Container(
                       margin: const EdgeInsets.only(right: 5.0, left: 5.0),
                       width: _width / 3 - 20,
-                      height: _width / 3 - 20,
+                      height: 60,
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: const Color.fromARGB(255, 13, 77, 174),
@@ -300,9 +294,9 @@ class Profile extends StatelessWidget {
                             child: Text(
                           " Games Played",
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 13, 77, 174),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 13, 77, 174),
+                          ),
                           textAlign: TextAlign.center,
                         ))),
                     Container(
@@ -313,26 +307,87 @@ class Profile extends StatelessWidget {
                             child: Text(
                           " Number Of Games Won",
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 13, 77, 174),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 13, 77, 174),
+                          ),
                           textAlign: TextAlign.center,
                         ))),
                     Container(
                         margin: const EdgeInsets.only(left: 50),
                         width: 80,
-                        height: 38,
+                        height: 42,
                         child: const Center(
                             child: Text(
                           "Average seconds to answer",
                           style: TextStyle(
-                              fontSize: 12,
-                              color: Color.fromARGB(255, 13, 77, 174),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 13, 77, 174),
+                          ),
                           textAlign: TextAlign.center,
                         ))),
                   ],
                 ),
+                const SizedBox(height: 10),
+                Container(
+                    margin: const EdgeInsets.only(right: 5.0, left: 5.0),
+                    width: _width,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 13, 77, 174),
+                          width: 2,
+                        ),
+                        color: Colors.white,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(25))),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Flexible(
+                          child: Container(
+                            width: _width / 3,
+                            height: 90,
+                            decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                    image: img, fit: BoxFit.fill),
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: const Color.fromARGB(255, 13, 77, 174),
+                                  width: 2,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(25))),
+                          ),
+                        ),
+                        Container(
+                            margin:
+                                const EdgeInsets.only(right: 5.0, left: 5.0),
+                            width: _width - _width / 3 - 10,
+                            height: 60,
+                            child: const Center(
+                              child: Text(
+                                "Computer Science",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 28,
+                                    color: Color.fromARGB(255, 13, 77, 174)),
+                              ),
+                            )),
+                      ],
+                    )),
+                Container(
+                    width: _width,
+                    height: 38,
+                    child: const Center(
+                        child: Text(
+                      " Most played subject",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 13, 77, 174),
+                      ),
+                    ))),
               ]),
               const SizedBox(height: 10),
               const SizedBox(

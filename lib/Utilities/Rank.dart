@@ -31,10 +31,10 @@ class Rank extends StatelessWidget {
               flex: 3,
               child: Text(
                 rankNumber.toString(),
-                style: const TextStyle(
+                style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 26,
-                    color: Colors.yellow),
+                    color: Colors.yellow[700]),
                 textAlign: TextAlign.center,
               ),
             ),

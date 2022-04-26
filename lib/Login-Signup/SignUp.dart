@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Login-Signup/Login.dart';
 import '../Screens/Home.dart';
+import 'package:csc_picker/csc_picker.dart';
 
 //Widget for input
 
@@ -13,8 +14,9 @@ class SignUp extends StatefulWidget {
 }
 
 class SignUpState extends State<SignUp> {
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
+  String countryvalue = "";
+  TextEditingController usernameController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController countryController = TextEditingController();
@@ -99,54 +101,6 @@ class SignUpState extends State<SignUp> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Row(children: [
-                    Container(
-                        height: 50,
-                        width: _width / 2 - 20,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 13, 77, 174),
-                              width: 2,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(25))),
-                        child: ClipRRect(
-                          //used to make circular borders
-                          borderRadius: BorderRadius.circular(30),
-                          child: TextField(
-                            controller: lastNameController,
-                            decoration: const InputDecoration(
-                              labelText: '  First name',
-                            ),
-                          ),
-                        )),
-                    Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        height: 50,
-                        width: _width / 2 - 20,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 13, 77, 174),
-                              width: 2,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(25))),
-                        child: ClipRRect(
-                          //used to make circular borders
-                          borderRadius: BorderRadius.circular(30),
-                          child: TextField(
-                            controller: firstNameController,
-                            decoration: const InputDecoration(
-                              labelText: '  Last name',
-                            ),
-                          ),
-                        )),
-                  ]),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   Container(
                       height: 50,
                       decoration: BoxDecoration(
@@ -161,12 +115,68 @@ class SignUpState extends State<SignUp> {
                         //used to make circular borders
                         borderRadius: BorderRadius.circular(30),
                         child: TextField(
-                          controller: countryController,
+                          controller: usernameController,
                           decoration: const InputDecoration(
-                            labelText: '  Country',
+                            labelText: '  username',
                           ),
                         ),
                       )),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CSCPicker(
+                    ///Enable disable state dropdown
+                    showStates: false,
+
+                    /// Enable disable city drop down
+                    showCities: false,
+
+                    ///Enable (get flat with country name) / Disable (Disable flag) / ShowInDropdownOnly (display flag in dropdown only)
+                    flagState: CountryFlag.SHOW_IN_DROP_DOWN_ONLY,
+
+                    ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
+                    dropdownDecoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30)),
+                        color: Colors.white,
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 13, 77, 174),
+                            width: 2)),
+
+                    ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
+                    disabledDropdownDecoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30)),
+                        color: const Color.fromARGB(255, 13, 77, 174),
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 13, 77, 174),
+                            width: 2)),
+
+                    ///selected item style [OPTIONAL PARAMETER]
+                    selectedItemStyle: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold),
+
+                    ///DropdownDialog Heading style [OPTIONAL PARAMETER]
+                    dropdownHeadingStyle: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold),
+
+                    ///DropdownDialog Item style [OPTIONAL PARAMETER]
+                    dropdownItemStyle: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold),
+
+                    onCountryChanged: (value) {
+                      setState(() {
+                        countryvalue = value;
+                      });
+                    },
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
