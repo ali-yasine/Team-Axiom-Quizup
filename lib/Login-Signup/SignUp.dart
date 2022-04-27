@@ -47,7 +47,7 @@ class SignUpState extends State<SignUp> {
         }
         if (succesfulCreation) {
           var addResult =
-              await FireConnect.addPlayer('username', email, country);
+              await FireConnect.addPlayer('has  hem', email, country);
           if (addResult != "Player added") {
             setState(() {
               errorTxt = addResult;

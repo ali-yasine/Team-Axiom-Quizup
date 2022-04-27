@@ -67,10 +67,11 @@ class _MatchingPgeState extends State<MatchingPge> {
           .toList();
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => Quiz(
+              isChallenge: false,
               opponent: opponent,
               questionTemplates: questions,
               player: player,
-              gameID: int.parse(gameID),
+              gameID: (gameID),
               playerNum: 2,
               subject: subject)));
     }
@@ -109,10 +110,11 @@ class _MatchingPgeState extends State<MatchingPge> {
           oppfound = true;
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => Quiz(
+                  isChallenge: false,
                   opponent: opponent,
                   questionTemplates: questions,
                   player: player,
-                  gameID: gameID,
+                  gameID: gameID.toString(),
                   playerNum: 1,
                   subject: subject)));
         }
