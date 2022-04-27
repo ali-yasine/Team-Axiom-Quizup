@@ -176,6 +176,8 @@ class SignUpState extends State<SignUp> {
                         countryvalue = value;
                       });
                     },
+                    onStateChanged: (value) => {},
+                    onCityChanged: (value) => {},
                   ),
                   const SizedBox(
                     height: 10,
