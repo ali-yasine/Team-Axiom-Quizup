@@ -40,7 +40,6 @@ class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     var backgroundColor = Colors.grey[300];
-
     return MaterialApp(
         home: Scaffold(
             backgroundColor: backgroundColor,

@@ -8,7 +8,8 @@ class Quiz extends StatefulWidget {
   final Player player;
   final Player opponent;
   bool isdone = false;
-  final int gameID;
+  final bool isChallenge;
+  final String gameID;
   final List<QuestionTemplate> questionTemplates;
   final String subject;
   final int playerNum;
@@ -21,6 +22,7 @@ class Quiz extends StatefulWidget {
   Quiz(
       {Key? key,
       required this.opponent,
+      required this.isChallenge,
       required this.questionTemplates,
       required this.player,
       required this.gameID,
@@ -39,6 +41,7 @@ class _QuizState extends State<Quiz> {
     widget.questions = widget.questionTemplates
         .map(
           (temp) => Question(
+            isChallenge: widget.isChallenge,
             opponent: widget.opponent,
             questionNum: widget.currentQuestion,
             currentScore: widget.score,
@@ -72,12 +75,12 @@ class _QuizState extends State<Quiz> {
     }
     if (currQuestion.increaseScore == true) {
       widget.correct += 1;
-      widget.score = currQuestion.currentScore;
-      widget.opponentScore = currQuestion.opponentScore;
     } else {
       widget.incorrect += 1;
     }
     setState(() {
+      widget.opponentScore = currQuestion.opponentScore;
+      widget.score = currQuestion.currentScore;
       ++widget.currentQuestion;
     });
   }

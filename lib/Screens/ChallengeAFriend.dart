@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Screens/JoinARoom.dart';
-import 'package:quizup_prototype_1/Screens/MatchingPage.dart';
-import 'package:quizup_prototype_1/Utilities/Rank.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'Home.dart';
 import 'CreateARoom.dart';

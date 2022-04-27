@@ -1,13 +1,20 @@
+// ignore_for_file: must_be_immutable, file_names
+
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:quizup_prototype_1/Screens/MatchingPage.dart';
-import 'package:quizup_prototype_1/Utilities/Rank.dart';
+import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
+import '../Quiz components/quiz.dart';
+import '../Utilities/question_template.dart';
 import 'Home.dart';
 
-class CreateARoom extends StatelessWidget {
+class CreateARoom extends StatefulWidget {
   final String subject;
   final Player player;
+
   const CreateARoom({
     Key? key,
     required this.subject,
@@ -15,14 +22,84 @@ class CreateARoom extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<CreateARoom> createState() => _CreateARoomState();
+}
+
+class _CreateARoomState extends State<CreateARoom> {
+  bool oppfound = false;
+  DocumentReference<Map<String, dynamic>>? gamedoc;
+  String generateToken(int length) {
+    const ch = '1234567890';
+    Random r = Random();
+    return String.fromCharCodes(
+        Iterable.generate(length, (_) => ch.codeUnitAt(r.nextInt(ch.length))));
+  }
+
+  Future<void> removeGameDoc(
+      DocumentReference<Map<String, dynamic>>? gamedoc) async {
+    if (gamedoc != null) {
+      if (!oppfound) {
+        gamedoc.delete();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    removeGameDoc(gamedoc);
+    super.dispose();
+  }
+
+  Future<void> createRoom(
+      Player player, String subject, BuildContext context, String id) async {
+    var questions = await FireConnect.readQuestions(subject, 7);
+    Map<String, dynamic> hasAnswered = {};
+    for (int i = 0; i < questions.length; i++) {
+      hasAnswered.addAll({
+        "Player1 Answered " + i.toString(): false,
+        "Player2 Answered " + i.toString(): false
+      });
+    }
+    Map<String, dynamic> entryMap = {
+      ("Player1"): player.username,
+      ("Player2"): "",
+      "Questions": questions.map((e) => QuestionTemplate.toJson(e)).toList(),
+      "Player1 Score": 0,
+      "Player2 Score": 0,
+    };
+    entryMap.addAll(hasAnswered);
+    gamedoc = FirebaseFirestore.instance.collection('Challenges').doc(id);
+    gamedoc!.set(entryMap);
+    gamedoc!.snapshots().listen((event) async {
+      if (!oppfound) {
+        if (event.data() != null) {
+          if (event.data()!["Player2"] != "") {
+            var opponent =
+                await FireConnect.getPlayer(event.data()!["Player2"]);
+            oppfound = true;
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => Quiz(
+                    isChallenge: true,
+                    opponent: opponent,
+                    questionTemplates: questions,
+                    player: player,
+                    gameID: id,
+                    playerNum: 1,
+                    subject: subject)));
+          }
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     const img = AssetImage('assets/images/panda.jpg');
-    const token = "100323";
+    var token = generateToken(6);
     const _profileRadius = 35.0;
     const _iconSize = 40.0;
-    const buttonColor = Color.fromRGBO(51, 156, 251, 0);
-
+    createRoom(widget.player, widget.subject, context, token);
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: Column(children: [
@@ -32,7 +109,7 @@ class CreateARoom extends StatelessWidget {
             onPressed: () =>
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => HomePage(
-                          player: player,
+                          player: widget.player,
                         ))),
             icon: const Icon(
               Icons.arrow_back_rounded,
@@ -72,7 +149,7 @@ class CreateARoom extends StatelessWidget {
                       child: Center(
                           child: FittedBox(
                               child: Text(
-                                player.username,
+                                widget.player.username,
                                 style: const TextStyle(
                                     color: Color.fromARGB(255, 13, 77, 174)),
                                 textAlign: TextAlign.center,
@@ -125,11 +202,11 @@ class CreateARoom extends StatelessWidget {
                             const BorderRadius.all(Radius.circular(25))),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: const Center(
+                        child: Center(
                             child: FittedBox(
                                 child: Text(
                                   token,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color.fromARGB(255, 13, 77, 174)),
                                   textAlign: TextAlign.center,
                                 ),
@@ -141,26 +218,23 @@ class CreateARoom extends StatelessWidget {
                     color: Colors.grey[300],
                   )),
               Flexible(
-                child: Container(
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(25),
-                      child: ElevatedButton(
-                        onPressed: () =>
-                            {Clipboard.setData(ClipboardData(text: token))},
-                        child: const FittedBox(
-                            child: Text(
-                              "copy",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
-                              textAlign: TextAlign.center,
-                            ),
-                            fit: BoxFit.fill),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                          const Color.fromARGB(255, 13, 77, 174),
-                        )),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: ElevatedButton(
+                      onPressed: () =>
+                          {Clipboard.setData(ClipboardData(text: token))},
+                      child: const FittedBox(
+                          child: Text(
+                            "copy",
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
+                          fit: BoxFit.fill),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 13, 77, 174),
                       )),
-                ),
+                    )),
                 flex: 8,
               )
             ]),
