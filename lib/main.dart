@@ -1,4 +1,5 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
@@ -37,6 +38,25 @@ Future main() async {
   await Firebase.initializeApp();
   runApp(MaterialApp(home: Login()));
 }
+
+/*class MainPage extends StatelessWidget {
+  final user = FirebaseAuth.instance.currentUser!;
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              Player player =
+                  FireConnect.getPlayerByEmail(User.email!) as Player;
+              return Home(player: player);
+            } else {
+              return Login();
+            }
+          },
+        ),
+      );
+}*/
 
 class UploadImages extends StatelessWidget {
   const UploadImages({Key? key}) : super(key: key);

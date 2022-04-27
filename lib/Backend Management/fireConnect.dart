@@ -47,4 +47,12 @@ class FireConnect {
         .get();
     return Player.fromJson(querySnapshot.docs.first.data());
   }
+
+  Future<Player> getPlayerByEmail(String? email) async {
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection('Player')
+        .where('Email', isEqualTo: email)
+        .get();
+    return Player.fromJson(querySnapshot.docs.first.data());
+  }
 }

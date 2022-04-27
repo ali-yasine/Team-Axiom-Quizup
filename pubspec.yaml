@@ -41,6 +41,7 @@ dependencies:
   file_picker: ^4.5.1
   firebase_storage: ^10.2.12
   country_picker: ^2.0.14
+  fluttertoast: ^8.0.9
 
 dev_dependencies:
   flutter_test:

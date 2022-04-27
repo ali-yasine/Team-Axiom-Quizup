@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:quizup_prototype_1/Login-Signup/forgotPassword.dart';
 import 'package:quizup_prototype_1/Screens/Home.dart';
 import 'package:quizup_prototype_1/Login-Signup/SignUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,6 +41,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       print(e);
     }
   }
+
   Future resetPassword() async {
     try {
       await FirebaseAuth.instance
@@ -48,6 +50,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       print(e);
     }
   }
+
   final img = const AssetImage("assets/images/panda.jpg");
 
   @override
@@ -117,7 +120,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 )),
             TextButton(
               onPressed: () {
-                resetPassword();
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const ForgetPassword()));
+
                 //forgot password screen
               },
               child: const Text(
@@ -132,23 +137,29 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     child: ElevatedButton(
                       onPressed: () {
                         signIn();
-                        FirebaseAuth.instance.authStateChanges().listen((User? user) {
-                          if (user == null) {print('User is currently signed out!');
-                        } else { Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            //TODO fix hardcoded player
-                            builder: (context) => HomePage(
-                                  player: Player(
-                                    username: "user",
-                                    email: "email@domain.com",
-                                    avatar: img,
-                                    gamesPlayed: 10,
-                                    gamesWon: 6,
-                                    avgSecondsToAnswer: 4,
-                                    rankGlobal: 12,
-                                    rankByCountry: 3,
-                                  ),
-                                )));}
-  });
+                        FirebaseAuth.instance
+                            .authStateChanges()
+                            .listen((User? user) {
+                          if (user == null) {
+                            print('User is currently signed out!');
+                          } else {
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                                    //TODO fix hardcoded player
+                                    builder: (context) => HomePage(
+                                          player: Player(
+                                            username: "user",
+                                            email: "email@domain.com",
+                                            avatar: img,
+                                            gamesPlayed: 10,
+                                            gamesWon: 6,
+                                            avgSecondsToAnswer: 4,
+                                            rankGlobal: 12,
+                                            rankByCountry: 3,
+                                          ),
+                                        )));
+                          }
+                        });
                       },
                       child: const Text(
                         "Login",
