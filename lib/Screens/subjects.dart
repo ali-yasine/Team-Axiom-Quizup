@@ -39,11 +39,11 @@ class Subjects extends StatelessWidget {
                     width: 60,
                     height: 60,
                     margin: const EdgeInsets.only(left: 5),
-                    child: const CircleAvatar(
+                    child: CircleAvatar(
                       child: CircleAvatar(
                         radius: 33,
                         backgroundColor: Colors.grey,
-                        backgroundImage: AssetImage('assets/images/avatar.png'),
+                        child: player.avatar,
                       ),
                     ),
                   ),

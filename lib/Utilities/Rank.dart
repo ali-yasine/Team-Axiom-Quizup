@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Rank extends StatelessWidget {
   final int rankNumber;
   final String username;
-  final int score;
+  final String score;
   final String country;
 
   const Rank(

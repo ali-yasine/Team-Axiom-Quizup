@@ -18,16 +18,17 @@ class Login extends StatefulWidget {
 class LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final img = const AssetImage("assets/images/panda.jpg");
   Future signIn() async {
     var email = emailController.text;
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email, password: passwordController.text);
-    Player player = await FireConnect.getPlayerByEmail(email);
+    Player? player;
+    player = await FireConnect.getPlayerByEmail(email);
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
+        print("Player is null: ${player == null}");
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomePage(player: player)));
+            MaterialPageRoute(builder: (context) => HomePage(player: player!)));
       }
     });
   }
@@ -40,7 +41,6 @@ class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     var backgroundColor = Colors.grey[300];
-
     return MaterialApp(
         home: Scaffold(
             backgroundColor: backgroundColor,

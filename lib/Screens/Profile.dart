@@ -1,27 +1,44 @@
 // ignore_for_file: file_names
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:flutter/material.dart';
 import 'Home.dart';
 
-class ProfilePage extends StatelessWidget {
-  final Player player;
-  const ProfilePage({Key? key, required this.player}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  Player player;
+  ProfilePage({Key? key, required this.player}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: Profile(player: player));
-  }
+  State<ProfilePage> createState() => _ProfileState();
 }
 
-class Profile extends StatelessWidget {
-  final Player player;
-  const Profile({Key? key, required this.player}) : super(key: key);
+class _ProfileState extends State<ProfilePage> {
+  Future uploadImage() async {
+    final results = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.image,
+    );
+    String imagePath;
+    if (results == null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("no file was picked")));
+    } else {
+      imagePath = results.files.single.path!;
+      await FireConnect.uploadAvatar(imagePath, widget.player.username);
+      widget.player = await FireConnect.getPlayer(widget.player.username);
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    const img = AssetImage('assets/images/panda.jpg');
-    return Scaffold(
+
+        home: Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
         child: Stack(children: <Widget>[
@@ -46,21 +63,23 @@ class Profile extends StatelessWidget {
                       height: 20,
                     ),
                     Row(children: [
-                      Center(
+                     Center(
                         child: Container(
                           width: 120,
                           height: 120,
                           margin: const EdgeInsets.only(left: 140.0),
-                          child: const CircleAvatar(
+                          child: 
+                          child: InkWell(
                             child: CircleAvatar(
-                              radius: 60.0,
-                              backgroundColor: Colors.grey,
-                              backgroundImage:
-                                  AssetImage('assets/images/avatar.png'),
-                            ),
-                          ),
-                        ),
-                      ),
+                                radius: 60,
+                                backgroundColor: Colors.grey,
+                                child: Expanded(
+                                  child: ClipOval(child: widget.player.avatar),
+                                )),
+                            onTap: () async {
+                              uploadImage();
+                            },
+                          )),
                     ]),
                   ])),
               const SizedBox(
@@ -75,6 +94,7 @@ class Profile extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center),
                 ),
+
                 const SizedBox(height: 10),
                 Container(
                   height: 50,
@@ -90,7 +110,7 @@ class Profile extends StatelessWidget {
                           const BorderRadius.all(Radius.circular(25))),
                   child: Center(
                       child: Text(
-                    player.email,
+                    widget.player.email,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(255, 13, 77, 174)),
@@ -123,7 +143,8 @@ class Profile extends StatelessWidget {
                             const BorderRadius.all(Radius.circular(25))),
                     child: Center(
                       child: Text(
-                        (player.gamesWon / player.gamesPlayed).toString(),
+                        (widget.player.gamesWon / widget.player.gamesPlayed)
+                            .toString(),
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                             fontSize: 40,
@@ -145,7 +166,7 @@ class Profile extends StatelessWidget {
                               const BorderRadius.all(Radius.circular(25))),
                       child: Center(
                         child: Text(
-                          player.gamesPlayed.toString(),
+                          widget.player.gamesPlayed.toString(),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 40,
@@ -234,7 +255,7 @@ class Profile extends StatelessWidget {
                               const BorderRadius.all(Radius.circular(25))),
                       child: Center(
                         child: Text(
-                          player.gamesPlayed.toString(),
+                          widget.player.gamesPlayed.toString(),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 40,
@@ -255,7 +276,7 @@ class Profile extends StatelessWidget {
                               const BorderRadius.all(Radius.circular(25))),
                       child: Center(
                         child: Text(
-                          player.gamesWon.toString(),
+                          widget.player.gamesWon.toString(),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 40,
@@ -276,7 +297,7 @@ class Profile extends StatelessWidget {
                               const BorderRadius.all(Radius.circular(25))),
                       child: Center(
                         child: Text(
-                          player.avgSecondsToAnswer.toString(),
+                          widget.player.avgSecondsToAnswer.toString(),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 40,
@@ -413,12 +434,12 @@ class Profile extends StatelessWidget {
               break;
             case 1:
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => HomePage(player: player)));
+                  builder: (context) => HomePage(player: widget.player)));
               break;
             case 2:
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => Leaderboard(
-                        player: player,
+                        player: widget.player,
                       )));
               break;
             default:
@@ -434,6 +455,6 @@ class Profile extends StatelessWidget {
               label: "leaderboard"),
         ],
       ),
-    );
+    ));
   }
 }

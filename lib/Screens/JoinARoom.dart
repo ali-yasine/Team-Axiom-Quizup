@@ -1,11 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:quizup_prototype_1/Screens/MatchingPage.dart';
-import 'package:quizup_prototype_1/Utilities/Rank.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
+import '../Backend Management/fireConnect.dart';
+import '../Quiz components/quiz.dart';
+import '../Utilities/question_template.dart';
 import 'Home.dart';
 
-class JoinARoom extends StatelessWidget {
+class JoinARoom extends StatefulWidget {
   final String subject;
   final Player player;
   const JoinARoom({
@@ -15,15 +16,63 @@ class JoinARoom extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<JoinARoom> createState() => _JoinARoomState();
+}
+
+class _JoinARoomState extends State<JoinARoom> {
+  TextEditingController idController = TextEditingController();
+  bool attemptedToFind = false;
+  bool roomFound = false;
+  Future<void> findRoom(String roomID, BuildContext context) async {
+    var challenge = await FirebaseFirestore.instance
+        .collection('Challenges')
+        .doc(roomID)
+        .get();
+    if (!challenge.exists) {
+      setState(() {
+        attemptedToFind = true;
+      });
+    } else {
+      roomFound = true;
+      await challenge.reference.update({"Player2": widget.player.username});
+      Player opponent =
+          await FireConnect.getPlayer(challenge.data()!["Player1"]);
+      List<QuestionTemplate> questions = challenge
+          .data()!["Questions"]
+          .map<QuestionTemplate>((e) => QuestionTemplate.fromJson(e))
+          .toList();
+      String subject = questions.first.subject;
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => Quiz(
+              opponent: opponent,
+              isChallenge: true,
+              questionTemplates: questions,
+              player: widget.player,
+              gameID: roomID,
+              playerNum: 2,
+              subject: subject)));
+    }
+  }
+
+  Widget getRoomNotFoundWidget() {
+    if (attemptedToFind && !roomFound) {
+      return const Text(
+        "Room not found",
+        style: TextStyle(fontSize: 28),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    const img = AssetImage('assets/images/panda.jpg');
-    TextEditingController IDController = TextEditingController();
     const _profileRadius = 35.0;
     const _iconSize = 40.0;
-    const buttonColor = Color.fromRGBO(51, 156, 251, 0);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[300],
       body: Column(children: [
         Flexible(
@@ -32,7 +81,7 @@ class JoinARoom extends StatelessWidget {
             onPressed: () =>
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => HomePage(
-                          player: player,
+                          player: widget.player,
                         ))),
             icon: const Icon(
               Icons.arrow_back_rounded,
@@ -46,11 +95,11 @@ class JoinARoom extends StatelessWidget {
         Flexible(
             child: Row(children: [
               Container(
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                       child: CircleAvatar(
                         radius: _profileRadius - 2,
                         backgroundColor: Colors.grey,
-                        backgroundImage: img,
+                        child: widget.player.avatar,
                       ),
                       radius: _profileRadius),
                   margin: const EdgeInsets.only(left: 10)),
@@ -72,7 +121,7 @@ class JoinARoom extends StatelessWidget {
                       child: Center(
                           child: FittedBox(
                               child: Text(
-                                player.username,
+                                widget.player.username,
                                 style: const TextStyle(
                                     color: Color.fromARGB(255, 13, 77, 174)),
                                 textAlign: TextAlign.center,
@@ -130,7 +179,7 @@ class JoinARoom extends StatelessWidget {
                       //used to make circular borders
                       borderRadius: BorderRadius.circular(30),
                       child: TextField(
-                        controller: IDController,
+                        controller: idController,
                         decoration: const InputDecoration(
                           labelText: '  Enter the room ID',
                         ),
@@ -150,19 +199,25 @@ class JoinARoom extends StatelessWidget {
               color: Colors.grey[300],
             )),
         Flexible(
+          child: getRoomNotFoundWidget(),
+          fit: FlexFit.tight,
+          flex: 2,
+        ),
+        Flexible(
             flex: 4,
             child: Row(
               children: [
                 Flexible(
                     flex: 10,
                     child: Center(
-                      child: Container(
+                      child: SizedBox(
                         height: 50,
                         width: _width / 2,
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: ElevatedButton(
-                              onPressed: () => {},
+                              onPressed: () =>
+                                  findRoom(idController.text, context),
                               child: const Text(
                                 "Join",
                                 style: TextStyle(

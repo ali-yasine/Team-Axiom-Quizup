@@ -10,16 +10,18 @@ class Question extends StatefulWidget {
   final String correctAnswerTxt;
   final String subject;
   final Player player;
+  final bool isChallenge;
   int opponentScore;
   int questionNum;
   int currentScore;
   final int playerNum;
   final Player opponent;
   final VoidCallback onFinish;
-  final int gameID;
+  final String gameID;
   // ignore: prefer_const_constructors_in_immutables
   Question(
       {Key? key,
+      required this.isChallenge,
       required this.questionNum,
       required this.opponentScore,
       required this.gameID,
@@ -91,11 +93,19 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
   }
 
   Future<void> updateDoc() async {
-    var game = FirebaseFirestore.instance
-        .collection('Contests')
-        .doc(widget.subject)
-        .collection('contests')
-        .doc(widget.gameID.toString());
+    DocumentReference<Map<String, dynamic>> game;
+
+    if (!widget.isChallenge) {
+      game = FirebaseFirestore.instance
+          .collection('Contests')
+          .doc(widget.subject)
+          .collection('contests')
+          .doc(widget.gameID);
+    } else {
+      game = FirebaseFirestore.instance
+          .collection('Challenges')
+          .doc(widget.gameID);
+    }
     game.update({
       (playerNum + " Score"): widget.currentScore,
       (playerNum + " Answered " + widget.questionNum.toString()): true
@@ -155,23 +165,30 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
   }
 
   void beginListener() {
-    var game = FirebaseFirestore.instance
-        .collection('Contests')
-        .doc(widget.subject)
-        .collection('contests')
-        .doc(widget.gameID.toString());
+    DocumentReference<Map<String, dynamic>> game;
+    if (!widget.isChallenge) {
+      game = FirebaseFirestore.instance
+          .collection('Contests')
+          .doc(widget.subject)
+          .collection('contests')
+          .doc(widget.gameID);
+    } else {
+      game = FirebaseFirestore.instance
+          .collection('Challenges')
+          .doc(widget.gameID);
+    }
     game.snapshots().listen((event) {
       if ((event.data())![
           opponentNum + " Answered " + widget.questionNum.toString()]) {
         opponentTimer.stop();
 
-        widget.opponentScore = event.data()![opponentNum + " Score"];
         setState(() {});
       }
       if ((event.data())![
               opponentNum + " Answered " + widget.questionNum.toString()] &&
           (event.data())![
               playerNum + " Answered " + widget.questionNum.toString()]) {
+        widget.opponentScore = event.data()![opponentNum + " Score"];
         Future.delayed(const Duration(milliseconds: 500))
             .then((value) => widget.onFinish());
       }
@@ -205,12 +222,11 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                       width: 60,
                       height: 60,
                       margin: const EdgeInsets.only(left: 5, right: 10),
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         child: CircleAvatar(
                           radius: 33,
                           backgroundColor: Colors.grey,
-                          backgroundImage:
-                              AssetImage('assets/images/avatar.png'),
+                          child: widget.player.avatar,
                         ),
                       ),
                     ),
@@ -278,12 +294,11 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                     child: Container(
                       width: 60,
                       height: 60,
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         child: CircleAvatar(
                           radius: 33,
                           backgroundColor: Colors.grey,
-                          backgroundImage:
-                              AssetImage('assets/images/avatar.png'),
+                          child: widget.opponent.avatar,
                         ),
                       ),
                     ),

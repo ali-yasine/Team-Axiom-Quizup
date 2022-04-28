@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Player {
   final String username;
-  AssetImage avatar;
+  Image avatar;
   final String email;
   int gamesWon;
   int avgSecondsToAnswer;
@@ -17,8 +17,8 @@ class Player {
       required this.gamesWon,
       required this.avgSecondsToAnswer,
       required this.gamesPlayed});
-  static Player fromJson(Map<String, dynamic> json) => Player(
-      avatar: const AssetImage("assets/images/avatar.png"),
+  static Player fromJson(Map<String, dynamic> json, Image avatar) => Player(
+      avatar: avatar,
       country: json['Country'],
       username: json["Username"],
       gamesPlayed: json["GamesPlayed"],

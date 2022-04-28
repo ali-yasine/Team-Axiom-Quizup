@@ -68,9 +68,7 @@ class HomeState extends State<HomePage> {
   Widget build(BuildContext context) {
     Color blue = const Color.fromARGB(255, 13, 77, 174);
     double _width = MediaQuery.of(context).size.width;
-    if (_loadingSubjects) {
-      return Container();
-    }
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
@@ -94,12 +92,10 @@ class HomeState extends State<HomePage> {
                 width: 60,
                 height: 60,
                 margin: const EdgeInsets.only(left: 5),
-                child: const CircleAvatar(
-                  child: CircleAvatar(
-                    radius: 33,
-                    backgroundColor: Colors.grey,
-                    backgroundImage: AssetImage('assets/images/avatar.png'),
-                  ),
+                child: CircleAvatar(
+                  radius: 33,
+                  backgroundColor: Colors.grey,
+                  child: widget.player.avatar,
                 ),
               ),
               Flexible(
@@ -140,7 +136,9 @@ class HomeState extends State<HomePage> {
                   child: ElevatedButton(
                     onPressed: () => {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const Settings()))
+                          builder: (context) => Settings(
+                                player: widget.player,
+                              )))
                     },
                     child: const Icon(
                       IconData(

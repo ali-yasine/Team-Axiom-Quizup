@@ -67,10 +67,11 @@ class _MatchingPgeState extends State<MatchingPge> {
           .toList();
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => Quiz(
+              isChallenge: false,
               opponent: opponent,
               questionTemplates: questions,
               player: player,
-              gameID: int.parse(gameID),
+              gameID: (gameID),
               playerNum: 2,
               subject: subject)));
     }
@@ -109,10 +110,11 @@ class _MatchingPgeState extends State<MatchingPge> {
           oppfound = true;
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => Quiz(
+                  isChallenge: false,
                   opponent: opponent,
                   questionTemplates: questions,
                   player: player,
-                  gameID: gameID,
+                  gameID: gameID.toString(),
                   playerNum: 1,
                   subject: subject)));
         }
@@ -152,10 +154,63 @@ class _MatchingPgeState extends State<MatchingPge> {
                   ("Please wait, we are assigning a player for you"),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 30, color: Color.fromARGB(255, 13, 77, 174)),
-                ),
-              ),
-              CircularProgressIndicator(),
-            ]));
+
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(51, 156, 254, 10)))),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  child: CircleAvatar(
+                      child: CircleAvatar(
+                        radius: 45,
+                        backgroundColor: Colors.grey,
+                        child: widget.player.avatar,
+                      ),
+                      radius: 47),
+                  margin: const EdgeInsets.only(left: 10, bottom: 40)),
+              Container(
+                  margin: const EdgeInsets.only(right: 15.0),
+                  width: 250,
+                  height: 35,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        color: const Color.fromRGBO(51, 156, 254, 10),
+                        width: 1,
+                      ),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(25))),
+                  child: ClipRRect(
+                      //used to make circular borders
+                      borderRadius: BorderRadius.circular(15),
+                      child: Center(
+                          child: Text(
+                        widget.player.username,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            color: Color.fromRGBO(51, 156, 254, 10)),
+                        textAlign: TextAlign.center,
+                      )))),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+              margin: const EdgeInsets.only(left: 30.0),
+              alignment: Alignment.centerLeft,
+              child: const Text("Player 2 ",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(51, 156, 254, 10)))),
+          const SizedBox(
+            height: 5,
+          ),
+          const CircularProgressIndicator(),
+        ]));
   }
 }
