@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 
 class SubjectIcon extends StatelessWidget {
   final String subject;
-  final String imageRef;
   final VoidCallback onTap;
-  const SubjectIcon(
-      {Key? key,
-      required this.subject,
-      required this.imageRef,
-      required this.onTap})
+  const SubjectIcon({Key? key, required this.subject, required this.onTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

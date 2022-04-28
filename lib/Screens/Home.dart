@@ -30,7 +30,6 @@ class HomeState extends State<HomePage> {
     subjectIcons = subjectNames
         .map((subject) => SubjectIcon(
             subject: subject,
-            imageRef: 'assets/images/sports.png',
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) =>
                     SubjectScreen(subject: subject, player: widget.player)))))
@@ -173,7 +172,6 @@ class HomeState extends State<HomePage> {
                   Flexible(
                     child: Center(
                       child: TextField(
-                        autofillHints: subjectNames,
                         onChanged: (queury) => {searchSubjects(queury)},
                       ),
                     ),

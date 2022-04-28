@@ -79,9 +79,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
   @override
   Widget build(BuildContext context) {
     getTopthree();
+    final subjectImage = AssetImage('assets/images/${widget.subject}.jpeg');
     double _width = MediaQuery.of(context).size.width;
-    const img = AssetImage('assets/images/panda.jpg');
-
     const _profileRadius = 35.0;
     const _iconSize = 40.0;
     const buttonColor = Color.fromRGBO(51, 156, 251, 0);
@@ -173,7 +172,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 width: 300,
                 height: 250,
                 decoration: BoxDecoration(
-                    image: const DecorationImage(image: img, fit: BoxFit.fill),
+                    image:
+                        DecorationImage(image: subjectImage, fit: BoxFit.fill),
                     color: Colors.white,
                     border: Border.all(
                       color: const Color.fromARGB(255, 13, 77, 174),

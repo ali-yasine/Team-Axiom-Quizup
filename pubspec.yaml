@@ -77,7 +77,7 @@ flutter:
     - assets/images/Social science.jpeg
     - assets/images/History.jpeg
     - assets/images/Music.jpeg
-    - assets/images/Computer science.jpeg
+    - assets/images/Computer Science.jpeg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
