@@ -95,7 +95,6 @@ class _CreateARoomState extends State<CreateARoom> {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    const img = AssetImage('assets/images/panda.jpg');
     var token = generateToken(6);
     const _profileRadius = 35.0;
     const _iconSize = 40.0;
@@ -123,11 +122,11 @@ class _CreateARoomState extends State<CreateARoom> {
         Flexible(
             child: Row(children: [
               Container(
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                       child: CircleAvatar(
                         radius: _profileRadius - 2,
                         backgroundColor: Colors.grey,
-                        backgroundImage: img,
+                        child: widget.player.avatar,
                       ),
                       radius: _profileRadius),
                   margin: const EdgeInsets.only(left: 10)),

@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/Profile.dart';
 import 'package:quizup_prototype_1/Screens/countries.dart';
@@ -21,18 +19,24 @@ class _LeaderboardState extends State<Leaderboard> {
   late List<Rank> players;
   bool loaded = false;
   Future<void> getPlayers() async {
-    print("getting");
     var playerMap = await FireConnect.getGlobalLeaderBoard();
     players = playerMap.entries
         .map((entry) => Rank(
               username: entry.key,
               rankNumber: 0,
               country: entry.value[0],
-              score: entry.value[1],
+              score: entry.value[1].toString(),
             ))
         .toList();
     players.sort((b, a) => a.score.compareTo(b.score));
-    print("sorted");
+    for (int i = 0; i < players.length; i++) {
+      var rank = players[i];
+      players[i] = Rank(
+          country: rank.country,
+          score: rank.score,
+          username: rank.username,
+          rankNumber: i + 1);
+    }
     setState(() {
       loaded = true;
     });
@@ -77,12 +81,11 @@ class _LeaderboardState extends State<Leaderboard> {
                         width: 60,
                         height: 60,
                         margin: const EdgeInsets.only(left: 5),
-                        child: const CircleAvatar(
+                        child: CircleAvatar(
                           child: CircleAvatar(
                             radius: 33,
                             backgroundColor: Colors.grey,
-                            backgroundImage:
-                                AssetImage('assets/images/avatar.png'),
+                            child: widget.player.avatar,
                           ),
                         ),
                       ),

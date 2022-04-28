@@ -14,7 +14,6 @@ class countries extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    double _height = MediaQuery.of(context).size.height;
     return MaterialApp(
         home: Scaffold(
       backgroundColor: Colors.grey[300],
@@ -42,11 +41,11 @@ class countries extends StatelessWidget {
                     width: 60,
                     height: 60,
                     margin: const EdgeInsets.only(left: 5),
-                    child: const CircleAvatar(
+                    child: CircleAvatar(
                       child: CircleAvatar(
                         radius: 33,
                         backgroundColor: Colors.grey,
-                        backgroundImage: AssetImage('assets/images/avatar.png'),
+                        child: player.avatar,
                       ),
                     ),
                   ),

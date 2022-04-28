@@ -222,12 +222,11 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                       width: 60,
                       height: 60,
                       margin: const EdgeInsets.only(left: 5, right: 10),
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         child: CircleAvatar(
                           radius: 33,
                           backgroundColor: Colors.grey,
-                          backgroundImage:
-                              AssetImage('assets/images/avatar.png'),
+                          child: widget.player.avatar,
                         ),
                       ),
                     ),
@@ -285,12 +284,11 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                     child: Container(
                       width: 60,
                       height: 60,
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         child: CircleAvatar(
                           radius: 33,
                           backgroundColor: Colors.grey,
-                          backgroundImage:
-                              AssetImage('assets/images/avatar.png'),
+                          child: widget.opponent.avatar,
                         ),
                       ),
                     ),

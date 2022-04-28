@@ -200,11 +200,11 @@ class _MatchingPgeState extends State<MatchingPge> {
           Row(
             children: [
               Container(
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                       child: CircleAvatar(
                         radius: 45,
                         backgroundColor: Colors.grey,
-                        backgroundImage: img,
+                        child: widget.player.avatar,
                       ),
                       radius: 47),
                   margin: const EdgeInsets.only(left: 10, bottom: 40)),

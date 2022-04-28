@@ -1,14 +1,14 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/ChallengeAFriend.dart';
 import 'package:quizup_prototype_1/Screens/MatchingPage.dart';
 import 'package:quizup_prototype_1/Utilities/Rank.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'Home.dart';
 
-class SubjectScreen extends StatelessWidget {
+class SubjectScreen extends StatefulWidget {
   final String subject;
   final Player player;
   const SubjectScreen({
@@ -16,16 +16,67 @@ class SubjectScreen extends StatelessWidget {
     required this.subject,
     required this.player,
   }) : super(key: key);
+
+  @override
+  State<SubjectScreen> createState() => _SubjectScreenState();
+}
+
+class _SubjectScreenState extends State<SubjectScreen> {
   void play(BuildContext context) async {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => MatchingPge(
-              subject: subject,
-              player: player,
+              subject: widget.subject,
+              player: widget.player,
             )));
+  }
+
+  List<Rank> players = [];
+
+  Future<void> getTopthree() async {
+    var playerRanks = await FireConnect.getLeaderBoard(widget.subject);
+    players = playerRanks.entries
+        .map((entry) => Rank(
+              username: entry.key,
+              rankNumber: 0,
+              country: entry.value[0],
+              score: entry.value[1].toString(),
+            ))
+        .toList();
+    players.sort((a, b) => a.score.compareTo(b.score));
+    for (int i = 0; i < players.length; i++) {
+      var rank = players[i];
+      players[i] = Rank(
+          country: rank.country,
+          score: rank.score,
+          username: rank.username,
+          rankNumber: i + 1);
+    }
+    if (players.length < 3) {
+      for (int i = players.length; i < 3; i++) {
+        players.add(Rank(
+          country: "",
+          username: "",
+          score: "",
+          rankNumber: i + 1,
+        ));
+      }
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    players = const [
+      Rank(rankNumber: 1, username: "", score: "", country: ""),
+      Rank(rankNumber: 2, username: "", score: "", country: ""),
+      Rank(rankNumber: 3, username: "", score: "", country: "")
+    ];
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    getTopthree();
     double _width = MediaQuery.of(context).size.width;
     const img = AssetImage('assets/images/panda.jpg');
 
@@ -42,7 +93,7 @@ class SubjectScreen extends StatelessWidget {
               onPressed: () =>
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => HomePage(
-                            player: player,
+                            player: widget.player,
                           ))),
               icon: const Icon(
                 Icons.arrow_back_rounded,
@@ -56,11 +107,11 @@ class SubjectScreen extends StatelessWidget {
           Flexible(
               child: Row(children: [
                 Container(
-                    child: const CircleAvatar(
+                    child: CircleAvatar(
                         child: CircleAvatar(
                           radius: _profileRadius - 2,
                           backgroundColor: Colors.grey,
-                          backgroundImage: img,
+                          child: widget.player.avatar,
                         ),
                         radius: _profileRadius),
                     margin: const EdgeInsets.only(left: 10)),
@@ -82,7 +133,7 @@ class SubjectScreen extends StatelessWidget {
                         child: Center(
                             child: FittedBox(
                                 child: Text(
-                                  player.username,
+                                  widget.player.username,
                                   style: const TextStyle(
                                       color: Color.fromARGB(255, 13, 77, 174)),
                                   textAlign: TextAlign.center,
@@ -105,7 +156,7 @@ class SubjectScreen extends StatelessWidget {
                 ),
                 child: Center(
                     child: Text(
-                  subject,
+                  widget.subject,
                   style: const TextStyle(
                       fontSize: 26, color: Color.fromARGB(255, 13, 77, 174)),
                   textAlign: TextAlign.center,
@@ -141,33 +192,15 @@ class SubjectScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold))),
               flex: 8),
           Flexible(
-            child: Container(
-              child: const Rank(
-                  rankNumber: 1,
-                  username: "husseindakroub",
-                  score: 68,
-                  country: "Brazil"),
-            ),
+            child: players.first,
             flex: 10,
           ),
           Flexible(
-            child: Container(
-              child: const Rank(
-                  rankNumber: 2,
-                  username: "Safifakih",
-                  score: 57,
-                  country: "Germany"),
-            ),
+            child: players[1],
             flex: 10,
           ),
           Flexible(
-            child: Container(
-              child: const Rank(
-                  rankNumber: 3,
-                  username: "aliyassine",
-                  score: 40,
-                  country: "Lebanon"),
-            ),
+            child: players[2],
             flex: 10,
           ),
           Row(children: [
@@ -175,7 +208,7 @@ class SubjectScreen extends StatelessWidget {
               width: 10,
             ),
             Flexible(
-                child: Container(
+                child: SizedBox(
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: ElevatedButton(
@@ -206,7 +239,8 @@ class SubjectScreen extends StatelessWidget {
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: (context) => ChallengeAFriend(
-                                      subject: subject, player: player)))
+                                      subject: widget.subject,
+                                      player: widget.player)))
                         },
                         child: const FittedBox(
                             child: Text(
