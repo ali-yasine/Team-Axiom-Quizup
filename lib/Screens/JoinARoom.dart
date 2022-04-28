@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:quizup_prototype_1/Screens/MatchingPage.dart';
-import 'package:quizup_prototype_1/Utilities/Rank.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import '../Backend Management/fireConnect.dart';
 import '../Quiz components/quiz.dart';
@@ -71,7 +68,6 @@ class _JoinARoomState extends State<JoinARoom> {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    const img = AssetImage('assets/images/panda.jpg');
     const _profileRadius = 35.0;
     const _iconSize = 40.0;
 
@@ -99,11 +95,11 @@ class _JoinARoomState extends State<JoinARoom> {
         Flexible(
             child: Row(children: [
               Container(
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                       child: CircleAvatar(
                         radius: _profileRadius - 2,
                         backgroundColor: Colors.grey,
-                        backgroundImage: img,
+                        child: widget.player.avatar,
                       ),
                       radius: _profileRadius),
                   margin: const EdgeInsets.only(left: 10)),

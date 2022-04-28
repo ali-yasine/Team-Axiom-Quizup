@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
 import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 
+import '../Backend Management/fireConnect.dart';
 import 'Home.dart';
 
 class Results extends StatelessWidget {
@@ -21,6 +23,102 @@ class Results extends StatelessWidget {
       required this.incorrect,
       required this.opponentScore})
       : super(key: key);
+  Future<void> updateLeaderBoard() async {
+    updateGlobalLeaderboard();
+    updateSubjectLeaderboard();
+  }
+
+  Future writeSubjects() async {
+    var subjects = await FireConnect.getSubjects();
+    for (var subject in subjects) {
+      var subjectDoc = await FirebaseFirestore.instance
+          .collection('Leaderboard')
+          .doc(subject)
+          .get();
+      if (!subjectDoc.exists) {
+        FirebaseFirestore.instance
+            .collection('Leaderboard')
+            .doc(subject)
+            .set({'players': {}});
+      }
+    }
+  }
+
+  Future<void> updateSubjectLeaderboard() async {
+    var subjectdoc = await FirebaseFirestore.instance
+        .collection('Leaderboard')
+        .doc(subject)
+        .get();
+    if (subjectdoc.data()!['players'] != null) {
+      var info = subjectdoc.data()!['players'][player.username];
+      if (info != null) {
+        if (score > opponentScore) {
+          FirebaseFirestore.instance
+              .collection('Leaderboard')
+              .doc(subject)
+              .update({
+            'players.${player.username}': [info[0], info[1] + 10]
+          });
+        } else if (score < opponentScore) {
+          FirebaseFirestore.instance
+              .collection('Leaderboard')
+              .doc(subject)
+              .update({
+            'players.${player.username}': [info[0], info[1] - 10]
+          });
+        }
+      } else {
+        if (score > opponentScore) {
+          FirebaseFirestore.instance
+              .collection('Leaderboard')
+              .doc(subject)
+              .update({
+            'players.${player.username}': [player.country, 110]
+          });
+        } else if (score < opponentScore) {
+          FirebaseFirestore.instance
+              .collection('Leaderboard')
+              .doc(subject)
+              .update({
+            'players.${player.username}': [player.country, 90]
+          });
+        }
+      }
+    }
+  }
+
+  Future<void> updateGlobalLeaderboard() async {
+    var global = await FirebaseFirestore.instance
+        .collection('Leaderboard')
+        .doc('Global')
+        .get();
+    var info = global.data()!['players'][player.username];
+    if (score > opponentScore) {
+      if (info != null) {
+        FirebaseFirestore.instance
+            .collection('Leaderboard')
+            .doc('Global')
+            .update({
+          'players.${player.username}': [info[0], info[1] + 10]
+        });
+      } else {
+        FirebaseFirestore.instance
+            .collection('Leaderboard')
+            .doc('Global')
+            .update({
+          'players.${player.username}': [player.country, 110]
+        });
+      }
+    } else if (score < opponentScore) {
+      FirebaseFirestore.instance
+          .collection('Leaderboard')
+          .doc('Global')
+          .update({
+        'players.${player.username}': [player.username, 90]
+      });
+    }
+  }
+
   Widget getResult(int score, int opponentScore) {
     if (score > opponentScore) {
       return Container(
@@ -39,6 +137,26 @@ class Results extends StatelessWidget {
               child: const Center(
                   child: Text(
                 "Congratulations! You won",
+                style: TextStyle(fontSize: 26, color: Colors.white),
+                textAlign: TextAlign.center,
+              ))));
+    } else if (score == opponentScore) {
+      return Container(
+          width: 300,
+          height: 150,
+          decoration: BoxDecoration(
+              color: Colors.green,
+              border: Border.all(
+                color: const Color.fromARGB(255, 134, 127, 127),
+                width: 2,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(25))),
+          child: ClipRRect(
+              //used to make circular borders
+              borderRadius: BorderRadius.circular(15),
+              child: const Center(
+                  child: Text(
+                "Tie",
                 style: TextStyle(fontSize: 26, color: Colors.white),
                 textAlign: TextAlign.center,
               ))));
@@ -67,6 +185,7 @@ class Results extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    updateLeaderBoard();
     double _width = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.grey[300],
@@ -150,7 +269,7 @@ class Results extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 45,
                       backgroundColor: Colors.grey,
-                      backgroundImage: player.avatar,
+                      child: player.avatar,
                     ),
                     radius: 47),
               ),

@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
@@ -20,6 +21,7 @@ class SignUpState extends State<SignUp> {
   TextEditingController countryController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   String errorTxt = "";
+  String? imagePath;
   Future<void> signUp() async {
     if (passwordController.text == confirmPasswordController.text &&
         passwordController.text != "") {
@@ -46,12 +48,17 @@ class SignUpState extends State<SignUp> {
           rethrow;
         }
         if (succesfulCreation) {
+          //TODO ADD USERNAMECONTROLLER
           var addResult =
               await FireConnect.addPlayer('has  hem', email, country);
           if (addResult != "Player added") {
             setState(() {
               errorTxt = addResult;
             });
+          }
+          if (imagePath != null) {
+            //TODO ADD USERNAME CONTROLLER
+            FireConnect.uploadAvatar(imagePath!, "username");
           }
           var player = await FireConnect.getPlayerByEmail(email);
           FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -109,17 +116,32 @@ class SignUpState extends State<SignUp> {
                     height: 10,
                   ),
                   Container(
-                    width: 100,
-                    height: 100,
-                    margin: const EdgeInsets.only(left: 5),
-                    child: const CircleAvatar(
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.grey,
-                        backgroundImage: AssetImage('assets/images/avatar.png'),
-                      ),
-                    ),
-                  ),
+                      width: 100,
+                      height: 100,
+                      margin: const EdgeInsets.only(left: 5),
+                      child: InkWell(
+                        child: const CircleAvatar(
+                          child: CircleAvatar(
+                            radius: 57.5,
+                            backgroundColor: Colors.grey,
+                            backgroundImage:
+                                AssetImage('assets/images/avatar.png'),
+                          ),
+                        ),
+                        onTap: () async {
+                          final results = await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
+                            type: FileType.image,
+                          );
+                          if (results == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("no file was picked")));
+                          } else {
+                            imagePath = results.files.single.path;
+                          }
+                        },
+                      )),
                   const SizedBox(
                     height: 10,
                   ),

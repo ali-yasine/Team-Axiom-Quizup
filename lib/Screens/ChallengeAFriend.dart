@@ -16,11 +16,9 @@ class ChallengeAFriend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    const img = AssetImage('assets/images/panda.jpg');
 
     const _profileRadius = 35.0;
     const _iconSize = 40.0;
-    const buttonColor = Color.fromRGBO(51, 156, 251, 0);
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
@@ -45,11 +43,11 @@ class ChallengeAFriend extends StatelessWidget {
         Flexible(
             child: Row(children: [
               Container(
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                       child: CircleAvatar(
                         radius: _profileRadius - 2,
                         backgroundColor: Colors.grey,
-                        backgroundImage: img,
+                        child: player.avatar,
                       ),
                       radius: _profileRadius),
                   margin: const EdgeInsets.only(left: 10)),

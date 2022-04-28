@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import '../Utilities/player.dart';
 import '../Utilities/question_template.dart';
 
@@ -53,7 +54,18 @@ class FireConnect {
         .collection('Player')
         .where('Username', isEqualTo: username)
         .get();
-    return Player.fromJson(querySnapshot.docs.first.data());
+    var ref = FirebaseStorage.instance.ref();
+    String url;
+    try {
+      url = await ref.child('Players/$username').getDownloadURL();
+    } catch (err) {
+      url = "";
+    }
+    return Player.fromJson(
+        querySnapshot.docs.first.data(),
+        url == ""
+            ? const Image(image: AssetImage("assets/images/avatar.png"))
+            : Image.network(url));
   }
 
   static Future<Player> getPlayerByEmail(String email) async {
@@ -61,7 +73,19 @@ class FireConnect {
         .collection('Player')
         .where('Email', isEqualTo: email)
         .get();
-    return Player.fromJson(querySnapshot.docs.first.data());
+    var ref = FirebaseStorage.instance.ref();
+    String url;
+    String username = querySnapshot.docs.first.data()['Username'];
+    try {
+      url = await ref.child('Players/$username').getDownloadURL();
+    } catch (err) {
+      url = "";
+    }
+    return Player.fromJson(
+        querySnapshot.docs.first.data(),
+        url == ""
+            ? const Image(image: AssetImage("assets/images/avatar.png"))
+            : Image.network(url));
   }
 
   static Future<Map<String, dynamic>> getLeaderBoard(String subject) async {

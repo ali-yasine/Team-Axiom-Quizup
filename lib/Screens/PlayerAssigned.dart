@@ -13,7 +13,7 @@ class PlayerAssigned extends StatelessWidget {
     required this.player1,
     required this.player2,
   }) : super(key: key);
-
+//TODO FIX
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
