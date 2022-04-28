@@ -309,31 +309,34 @@ class SignUpState extends State<SignUp> {
                     ]),
                   ),
                   Flexible(
-                      flex: 6,
+                      flex: 3,
                       fit: FlexFit.tight,
                       child: SizedBox(
                         width: _width / 2 - 20,
                         child: Text(
                           errorTxt,
-                          style: const TextStyle(fontSize: 34),
+                          style: const TextStyle(fontSize: 14),
                         ),
                       )),
                   Flexible(
-                      flex: 10,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: ElevatedButton(
-                            onPressed: signUp,
-                            child: const Text(
-                              "Sign Up",
-                              style:
-                                  TextStyle(fontSize: 13, color: Colors.white),
-                              textAlign: TextAlign.center,
-                            ),
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    const Color.fromARGB(255, 13, 77, 174))),
-                          )))
+                      flex: 15,
+                      child: Container(
+                          height: 50,
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(25),
+                              child: ElevatedButton(
+                                onPressed: signUp,
+                                child: const Text(
+                                  "Sign Up",
+                                  style: TextStyle(
+                                      fontSize: 13, color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        const Color.fromARGB(
+                                            255, 13, 77, 174))),
+                              ))))
                 ]))));
   }
 }

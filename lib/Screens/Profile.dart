@@ -1,6 +1,5 @@
 // ignore_for_file: file_names
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
@@ -69,13 +68,10 @@ class _ProfileState extends State<ProfilePage> {
                             height: 120,
                             margin: const EdgeInsets.only(left: 140.0),
                             child: InkWell(
-                              child: CircleAvatar(
-                                  radius: 60,
-                                  backgroundColor: Colors.grey,
+                              child: ClipOval(
                                   child: Expanded(
-                                    child:
-                                        ClipOval(child: widget.player.avatar),
-                                  )),
+                                child: ClipOval(child: widget.player.avatar),
+                              )),
                               onTap: () async {
                                 uploadImage();
                               },

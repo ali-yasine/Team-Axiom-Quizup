@@ -110,12 +110,10 @@ class _SubjectScreenState extends State<SubjectScreen> {
               child: Row(children: [
                 Container(
                     child: CircleAvatar(
-                        child: CircleAvatar(
-                          radius: _profileRadius - 2,
-                          backgroundColor: Colors.grey,
-                          child: widget.player.avatar,
-                        ),
-                        radius: _profileRadius),
+                      radius: _profileRadius,
+                      backgroundColor: Colors.transparent,
+                      child: widget.player.avatar,
+                    ),
                     margin: const EdgeInsets.only(left: 10)),
                 Container(
                     alignment: Alignment.centerLeft,
@@ -195,15 +193,15 @@ class _SubjectScreenState extends State<SubjectScreen> {
               flex: 8),
           Flexible(
             child: players.first,
-            flex: 10,
+            flex: 14,
           ),
           Flexible(
             child: players[1],
-            flex: 10,
+            flex: 14,
           ),
           Flexible(
             child: players[2],
-            flex: 10,
+            flex: 14,
           ),
           Row(children: [
             const SizedBox(

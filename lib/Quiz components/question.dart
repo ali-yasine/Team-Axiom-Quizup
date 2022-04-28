@@ -217,7 +217,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                     .center, //Center Column contents horizontally,
                 children: [
                   Flexible(
-                    flex: 10,
+                    flex: 13,
                     child: Container(
                       width: 60,
                       height: 60,
@@ -232,7 +232,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                     ),
                   ),
                   Flexible(
-                    flex: 15,
+                    flex: 18,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Container(
@@ -270,7 +270,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                         color: Colors.grey[300],
                       )),
                   Flexible(
-                    flex: 15,
+                    flex: 18,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Container(

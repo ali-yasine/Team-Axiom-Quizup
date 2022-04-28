@@ -23,7 +23,7 @@ class SubjectIcon extends StatelessWidget {
             fit: BoxFit.cover, // Fixes border issues
             width: _width - 50,
             height: _width / 3 - 20,
-            image: AssetImage(imageRef),
+            image: AssetImage('assets/images/$subject.jpeg'),
           ),
         ),
       ),

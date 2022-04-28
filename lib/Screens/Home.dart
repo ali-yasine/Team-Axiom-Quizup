@@ -94,7 +94,7 @@ class HomeState extends State<HomePage> {
                 margin: const EdgeInsets.only(left: 5),
                 child: CircleAvatar(
                   radius: 33,
-                  backgroundColor: Colors.grey,
+                  backgroundColor: Colors.transparent,
                   child: widget.player.avatar,
                 ),
               ),
@@ -178,11 +178,6 @@ class HomeState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  Flexible(
-                      flex: 3,
-                      child: Container(
-                        color: Colors.white,
-                      )),
                   Container(
                       alignment: Alignment.center,
                       width: 30,
