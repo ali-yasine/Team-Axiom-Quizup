@@ -146,15 +146,11 @@ class _MatchingPgeState extends State<MatchingPge> {
     const _iconSize = 40.0;
     return Scaffold(
         backgroundColor: Colors.grey[300],
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Center(
-                child: Text(
-                  ("Please wait, we are assigning a player for you"),
+        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          const Center(
+              child: Text(("Please wait, we are assigning a player for you"),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(51, 156, 254, 10)))),

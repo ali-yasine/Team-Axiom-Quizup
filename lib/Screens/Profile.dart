@@ -37,7 +37,7 @@ class _ProfileState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-
+    return MaterialApp(
         home: Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
@@ -63,23 +63,24 @@ class _ProfileState extends State<ProfilePage> {
                       height: 20,
                     ),
                     Row(children: [
-                     Center(
+                      Center(
                         child: Container(
-                          width: 120,
-                          height: 120,
-                          margin: const EdgeInsets.only(left: 140.0),
-                          child: 
-                          child: InkWell(
-                            child: CircleAvatar(
-                                radius: 60,
-                                backgroundColor: Colors.grey,
-                                child: Expanded(
-                                  child: ClipOval(child: widget.player.avatar),
-                                )),
-                            onTap: () async {
-                              uploadImage();
-                            },
-                          )),
+                            width: 120,
+                            height: 120,
+                            margin: const EdgeInsets.only(left: 140.0),
+                            child: InkWell(
+                              child: CircleAvatar(
+                                  radius: 60,
+                                  backgroundColor: Colors.grey,
+                                  child: Expanded(
+                                    child:
+                                        ClipOval(child: widget.player.avatar),
+                                  )),
+                              onTap: () async {
+                                uploadImage();
+                              },
+                            )),
+                      )
                     ]),
                   ])),
               const SizedBox(
@@ -87,14 +88,13 @@ class _ProfileState extends State<ProfilePage> {
               ),
               Column(children: <Widget>[
                 Center(
-                  child: Text(player.username,
+                  child: Text(widget.player.username,
                       style: const TextStyle(
                           fontSize: 20,
                           color: Color.fromARGB(255, 13, 77, 174),
                           fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center),
                 ),
-
                 const SizedBox(height: 10),
                 Container(
                   height: 50,
@@ -371,8 +371,9 @@ class _ProfileState extends State<ProfilePage> {
                             width: _width / 3,
                             height: 90,
                             decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    image: img, fit: BoxFit.fill),
+                                image: DecorationImage(
+                                    image: widget.player.avatar.image,
+                                    fit: BoxFit.fill),
                                 color: Colors.white,
                                 border: Border.all(
                                   color: const Color.fromARGB(255, 13, 77, 174),

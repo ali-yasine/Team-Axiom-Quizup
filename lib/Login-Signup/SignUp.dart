@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class SignUpState extends State<SignUp> {
   TextEditingController countryController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   String errorTxt = "";
+  Image avatar = Image.asset("assets/images/avatar.png");
   String? imagePath;
   Future<void> signUp() async {
     if (passwordController.text == confirmPasswordController.text &&
@@ -117,16 +120,31 @@ class SignUpState extends State<SignUp> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(width: 100,
+                  Container(
+                      width: 100,
                       height: 100,
                       margin: const EdgeInsets.only(left: 5),
                       child: InkWell(
-                        child: const CircleAvatar(
+                          onTap: () async {
+                            final results = await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                              type: FileType.image,
+                            );
+                            if (results == null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text("no file was picked")));
+                            } else {
+                              imagePath = results.files.single.path;
+                              avatar = Image.file(File(imagePath!));
+                              setState(() {});
+                            }
+                          },
                           child: CircleAvatar(
                             radius: 57.5,
                             backgroundColor: Colors.grey,
-                            backgroundImage:
-                                AssetImage('assets/images/avatar.png'),),
+                            child: avatar,
+                          ))),
                   const SizedBox(
                     height: 10,
                   ),
@@ -149,19 +167,6 @@ class SignUpState extends State<SignUp> {
                             labelText: '  username',
                           ),
                         ),
-                        onTap: () async {
-                          final results = await FilePicker.platform.pickFiles(
-                            allowMultiple: false,
-                            type: FileType.image,
-                          );
-                          if (results == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("no file was picked")));
-                          } else {
-                            imagePath = results.files.single.path;
-                          }
-                        },
                       )),
                   const SizedBox(
                     height: 10,
@@ -244,57 +249,11 @@ class SignUpState extends State<SignUp> {
                           ),
                         ),
                       )),
-
                   const SizedBox(
                     height: 10,
                   ),
-                  Flexible(
-                    flex: 6,
-                    child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 13, 77, 174),
-                              width: 2,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(25))),
-                        child: ClipRRect(
-                          //used to make circular borders
-                          borderRadius: BorderRadius.circular(30),
-                          child: TextField(
-                            controller: countryController,
-                            decoration: const InputDecoration(
-                              labelText: '  Country',
-                            ),
-                          ),
-                        )),
-                  ),
                   const SizedBox(
                     height: 10,
-                  ),
-                  Flexible(
-                    flex: 6,
-                    child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 13, 77, 174),
-                              width: 2,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(25))),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30),
-                          child: TextField(
-                            controller: emailController,
-                            decoration: const InputDecoration(
-                              labelText: '  email address',
-                            ),
-                          ),
-                        )),
                   ),
                   const SizedBox(
                     height: 10,
@@ -343,7 +302,7 @@ class SignUpState extends State<SignUp> {
                               obscureText: true,
                               controller: confirmPasswordController,
                               decoration: const InputDecoration(
-                                labelText: '  Confirm password',
+                                labelText: 'Confirm password',
                               ),
                             ),
                           )),
@@ -352,9 +311,12 @@ class SignUpState extends State<SignUp> {
                   Flexible(
                       flex: 6,
                       fit: FlexFit.tight,
-                      child: Text(
-                        errorTxt,
-                        style: const TextStyle(fontSize: 34),
+                      child: SizedBox(
+                        width: _width / 2 - 20,
+                        child: Text(
+                          errorTxt,
+                          style: const TextStyle(fontSize: 34),
+                        ),
                       )),
                   Flexible(
                       flex: 10,

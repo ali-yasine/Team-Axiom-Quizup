@@ -206,10 +206,7 @@ class HomeState extends State<HomePage> {
             height: 30,
           ),
           const SizedBox(height: 10),
-          ListView(
-            padding: const EdgeInsets.all(10.0),
-            shrinkWrap: true,
-            physics: const AlwaysScrollableScrollPhysics(),
+          Column(
             children: currentSubjectIcons,
           ),
         ]),
