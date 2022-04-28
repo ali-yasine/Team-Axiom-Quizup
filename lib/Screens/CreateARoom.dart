@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, file_names
 
+import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,6 +28,7 @@ class CreateARoom extends StatefulWidget {
 
 class _CreateARoomState extends State<CreateARoom> {
   bool oppfound = false;
+  StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? listener;
   DocumentReference<Map<String, dynamic>>? gamedoc;
   String generateToken(int length) {
     const ch = '1234567890';
@@ -42,12 +44,37 @@ class _CreateARoomState extends State<CreateARoom> {
         gamedoc.delete();
       }
     }
+    if (!(listener == null)) {
+      listener!.cancel();
+    }
   }
 
   @override
   void dispose() {
     removeGameDoc(gamedoc);
     super.dispose();
+  }
+
+  Future<void> createOfflineChallenge(
+      Player player, String subject, BuildContext context, String id) async {
+    var questions = await FireConnect.readQuestions(subject, 7);
+    Map<String, dynamic> hasAnswered = {};
+    for (int i = 0; i < questions.length; i++) {
+      hasAnswered.addAll({
+        "Player1 Answered " + i.toString(): false,
+        "Player2 Answered " + i.toString(): false
+      });
+    }
+    Map<String, dynamic> entryMap = {
+      ("Player1"): player.username,
+      ("Player2"): "",
+      "Questions": questions.map((e) => QuestionTemplate.toJson(e)).toList(),
+      "Player1 Score": 0,
+      "Player2 Score": 0,
+    };
+    entryMap.addAll(hasAnswered);
+    gamedoc = FirebaseFirestore.instance.collection('Challenges').doc(id);
+    gamedoc!.set(entryMap);
   }
 
   Future<void> createRoom(
@@ -70,7 +97,7 @@ class _CreateARoomState extends State<CreateARoom> {
     entryMap.addAll(hasAnswered);
     gamedoc = FirebaseFirestore.instance.collection('Challenges').doc(id);
     gamedoc!.set(entryMap);
-    gamedoc!.snapshots().listen((event) async {
+    listener = gamedoc!.snapshots().listen((event) async {
       if (!oppfound) {
         if (event.data() != null) {
           if (event.data()!["Player2"] != "") {
