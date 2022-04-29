@@ -6,9 +6,9 @@ import '../Login-Signup/Login.dart';
 import '../Screens/Home.dart';
 import '../Utilities/player.dart';
 
-class Settings extends StatelessWidget {
+class SettingsPage extends StatelessWidget {
   final Player player;
-  const Settings({Key? key, required this.player}) : super(key: key);
+  const SettingsPage({Key? key, required this.player}) : super(key: key);
   static const _iconSize = 40.0;
   @override
   Widget build(BuildContext context) {
