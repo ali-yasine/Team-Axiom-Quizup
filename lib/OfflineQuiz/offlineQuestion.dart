@@ -15,7 +15,7 @@ class OfflineQuestion extends StatefulWidget {
   int questionNum;
   int currentScore;
   final int playerNum;
-  final Player opponent;
+  final Player? opponent;
   final VoidCallback onFinish;
   final String gameID;
   // ignore: prefer_const_constructors_in_immutables
@@ -25,7 +25,7 @@ class OfflineQuestion extends StatefulWidget {
       required this.opponentScore,
       required this.gameID,
       required this.prompt,
-      required this.opponent,
+      this.opponent,
       required this.wrongAnswersTxt,
       required this.correctAnswerTxt,
       required this.currentScore,
@@ -57,7 +57,6 @@ class _OfflineQuestionState extends State<OfflineQuestion>
     int opponentIntNum = widget.playerNum == 1 ? 2 : 1;
     opponentNum = "Player" + opponentIntNum.toString();
     beginTimer();
-    beginListener();
     super.initState();
   }
 
@@ -74,6 +73,7 @@ class _OfflineQuestionState extends State<OfflineQuestion>
 
   @override
   void didUpdateWidget(covariant OfflineQuestion oldWidget) {
+    print("Updating");
     super.didUpdateWidget(oldWidget);
     hasAnswered = false;
     shuffled = false;
@@ -90,6 +90,8 @@ class _OfflineQuestionState extends State<OfflineQuestion>
     }
     setState(() {});
     updateDoc();
+    Future.delayed(Duration(milliseconds: 200))
+        .then((value) => widget.onFinish());
   }
 
   Future<void> updateDoc() async {
@@ -97,8 +99,6 @@ class _OfflineQuestionState extends State<OfflineQuestion>
 
     game = FirebaseFirestore.instance
         .collection('OfflineChallenges')
-        .doc(widget.subject)
-        .collection('challenges')
         .doc(widget.gameID);
     game.update({
       (playerNum + " Score"): widget.currentScore,
@@ -237,30 +237,34 @@ class _OfflineQuestionState extends State<OfflineQuestion>
                               color: Colors.white,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(25))),
-                          child: Text(
-                              " " +
-                                  widget.opponent.username +
-                                  " :" +
-                                  widget.opponentScore.toString() +
-                                  " ",
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Color.fromARGB(255, 13, 77, 174))),
+                          child: widget.opponent != null
+                              ? Text(
+                                  " " +
+                                      widget.opponent!.username +
+                                      " :" +
+                                      widget.opponentScore.toString() +
+                                      " ",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Color.fromARGB(255, 13, 77, 174)))
+                              : Container(),
                         )),
                   ),
                   Flexible(
                     flex: 5,
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      child: CircleAvatar(
-                        child: CircleAvatar(
-                          radius: 33,
-                          backgroundColor: Colors.grey,
-                          child: widget.opponent.avatar,
-                        ),
-                      ),
-                    ),
+                    child: widget.opponent != null
+                        ? Container(
+                            width: 60,
+                            height: 60,
+                            child: CircleAvatar(
+                              child: CircleAvatar(
+                                radius: 33,
+                                backgroundColor: Colors.grey,
+                                child: widget.opponent!.avatar,
+                              ),
+                            ),
+                          )
+                        : Container(),
                   ),
                 ]),
             const SizedBox(

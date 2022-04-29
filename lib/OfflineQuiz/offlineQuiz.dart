@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:quizup_prototype_1/OfflineQuiz/OfflineResults.dart';
 import 'package:quizup_prototype_1/Screens/ResultsScreen.dart';
 import '../Quiz components/question.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
@@ -8,19 +10,20 @@ import 'offlineQuestion.dart';
 
 class OfflineQuiz extends StatefulWidget {
   final Player player;
-  final Player opponent;
+  final Player? opponent;
   final String gameID;
   final List<QuestionTemplate> questionTemplates;
   final String subject;
   final int playerNum;
-
+  final int opponentScore;
   const OfflineQuiz(
       {Key? key,
-      required this.opponent,
+      this.opponent,
       required this.questionTemplates,
       required this.player,
       required this.gameID,
       required this.playerNum,
+      required this.opponentScore,
       required this.subject})
       : super(key: key);
   @override
@@ -32,21 +35,22 @@ class _OfflineQuizState extends State<OfflineQuiz> {
   bool isdone = false;
   int currentQuestion = 0;
   int score = 0;
-  late final List<OfflineQuestion> questions;
+  late List<OfflineQuestion> questions;
 
   int correct = 0;
   int incorrect = 0;
-  late final int opponentScore;
+  late int opponentScore;
   late String playerNum;
   late String opponentNum;
+
   void initializeQuestions() {
     questions = widget.questionTemplates
         .map(
           (temp) => OfflineQuestion(
-            opponent: widget.opponent,
+            opponent: (widget.opponent == null) ? null : widget.opponent,
             questionNum: currentQuestion,
             currentScore: score,
-            opponentScore: opponentScore,
+            opponentScore: (widget.opponent == null) ? 0 : widget.opponentScore,
             playerNum: widget.playerNum,
             prompt: temp.prompt,
             wrongAnswersTxt: temp.wrongAnswersTxt,
@@ -79,10 +83,11 @@ class _OfflineQuizState extends State<OfflineQuiz> {
     } else {
       incorrect += 1;
     }
+    ++currentQuestion;
+
     setState(() {
       opponentScore = currQuestion.opponentScore;
       score = currQuestion.currentScore;
-      ++currentQuestion;
     });
   }
 
@@ -97,6 +102,15 @@ class _OfflineQuizState extends State<OfflineQuiz> {
         height: size.height,
       );
     } else {
+      if (widget.playerNum == 1) {
+        return OfflineResults(
+            player: widget.player,
+            score: score,
+            subject: widget.subject,
+            correct: correct,
+            incorrect: incorrect,
+            playerNum: widget.playerNum);
+      }
       return Results(
         player: widget.player,
         score: score,
