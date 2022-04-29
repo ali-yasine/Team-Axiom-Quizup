@@ -45,21 +45,8 @@ class _ProfileState extends State<ProfilePage> {
           Column(
             children: <Widget>[
               Container(
-                width: _width,
-                height: 100,
-                color: const Color.fromARGB(255, 13, 77, 174),
-                child: Container(
-                  margin: const EdgeInsets.only(top: 60),
-                  child: const Text(
-                    "User Profile",
-                    style: TextStyle(fontSize: 30, color: Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              Container(
                   width: _width,
-                  height: 120,
+                  height: 150,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 13, 77, 174),
                     border: Border.all(
@@ -72,34 +59,42 @@ class _ProfileState extends State<ProfilePage> {
                     ),
                   ),
                   child: Column(children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Row(children: [
-                      Container(
-                          width: 115,
-                          height: 115,
-                          margin: const EdgeInsets.only(left: 140.0),
-                          child: InkWell(
-                            child: CircleAvatar(
-                                radius: 57.5,
-                                backgroundColor: Colors.grey,
-                                child: Expanded(
-                                  child: ClipOval(child: widget.player.avatar),
-                                )),
-                            onTap: () async {
-                              uploadImage();
-                            },
-                          )),
+                      Center(
+                        child: Container(
+                            width: 120,
+                            height: 120,
+                            margin: const EdgeInsets.only(left: 140.0),
+                            child: InkWell(
+                              child: CircleAvatar(
+                                  radius: 60,
+                                  backgroundColor: Colors.grey,
+                                  child: Expanded(
+                                    child:
+                                        ClipOval(child: widget.player.avatar),
+                                  )),
+                              onTap: () async {
+                                uploadImage();
+                              },
+                            )),
+                      )
                     ]),
                   ])),
               const SizedBox(
                 height: 10,
               ),
               Column(children: <Widget>[
-                Text(widget.player.username,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 13, 77, 174),
-                    ),
-                    textAlign: TextAlign.center),
+                Center(
+                  child: Text(widget.player.username,
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: Color.fromARGB(255, 13, 77, 174),
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center),
+                ),
                 const SizedBox(height: 10),
                 Container(
                   height: 50,
@@ -123,22 +118,21 @@ class _ProfileState extends State<ProfilePage> {
                   )),
                 ),
                 Container(
-                    margin: const EdgeInsets.only(left: 25),
-                    width: 100,
+                    width: _width,
                     height: 38,
                     child: const Center(
                         child: Text(
                       " Email Address",
                       style: TextStyle(
-                          fontSize: 14,
-                          color: Color.fromARGB(255, 13, 77, 174),
-                          fontWeight: FontWeight.bold),
+                        fontSize: 14,
+                        color: Color.fromARGB(255, 13, 77, 174),
+                      ),
                     ))),
                 Row(children: [
                   Container(
                     margin: const EdgeInsets.only(right: 5.0, left: 10.0),
                     width: _width / 3 - 20,
-                    height: _width / 3 - 20,
+                    height: 60,
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: const Color.fromARGB(255, 13, 77, 174),
@@ -161,7 +155,7 @@ class _ProfileState extends State<ProfilePage> {
                   Container(
                       margin: const EdgeInsets.only(right: 5.0, left: 5.0),
                       width: _width / 3 - 20,
-                      height: _width / 3 - 20,
+                      height: 60,
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: const Color.fromARGB(255, 13, 77, 174),
@@ -182,7 +176,7 @@ class _ProfileState extends State<ProfilePage> {
                   Container(
                       margin: const EdgeInsets.only(right: 5.0, left: 5.0),
                       width: _width / 3 - 20,
-                      height: _width / 3 - 20,
+                      height: 60,
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: const Color.fromARGB(255, 13, 77, 174),
@@ -212,9 +206,9 @@ class _ProfileState extends State<ProfilePage> {
                             child: Text(
                           " Win rate",
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 13, 77, 174),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 13, 77, 174),
+                          ),
                           textAlign: TextAlign.center,
                         ))),
                     Container(
@@ -225,9 +219,9 @@ class _ProfileState extends State<ProfilePage> {
                             child: Text(
                           " Global Rank",
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 13, 77, 174),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 13, 77, 174),
+                          ),
                           textAlign: TextAlign.center,
                         ))),
                     Container(
@@ -238,9 +232,9 @@ class _ProfileState extends State<ProfilePage> {
                             child: Text(
                           "Rank By Country",
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 13, 77, 174),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 13, 77, 174),
+                          ),
                           textAlign: TextAlign.center,
                         ))),
                   ],
@@ -250,7 +244,7 @@ class _ProfileState extends State<ProfilePage> {
                   Container(
                       margin: const EdgeInsets.only(right: 5.0, left: 10.0),
                       width: _width / 3 - 20,
-                      height: _width / 3 - 20,
+                      height: 60,
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: const Color.fromARGB(255, 13, 77, 174),
@@ -271,7 +265,7 @@ class _ProfileState extends State<ProfilePage> {
                   Container(
                       margin: const EdgeInsets.only(right: 5.0, left: 5.0),
                       width: _width / 3 - 20,
-                      height: _width / 3 - 20,
+                      height: 60,
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: const Color.fromARGB(255, 13, 77, 174),
@@ -292,7 +286,7 @@ class _ProfileState extends State<ProfilePage> {
                   Container(
                       margin: const EdgeInsets.only(right: 5.0, left: 5.0),
                       width: _width / 3 - 20,
-                      height: _width / 3 - 20,
+                      height: 60,
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: const Color.fromARGB(255, 13, 77, 174),
@@ -321,9 +315,9 @@ class _ProfileState extends State<ProfilePage> {
                             child: Text(
                           " Games Played",
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 13, 77, 174),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 13, 77, 174),
+                          ),
                           textAlign: TextAlign.center,
                         ))),
                     Container(
@@ -334,26 +328,88 @@ class _ProfileState extends State<ProfilePage> {
                             child: Text(
                           " Number Of Games Won",
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 13, 77, 174),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 13, 77, 174),
+                          ),
                           textAlign: TextAlign.center,
                         ))),
                     Container(
                         margin: const EdgeInsets.only(left: 50),
                         width: 80,
-                        height: 38,
+                        height: 42,
                         child: const Center(
                             child: Text(
                           "Average seconds to answer",
                           style: TextStyle(
-                              fontSize: 12,
-                              color: Color.fromARGB(255, 13, 77, 174),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 13, 77, 174),
+                          ),
                           textAlign: TextAlign.center,
                         ))),
                   ],
                 ),
+                const SizedBox(height: 10),
+                Container(
+                    margin: const EdgeInsets.only(right: 5.0, left: 5.0),
+                    width: _width,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 13, 77, 174),
+                          width: 2,
+                        ),
+                        color: Colors.white,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(25))),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Flexible(
+                          child: Container(
+                            width: _width / 3,
+                            height: 90,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: widget.player.avatar.image,
+                                    fit: BoxFit.fill),
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: const Color.fromARGB(255, 13, 77, 174),
+                                  width: 2,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(25))),
+                          ),
+                        ),
+                        Container(
+                            margin:
+                                const EdgeInsets.only(right: 5.0, left: 5.0),
+                            width: _width - _width / 3 - 10,
+                            height: 60,
+                            child: const Center(
+                              child: Text(
+                                "Computer Science",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 28,
+                                    color: Color.fromARGB(255, 13, 77, 174)),
+                              ),
+                            )),
+                      ],
+                    )),
+                Container(
+                    width: _width,
+                    height: 38,
+                    child: const Center(
+                        child: Text(
+                      " Most played subject",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 13, 77, 174),
+                      ),
+                    ))),
               ]),
               const SizedBox(height: 10),
               const SizedBox(

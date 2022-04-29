@@ -142,58 +142,16 @@ class _MatchingPgeState extends State<MatchingPge> {
   Widget build(BuildContext context) {
     findOpponent(widget.player, widget.subject, context);
     const img = AssetImage('assets/images/panda.jpg');
-    const backgroundColor = Color.fromRGBO(207, 232, 255, 20);
+
     const _iconSize = 40.0;
     return Scaffold(
-        backgroundColor: backgroundColor,
-        body: Column(children: [
-          Container(
-            child: IconButton(
-              onPressed: () =>
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => HomePage(
-                            player: widget.player,
-                          ))),
-              icon: const Icon(
-                Icons.arrow_back_rounded,
-                color: Colors.white,
-              ),
-              iconSize: _iconSize,
-            ),
-            alignment: Alignment.centerLeft,
-            margin: const EdgeInsets.all(10),
-          ),
-          Container(
-              alignment: Alignment.center,
-              child: Text(widget.subject,
-                  style: const TextStyle(
-                      fontSize: 35,
-                      color: Color.fromRGBO(51, 156, 254, 10),
-                      fontWeight: FontWeight.bold))),
-          const SizedBox(height: 30),
-          Container(
-              width: 300,
-              height: 150,
-              decoration: BoxDecoration(
-                  image: const DecorationImage(image: img, fit: BoxFit.fill),
-                  color: Colors.white,
-                  border: Border.all(
-                    color: const Color.fromRGBO(51, 156, 254, 10),
-                    width: 2,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(25))),
-              child: ClipRRect(
-                //used to make circular borders
-                borderRadius: BorderRadius.circular(15),
-              )),
-          const SizedBox(height: 20),
-          Container(
-              margin: const EdgeInsets.only(left: 30.0),
-              alignment: Alignment.centerLeft,
-              child: const Text("Player 1 ",
-                  textAlign: TextAlign.left,
+        backgroundColor: Colors.grey[300],
+        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          const Center(
+              child: Text(("Please wait, we are assigning a player for you"),
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 28,
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(51, 156, 254, 10)))),
           const SizedBox(height: 20),

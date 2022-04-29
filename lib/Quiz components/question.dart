@@ -206,7 +206,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
           height: size.height,
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Flexible(
-                flex: 4,
+                flex: 2,
                 child: Container(
                   color: Colors.grey[300],
                 )),
@@ -217,7 +217,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                     .center, //Center Column contents horizontally,
                 children: [
                   Flexible(
-                    flex: 5,
+                    flex: 10,
                     child: Container(
                       width: 60,
                       height: 60,
@@ -232,7 +232,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                     ),
                   ),
                   Flexible(
-                    flex: 6,
+                    flex: 15,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Container(
@@ -251,16 +251,26 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                                   color: Color.fromARGB(255, 13, 77, 174))),
                         )),
                   ),
-                  const Flexible(
-                    flex: 10,
+                  Flexible(
+                      flex: 1,
+                      child: Container(
+                        color: Colors.grey[300],
+                      )),
+                  Flexible(
+                    flex: 5,
                     child: Text("vs",
                         style: TextStyle(
                             fontSize: 30,
-                            color: Color.fromARGB(255, 255, 235, 59),
+                            color: Colors.yellow[700],
                             fontWeight: FontWeight.bold)),
                   ),
                   Flexible(
-                    flex: 6,
+                      flex: 1,
+                      child: Container(
+                        color: Colors.grey[300],
+                      )),
+                  Flexible(
+                    flex: 15,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Container(
@@ -280,7 +290,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                         )),
                   ),
                   Flexible(
-                    flex: 5,
+                    flex: 10,
                     child: Container(
                       width: 60,
                       height: 60,

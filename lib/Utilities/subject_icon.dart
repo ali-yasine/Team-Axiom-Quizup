@@ -4,7 +4,6 @@ class SubjectIcon extends StatelessWidget {
   final String subject;
   final String imageRef;
   final VoidCallback onTap;
-
   const SubjectIcon(
       {Key? key,
       required this.subject,
