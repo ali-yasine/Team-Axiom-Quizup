@@ -60,7 +60,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
           rankNumber: i + 1,
         ));
       }
-
     }
     if (mounted) {
       setState(() {});

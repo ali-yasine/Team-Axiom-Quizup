@@ -99,6 +99,8 @@ class _QuizState extends State<Quiz> {
     } else {
       return Results(
         player: widget.player,
+        isChallenge: widget.isChallenge,
+        opponent: widget.opponent,
         score: widget.score,
         subject: widget.subject,
         correct: widget.correct,

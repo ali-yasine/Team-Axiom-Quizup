@@ -1,87 +1,41 @@
-import 'package:quizup_prototype_1/Screens/Profile.dart';
-import 'package:quizup_prototype_1/Screens/subjects.dart';
-
-import '../Backend Management/fireConnect.dart';
-import '../Utilities/Rank.dart';
-import '../Utilities/player.dart';
-import 'GenericLeaderBoard.dart';
-import 'Home.dart';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'Leaderboard.dart';
+import '../Utilities/Rank.dart';
+import '../Utilities/player.dart';
+import 'Home.dart';
+import 'Profile.dart';
+import 'countries.dart';
+import 'subjects.dart';
 
-class countries extends StatefulWidget {
+class GenericLeaderBoard extends StatefulWidget {
+  final String title;
+  final List<Rank> ranks;
   final Player player;
-  const countries({Key? key, required this.player}) : super(key: key);
+  const GenericLeaderBoard(
+      {Key? key,
+      required this.title,
+      required this.player,
+      required this.ranks})
+      : super(key: key);
 
   @override
-  State<countries> createState() => _countriesState();
+  State<GenericLeaderBoard> createState() => _GenericLeaderBoardState();
 }
 
-class _countriesState extends State<countries> {
-  late List<Widget> _countries;
-  bool loaded = false;
-  List<Widget> getList() => loaded ? _countries : <Widget>[Container()];
-
-  Future getCountryNames(BuildContext context) async {
-    var countrynames = await FireConnect.getCountries();
-    var _width = MediaQuery.of(context).size.width;
-    _countries = countrynames
-        .map((e) => GestureDetector(
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Container(
-                  width: _width - 150,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Center(
-                      child: Text(
-                    e,
-                    style: const TextStyle(
-                        fontSize: 16, color: Color.fromARGB(255, 13, 77, 174)),
-                    textAlign: TextAlign.center,
-                  )),
-                ),
-              ),
-              onTap: () async {
-                var playerMap = await FireConnect.getCountryLeaderBoard(e);
-                var ranks = playerMap.entries
-                    .map((e) => Rank(
-                        rankNumber: 0,
-                        username: e.key,
-                        score: e.value[1].toString(),
-                        country: e.value[0]))
-                    .toList();
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => GenericLeaderBoard(
-                        title: e, player: widget.player, ranks: ranks)));
-              },
-            ))
-        .toList();
-    setState(() {
-      loaded = true;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class _GenericLeaderBoardState extends State<GenericLeaderBoard> {
   @override
   Widget build(BuildContext context) {
-    getCountryNames(context);
     double _width = MediaQuery.of(context).size.width;
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
           child: Stack(
         children: <Widget>[
           Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
                   Container(
                     width: _width,
@@ -105,7 +59,7 @@ class _countriesState extends State<countries> {
                         child: CircleAvatar(
                           child: CircleAvatar(
                             radius: 33,
-                            backgroundColor: Colors.grey,
+                            backgroundColor: Colors.transparent,
                             child: widget.player.avatar,
                           ),
                         ),
@@ -225,16 +179,10 @@ class _countriesState extends State<countries> {
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(25),
                                 child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pushReplacement(MaterialPageRoute(
-                                            builder: (context) => Leaderboard(
-                                                  player: widget.player,
-                                                )));
-                                  },
-                                  child: const Text(
-                                    "Global",
-                                    style: TextStyle(
+                                  onPressed: () {},
+                                  child: Text(
+                                    widget.title,
+                                    style: const TextStyle(
                                         fontSize: 13, color: Colors.white),
                                     textAlign: TextAlign.center,
                                   ),
@@ -262,7 +210,7 @@ class _countriesState extends State<countries> {
                     ),
                     child: const Center(
                         child: Text(
-                      " Countries",
+                      " Global Rank",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 22,
@@ -271,10 +219,61 @@ class _countriesState extends State<countries> {
                     )),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 5,
+                  ),
+                  Row(
+                    children: const [
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          " Rank",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 13, 77, 174)),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: Text(
+                          " Username",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 13, 77, 174)),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          " Score",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 13, 77, 174)),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: Text(
+                          " Country",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 13, 77, 174)),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
                   ),
                 ] +
-                getList(),
+                widget.ranks,
           ),
         ],
       )),
@@ -298,10 +297,6 @@ class _countriesState extends State<countries> {
               break;
 
             case (2):
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => Leaderboard(
-                        player: widget.player,
-                      )));
               break;
           }
         },
@@ -315,6 +310,6 @@ class _countriesState extends State<countries> {
               label: "leaderboard"),
         ],
       ),
-    );
+    ));
   }
 }

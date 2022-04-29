@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import '../Utilities/player.dart';
@@ -25,10 +26,11 @@ class FireConnect {
     }
   }
 
-  static Future<void> submitReport(String report,String? subject,String? email) async {
+  static Future<void> submitReport(
+      String report, String? subject, String? email) async {
     final report =
         FirebaseFirestore.instance.collection('questionReports').doc();
-    final reportdoc = {'email':email,'subject':subject,'report': report};
+    final reportdoc = {'email': email, 'subject': subject, 'report': report};
     await report.set(reportdoc);
   }
 
@@ -54,6 +56,11 @@ class FireConnect {
     List<String> subjectnames =
         subjectsCollection.docs.map((e) => e.reference.id).toList();
     return subjectnames;
+  }
+
+  static Future<Set<String>> getCountries() async {
+    var players = await FirebaseFirestore.instance.collection('Player').get();
+    return players.docs.map((e) => e.data()['Country'].toString()).toSet();
   }
 
   static Future<Player> getPlayer(String username) async {
@@ -110,6 +117,16 @@ class FireConnect {
     return {};
   }
 
+  static Future<Map<String, dynamic>> getCountryLeaderBoard(
+      String country) async {
+    var doc = await FirebaseFirestore.instance
+        .collection('Leaderboard')
+        .doc('Global')
+        .get();
+    return Map.from(doc.data()!['players'])
+      ..removeWhere((key, value) => value[0] != country);
+  }
+
   static Future<Map<String, dynamic>> getGlobalLeaderBoard() async {
     return getLeaderBoard('Global');
   }
@@ -148,5 +165,14 @@ class FireConnect {
     });
     if (errorOccured) return "An Error Occured";
     return "Player added";
+  }
+
+  static Future<int> getRank(String username, String subject) async {
+    var leaderboard = await FirebaseFirestore.instance
+        .collection('Leaderboard')
+        .doc(subject)
+        .get();
+    var playerdata = leaderboard.data()!;
+    return playerdata['players'][username][1];
   }
 }

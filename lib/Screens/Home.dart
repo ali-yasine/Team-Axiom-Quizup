@@ -27,7 +27,6 @@ class HomeState extends State<HomePage> {
   late final List<String> subjectNames;
   late final List<SubjectIcon> subjectIcons;
   bool checkedForChallenges = false;
-  bool _loadingSubjects = false;
   Future<void> checkforChallenges(BuildContext context) async {
     var query = await FirebaseFirestore.instance
         .collection('OfflineChallenges')
@@ -37,7 +36,6 @@ class HomeState extends State<HomePage> {
       for (var doc in query.docs) {
         var docData = doc.data();
         if (!(docData['Player2 notified'])) {
-          print(doc.reference.id);
           showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -91,7 +89,6 @@ class HomeState extends State<HomePage> {
                     SubjectScreen(subject: subject, player: widget.player)))))
         .toList();
     currentSubjectIcons.addAll(subjectIcons);
-    _loadingSubjects = false;
     if (mounted) {
       setState(() {});
     }

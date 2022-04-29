@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
@@ -16,7 +17,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfileState extends State<ProfilePage> {
+  String? favoriteSubject;
+  int? playerRank;
   Future uploadImage() async {
+    playerRank = await FireConnect.getRank(widget.player.username, 'Global');
     final results = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.image,
@@ -30,6 +34,43 @@ class _ProfileState extends State<ProfilePage> {
       await FireConnect.uploadAvatar(imagePath, widget.player.username);
       widget.player = await FireConnect.getPlayer(widget.player.username);
       setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> getFavoriteSubject() async {
+    var playerdoc = await FirebaseFirestore.instance
+        .collection('SubjectsPerPlayer')
+        .doc(widget.player.username)
+        .get();
+    if (playerdoc.exists) {
+      Map<String, int>? subjectsplayed = playerdoc.data()!['subjects'];
+      if (subjectsplayed == null) {
+        favoriteSubject = null;
+      } else {
+        String mostplayed = "";
+        int maxplayed = 0;
+        for (var subject in subjectsplayed.keys) {
+          if (subjectsplayed[subject]! > maxplayed) {
+            mostplayed = subject;
+          }
+        }
+        favoriteSubject = mostplayed;
+      }
+    }
+  }
+
+  String getSubjectTxt() =>
+      (favoriteSubject == null) ? "Computer Science" : favoriteSubject!;
+  AssetImage getImage() {
+    if (favoriteSubject == null) {
+      return const AssetImage('assets/images/Computer Science.jpeg');
+    } else {
+      return AssetImage('assets/images/$favoriteSubject.jpeg');
     }
   }
 
@@ -181,10 +222,10 @@ class _ProfileState extends State<ProfilePage> {
                           color: Colors.white,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(25))),
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           //TODO fix hardcoded rank
-                          "3",
+                          (playerRank) == null ? "0" : playerRank.toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 40,
@@ -368,8 +409,7 @@ class _ProfileState extends State<ProfilePage> {
                             height: 90,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image: widget.player.avatar.image,
-                                    fit: BoxFit.fill),
+                                    image: getImage(), fit: BoxFit.fill),
                                 color: Colors.white,
                                 border: Border.all(
                                   color: const Color.fromARGB(255, 13, 77, 174),
@@ -384,18 +424,18 @@ class _ProfileState extends State<ProfilePage> {
                                 const EdgeInsets.only(right: 5.0, left: 5.0),
                             width: _width - _width / 3 - 10,
                             height: 60,
-                            child: const Center(
+                            child: Center(
                               child: Text(
-                                "Computer Science",
+                                getSubjectTxt(),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 28,
                                     color: Color.fromARGB(255, 13, 77, 174)),
                               ),
                             )),
                       ],
                     )),
-                Container(
+                SizedBox(
                     width: _width,
                     height: 38,
                     child: const Center(

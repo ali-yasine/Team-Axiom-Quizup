@@ -15,32 +15,110 @@ class Results extends StatelessWidget {
   final int correct;
   final int incorrect;
   final int opponentScore;
+  final bool isChallenge;
+  final Player opponent;
   const Results(
       {Key? key,
       required this.player,
+      required this.opponent,
       required this.score,
       required this.subject,
       required this.correct,
+      required this.isChallenge,
       required this.incorrect,
       required this.opponentScore})
       : super(key: key);
   Future<void> updateLeaderBoard() async {
     updateGlobalLeaderboard();
     updateSubjectLeaderboard();
+    if (isChallenge) {
+      updateOppGlobalLeaderboard();
+      updateOppSubjectLeaderboard(subject);
+    }
   }
 
-  Future writeSubjects() async {
-    var subjects = await FireConnect.getSubjects();
-    for (var subject in subjects) {
-      var subjectDoc = await FirebaseFirestore.instance
-          .collection('Leaderboard')
-          .doc(subject)
-          .get();
-      if (!subjectDoc.exists) {
-        FirebaseFirestore.instance
-            .collection('Leaderboard')
-            .doc(subject)
-            .set({'players': {}});
+  Future<void> updatePlayerData() async {
+    var query = await FirebaseFirestore.instance
+        .collection('Player')
+        .where('Username', isEqualTo: player.username)
+        .get();
+    var playerdoc = query.docs.first;
+    var playerData = playerdoc.data();
+    playerdoc.reference.update({
+      "GamesPlayed": playerData['GamesPlayed'] + 1,
+      "GamesWon": playerData['GamesWon'] + (score > opponentScore ? 1 : 0)
+    });
+  }
+
+  Future<void> updateSubjectPlayed() async {
+    var playerdoc = await FirebaseFirestore.instance
+        .collection('SubjectsPerPlayer')
+        .doc(player.username)
+        .get();
+    if (playerdoc.exists) {
+      if (playerdoc.data() != null) {
+        if (playerdoc.data()!['subjects'] != null) {
+          playerdoc.reference.update({
+            'subjects.$subject':
+                (playerdoc.data()!['subjects'][subject] == null)
+                    ? 1
+                    : 1 + playerdoc.data()!['subjects'][subject]
+          });
+        }
+        playerdoc.reference.update({
+          'subjects': {subject: 1}
+        });
+      }
+    } else {
+      playerdoc.reference.set({
+        'subjects': {subject: 1}
+      });
+    }
+  }
+
+  Future updateOppGlobalLeaderboard() async {
+    updateOppSubjectLeaderboard('Global');
+  }
+
+  Future updateOppSubjectLeaderboard(String subject) async {
+    var subjectdoc = await FirebaseFirestore.instance
+        .collection('Leaderboard')
+        .doc(subject)
+        .get();
+    if (subjectdoc.data()!['players'] != null) {
+      var info = subjectdoc.data()!['players'][opponent.username];
+      if (info != null) {
+        if (score < opponentScore) {
+          FirebaseFirestore.instance
+              .collection('Leaderboard')
+              .doc(subject)
+              .update({
+            'players.${opponent.username}': [info[0], info[1] + 10]
+          });
+        } else if (score > opponentScore) {
+          FirebaseFirestore.instance
+              .collection('Leaderboard')
+              .doc(subject)
+              .update({
+            'players.${opponent.username}': [info[0], info[1] - 10]
+          });
+        }
+      } else {
+        if (score < opponentScore) {
+          FirebaseFirestore.instance
+              .collection('Leaderboard')
+              .doc(subject)
+              .update({
+            'players.${opponent.username}': [opponent.country, 110]
+          });
+        } else if (score < opponentScore) {
+          FirebaseFirestore.instance
+              .collection('Leaderboard')
+              .doc(subject)
+              .update({
+            'players.${opponent.username}': [opponent.country, 90]
+          });
+        }
       }
     }
   }
@@ -187,7 +265,7 @@ class Results extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     updateLeaderBoard();
-    final subjectImage = AssetImage('assets/images/${subject}.jpeg');
+    final subjectImage = AssetImage('assets/images/$subject.jpeg');
     double _width = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.grey[300],
