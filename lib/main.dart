@@ -9,7 +9,7 @@ import 'Utilities/player.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MaterialApp(home: Login()));
+  runApp(const MaterialApp(home: MainPage()));
 }
 
 class MainPage extends StatefulWidget {

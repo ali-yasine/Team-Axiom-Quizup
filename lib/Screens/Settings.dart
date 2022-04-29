@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:quizup_prototype_1/Screens/Home.dart';
 
 import '../Login-Signup/Login.dart';
@@ -12,10 +13,11 @@ class SettingsPage extends StatelessWidget {
   static const _iconSize = 40.0;
   @override
   Widget build(BuildContext context) {
+    Color blue = Color.fromARGB(255, 13, 77, 174);
     double _width = MediaQuery.of(context).size.width;
     return MaterialApp(
         home: Scaffold(
-            backgroundColor: Colors.grey[300],
+            backgroundColor: Colors.white,
             body: Padding(
                 padding: const EdgeInsets.all(10),
                 child: ListView(
@@ -30,23 +32,44 @@ class SettingsPage extends StatelessWidget {
                                     ))),
                         icon: const Icon(
                           Icons.arrow_back_rounded,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                         iconSize: _iconSize,
                       ),
                       alignment: Alignment.centerLeft,
                       margin: const EdgeInsets.all(10),
                     )),
-                    Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.all(10),
-                        child: const Text(
-                          'Settings',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 13, 77, 174),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 34,
+                    Flexible(
+                        child: Container(
+                          width: _width,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            gradient: LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              colors: [
+                                blue,
+                                const Color.fromARGB(255, 159, 31, 31),
+                              ],
+                            ),
                           ),
+                          child: const Center(
+                              child: Text(
+                            "Settings",
+                            style: TextStyle(
+                                fontSize: 26,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          )),
+                        ),
+                        flex: 10),
+                    Flexible(
+                        flex: 2,
+                        child: Container(
+                          height: 10,
+                          color: Colors.white,
                         )),
                     SizedBox(
                       width: 115,
@@ -74,11 +97,19 @@ class SettingsPage extends StatelessWidget {
                     ),
                     Flexible(
                       flex: 4,
-                      child: SizedBox(
+                      child: Container(
                           width: _width - 30,
                           height: 50,
+                          decoration: const BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 20.0,
+                                color: Color.fromARGB(255, 125, 125, 125),
+                              ),
+                            ],
+                          ),
                           child: ClipRRect(
-                              borderRadius: BorderRadius.circular(25),
+                              borderRadius: BorderRadius.circular(15),
                               child: ElevatedButton(
                                 onPressed: () => Navigator.of(context)
                                     .pushReplacement(MaterialPageRoute(
@@ -101,11 +132,19 @@ class SettingsPage extends StatelessWidget {
                     ),
                     Flexible(
                       flex: 4,
-                      child: SizedBox(
+                      child: Container(
                           width: _width - 30,
                           height: 50,
+                          decoration: const BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 20.0,
+                                color: Color.fromARGB(255, 125, 125, 125),
+                              ),
+                            ],
+                          ),
                           child: ClipRRect(
-                              borderRadius: BorderRadius.circular(25),
+                              borderRadius: BorderRadius.circular(15),
                               child: ElevatedButton(
                                 onPressed: () {
                                   FirebaseAuth.instance.signOut();

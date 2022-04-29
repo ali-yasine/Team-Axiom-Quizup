@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class Answer extends StatefulWidget {
   final String ans;
@@ -47,16 +48,21 @@ class _AnswerState extends State<Answer> {
   Widget build(BuildContext context) {
     const int _width = 1000;
     const int _height = 50;
-    return SizedBox(
+    return Container(
         width: _width.toDouble(),
         height: _height.toDouble(),
-        child: ClipRRect(
-          //used to make circular borders
-          borderRadius: BorderRadius.circular(25),
-          child: ElevatedButton(
-              child: Text(widget.ans),
-              style: ElevatedButton.styleFrom(primary: color),
-              onPressed: update),
-        ));
+        child: Neumorphic(
+            style: NeumorphicStyle(
+                shape: NeumorphicShape.concave,
+                boxShape:
+                    NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                depth: 30,
+                lightSource: LightSource.bottom,
+                color: const Color.fromARGB(255, 242, 239, 239)),
+            child: ClipRRect(
+              //used to make circular borders
+              borderRadius: BorderRadius.circular(15),
+              child: ElevatedButton(child: Text(widget.ans), onPressed: update),
+            )));
   }
 }

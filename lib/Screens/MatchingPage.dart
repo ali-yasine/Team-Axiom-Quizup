@@ -141,72 +141,27 @@ class _MatchingPgeState extends State<MatchingPge> {
   @override
   Widget build(BuildContext context) {
     findOpponent(widget.player, widget.subject, context);
-    const img = AssetImage('assets/images/panda.jpg');
+    const img = AssetImage('assets/images/avatar.jpg');
 
     const _iconSize = 40.0;
     return Scaffold(
-        backgroundColor: Colors.grey[300],
-        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const Center(
-              child: Text(("Please wait, we are assigning a player for you"),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(246, 1, 81, 175)))),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Container(
-                  child: CircleAvatar(
-                      child: CircleAvatar(
-                        radius: 45,
-                        backgroundColor: Colors.grey,
-                        child: widget.player.avatar,
-                      ),
-                      radius: 47),
-                  margin: const EdgeInsets.only(left: 10, bottom: 40)),
-              Container(
-                  margin: const EdgeInsets.only(right: 15.0),
-                  width: 250,
-                  height: 35,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Color.fromARGB(246, 1, 81, 175),
-                        width: 1,
-                      ),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(25))),
-                  child: ClipRRect(
-                      //used to make circular borders
-                      borderRadius: BorderRadius.circular(15),
-                      child: Center(
-                          child: Text(
-                        widget.player.username,
-                        style: const TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(246, 1, 81, 175)),
-                        textAlign: TextAlign.center,
-                      )))),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-              margin: const EdgeInsets.only(left: 30.0),
-              alignment: Alignment.centerLeft,
-              child: const Text("Player 2 ",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(246, 1, 81, 175)))),
-          const SizedBox(
-            height: 5,
-          ),
-          const CircularProgressIndicator(),
-        ]));
+        backgroundColor: Colors.white,
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Center(
+                  child: Text(
+                      ("Please wait, we are assigning a player for you"),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(246, 1, 81, 175)))),
+              SizedBox(height: 20),
+              SizedBox(
+                height: 5,
+              ),
+              CircularProgressIndicator(),
+            ]));
   }
 }

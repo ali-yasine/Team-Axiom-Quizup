@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/OfflineQuiz/offlineQuiz.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
@@ -160,65 +161,58 @@ class _CreateARoomState extends State<CreateARoom> {
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     var token = generateToken(6);
-    const _profileRadius = 35.0;
-    const _iconSize = 40.0;
+
+    Color blue = const Color.fromARGB(255, 13, 77, 174);
     createRoom(widget.player, widget.subject, context, token);
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: Column(children: [
         Flexible(
             child: Container(
-          child: IconButton(
-            onPressed: () =>
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => HomePage(
-                          player: widget.player,
-                        ))),
-            icon: const Icon(
-              Icons.arrow_back_rounded,
-              color: Colors.white,
-            ),
-            iconSize: _iconSize,
-          ),
-          alignment: Alignment.centerLeft,
-          margin: const EdgeInsets.all(10),
-        )),
-        Flexible(
-            child: Row(children: [
-              Container(
+              width: _width,
+              height: 120,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    blue,
+                    const Color.fromARGB(255, 159, 31, 31),
+                  ],
+                ),
+              ),
+              child: Row(children: [
+                Container(
+                  width: 70,
+                  height: 70,
+                  margin: const EdgeInsets.only(left: 10),
                   child: CircleAvatar(
-                      child: CircleAvatar(
-                        radius: _profileRadius - 2,
-                        backgroundColor: Colors.grey,
-                        child: widget.player.avatar,
-                      ),
-                      radius: _profileRadius),
-                  margin: const EdgeInsets.only(left: 10)),
-              Container(
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.only(left: 15),
-                  width: 150,
-                  height: 30,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 13, 77, 174),
-                        width: 1,
-                      ),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(25))),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Center(
-                          child: FittedBox(
-                              child: Text(
-                                widget.player.username,
-                                style: const TextStyle(
-                                    color: Color.fromARGB(255, 13, 77, 174)),
-                                textAlign: TextAlign.center,
-                              ),
-                              fit: BoxFit.cover)))),
-            ]),
+                    child: CircleAvatar(
+                      radius: 45,
+                      backgroundColor: Colors.transparent,
+                      child: widget.player.avatar,
+                    ),
+                  ),
+                ),
+                Container(
+                    alignment: Alignment.center,
+                    width: 150,
+                    height: 30,
+                    color: Colors.transparent,
+                    child: ClipRRect(
+                        //used to make circular borders
+                        borderRadius: BorderRadius.circular(15),
+                        child: Center(
+                            child: Text(
+                          widget.player.username,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey[300],
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        )))),
+              ]),
+            ),
             flex: 20),
         Flexible(
             flex: 5,
@@ -228,19 +222,21 @@ class _CreateARoomState extends State<CreateARoom> {
         Flexible(
             child: Container(
               width: _width - 20,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border:
-                    Border.all(color: const Color.fromARGB(255, 13, 77, 174)),
-                borderRadius: BorderRadius.circular(20),
+              child: Neumorphic(
+                style: NeumorphicStyle(
+                    shape: NeumorphicShape.concave,
+                    boxShape:
+                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                    depth: 30,
+                    lightSource: LightSource.bottom,
+                    color: Color.fromARGB(255, 232, 229, 229)),
+                child: const Center(
+                    child: Text(
+                  "Join A Room",
+                  style: TextStyle(fontSize: 26, color: Colors.black),
+                  textAlign: TextAlign.center,
+                )),
               ),
-              child: const Center(
-                  child: Text(
-                " Create A Room",
-                style: TextStyle(
-                    fontSize: 26, color: Color.fromARGB(255, 13, 77, 174)),
-                textAlign: TextAlign.center,
-              )),
             ),
             flex: 5),
         Flexible(
@@ -253,27 +249,30 @@ class _CreateARoomState extends State<CreateARoom> {
               Flexible(
                 flex: 20,
                 child: Container(
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.only(left: 15),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: const Color.fromARGB(255, 13, 77, 174),
-                          width: 1,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25))),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Center(
-                            child: FittedBox(
-                                child: Text(
-                                  token,
-                                  style: const TextStyle(
-                                      color: Color.fromARGB(255, 13, 77, 174)),
-                                  textAlign: TextAlign.center,
-                                ),
-                                fit: BoxFit.cover)))),
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 15),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.all(Radius.circular(25))),
+                  child: Neumorphic(
+                      style: NeumorphicStyle(
+                          shape: NeumorphicShape.concave,
+                          boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(12)),
+                          depth: 30,
+                          lightSource: LightSource.top,
+                          color: Color.fromARGB(255, 232, 229, 229)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Center(
+                              child: FittedBox(
+                                  child: Text(
+                                    token,
+                                    style: const TextStyle(),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  fit: BoxFit.cover)))),
+                ),
               ),
               Flexible(
                   flex: 1,
@@ -281,29 +280,39 @@ class _CreateARoomState extends State<CreateARoom> {
                     color: Colors.grey[300],
                   )),
               Flexible(
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: ElevatedButton(
-                      onPressed: () =>
-                          {Clipboard.setData(ClipboardData(text: token))},
-                      child: const FittedBox(
-                          child: Text(
-                            "copy",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
-                          fit: BoxFit.fill),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                        const Color.fromARGB(255, 13, 77, 174),
-                      )),
-                    )),
-                flex: 8,
-              )
+                  flex: 8,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 20.0,
+                          color: Color.fromARGB(255, 125, 125, 125),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: ElevatedButton(
+                          onPressed: () =>
+                              {Clipboard.setData(ClipboardData(text: token))},
+                          child: FittedBox(
+                              child: Text(
+                                "copy",
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.grey[300]),
+                                textAlign: TextAlign.center,
+                              ),
+                              fit: BoxFit.fill),
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                            const Color.fromARGB(255, 13, 77, 174),
+                          )),
+                        )),
+                  )),
             ]),
-            flex: 2),
+            flex: 4),
         Flexible(
-            flex: 5,
+            flex: 2,
             child: Container(
               color: Colors.grey[300],
             )),
@@ -321,31 +330,76 @@ class _CreateARoomState extends State<CreateARoom> {
           ),
         ),
         Flexible(
-            flex: 1,
+            flex: 3,
             child: Container(
               color: Colors.grey[300],
             )),
         const CircularProgressIndicator(),
         Flexible(
-            child: ElevatedButton(
-                onPressed: () {
-                  offlineContestCreate(
-                      widget.player, widget.subject, context, token);
-                },
-                child: const Text("Play now")),
-            flex: 8),
+            flex: 3,
+            child: Container(
+              color: Colors.grey[300],
+            )),
         Flexible(
-          child: ClipRect(
-            child: TextField(
-              decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText:
-                      "Enter your friend's username and they will be notified to join when they're online"),
-              controller: opponentUsernameController,
-            ),
+          flex: 30,
+          child: Container(
+            child: Neumorphic(
+                style: NeumorphicStyle(
+                    shape: NeumorphicShape.concave,
+                    boxShape:
+                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                    depth: 30,
+                    lightSource: LightSource.top,
+                    color: Color.fromARGB(255, 243, 243, 243)),
+                child: ClipRRect(
+                  //used to make circular borders
+                  borderRadius: BorderRadius.circular(30),
+                  child: TextField(
+                    controller: opponentUsernameController,
+                    decoration: const InputDecoration(
+                      labelText:
+                          '  Enter opponent username to notify him fo the challenge',
+                    ),
+                  ),
+                )),
           ),
-          flex: 10,
         ),
+        Flexible(
+            flex: 3,
+            child: Container(
+              color: Colors.grey[300],
+            )),
+        Flexible(
+            flex: 10,
+            child: Center(
+              child: Container(
+                height: 50,
+                width: _width / 2,
+                decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 20.0,
+                      color: Color.fromARGB(255, 190, 189, 189),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: ElevatedButton(
+                      onPressed: () => offlineContestCreate(
+                          widget.player, widget.subject, context, token),
+                      child: const Text(
+                        "Play offline",
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 13, 77, 174),
+                      )),
+                    )),
+              ),
+            )),
       ]),
     );
   }
