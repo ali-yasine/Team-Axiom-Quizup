@@ -23,9 +23,18 @@ class ReportAQuestion extends StatefulWidget {
 
 class _ReportAQuestionState extends State<ReportAQuestion> {
   TextEditingController ReportController = TextEditingController();
+  String? email;
+  String? subject;
+  void initState(){
+    email = widget.player.email;
+    subject = widget.subject;
+    
+  }
+  
 
   @override
   Widget build(BuildContext context) {
+  
     double _width = MediaQuery.of(context).size.width;
     const _profileRadius = 35.0;
     const _iconSize = 40.0;
@@ -155,7 +164,9 @@ class _ReportAQuestionState extends State<ReportAQuestion> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(25),
                         child: ElevatedButton(
-                          onPressed: () => {},
+                          onPressed: () => {
+                            FireConnect.submitReport(ReportController.text,subject,email)
+                          },
                           child: const Text(
                             "Send",
                             style: TextStyle(fontSize: 13, color: Colors.white),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/Home.dart';
 import 'package:quizup_prototype_1/Login-Signup/SignUp.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../Screens/Home.dart';
 import '../Utilities/player.dart';
@@ -20,8 +21,16 @@ class LoginState extends State<Login> {
   TextEditingController passwordController = TextEditingController();
   Future signIn() async {
     var email = emailController.text;
+    try{
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email, password: passwordController.text);
+    } on FirebaseAuthException catch(e){
+      Fluttertoast.showToast(
+        msg: e.toString(),  // message
+        toastLength: Toast.LENGTH_SHORT, // length
+        gravity: ToastGravity.BOTTOM,
+    );
+    }
     Player? player;
     player = await FireConnect.getPlayerByEmail(email);
     FirebaseAuth.instance.authStateChanges().listen((User? user) {

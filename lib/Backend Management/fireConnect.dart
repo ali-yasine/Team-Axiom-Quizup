@@ -25,6 +25,13 @@ class FireConnect {
     }
   }
 
+  static Future<void> submitReport(String report,String? subject,String? email) async {
+    final report =
+        FirebaseFirestore.instance.collection('questionReports').doc();
+    final reportdoc = {'email':email,'subject':subject,'report': report};
+    await report.set(reportdoc);
+  }
+
   static Future<List<QuestionTemplate>> readQuestions(
       String subject, int questionNumber) async {
     List<T> pickRandomItemsAsList<T>(List<T> items, int count) =>
