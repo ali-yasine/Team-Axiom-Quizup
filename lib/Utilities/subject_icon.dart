@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class SubjectIcon extends StatelessWidget {
   final String subject;
@@ -9,27 +10,40 @@ class SubjectIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Container(
-        margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-        child: InkWell(
-          onTap: onTap, // Image tapped
-          splashColor: Colors.white10, // Splash color over image
-          child: Ink.image(
-            fit: BoxFit.cover, // Fixes border issues
-            width: _width - 50,
-            height: _width / 3 - 20,
-            image: AssetImage('assets/images/$subject.jpeg'),
-          ),
+      Card(
+        color: Color.fromARGB(255, 241, 241, 241),
+        elevation: 15,
+        shadowColor: Colors.grey[300],
+        child: Row(
+          children: [
+            Container(
+              child: InkWell(
+                onTap: onTap, // Image tapped
+                canRequestFocus: true,
+                splashColor: Colors.white10, // Splash color over image
+                child: Ink.image(
+                  fit: BoxFit.cover, // Fixes border issues
+                  width: _width / 3 - 20,
+                  height: _width / 3 - 20,
+                  image: AssetImage('assets/images/$subject.jpeg'),
+                ),
+              ),
+              padding: EdgeInsets.only(right: 10),
+            ),
+            Text(
+              subject,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 22,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
-      Text(
-        subject,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 22,
-          color: Color.fromARGB(255, 13, 77, 174),
-          fontWeight: FontWeight.bold,
-        ),
+      Container(
+        height: 10,
       ),
     ]);
   }

@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:quizup_prototype_1/OfflineQuiz/offlineQuiz.dart';
 import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
 import 'package:quizup_prototype_1/Screens/Profile.dart';
@@ -8,7 +9,7 @@ import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:quizup_prototype_1/Utilities/subject_icon.dart';
 import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import '../Backend Management/fireConnect.dart';
 import '../Utilities/question_template.dart';
 import 'Settings.dart';
@@ -131,132 +132,155 @@ class HomeState extends State<HomePage> {
     double _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child: Stack(children: <Widget>[
         Column(children: <Widget>[
-          Container(
-            width: _width,
-            height: 100,
-            decoration: BoxDecoration(
-              color: blue,
-              border: Border.all(
-                width: 2,
-              ),
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
-            ),
-            child: Row(children: [
-              Container(
-                width: 60,
-                height: 60,
-                margin: const EdgeInsets.only(left: 5),
-                child: CircleAvatar(
-                  radius: 33,
-                  backgroundColor: Colors.transparent,
-                  child: widget.player.avatar,
-                ),
-              ),
-              Flexible(
-                  flex: 1,
-                  child: Container(
-                    color: blue,
-                  )),
-              Container(
-                  alignment: Alignment.center,
-                  width: 150,
-                  height: 30,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: blue,
-                        width: 1,
-                      ),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(25))),
-                  child: ClipRRect(
-                      //used to make circular borders
-                      borderRadius: BorderRadius.circular(15),
-                      child: Center(
-                          child: Text(
-                        widget.player.username,
-                        style: const TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 13, 77, 174)),
-                        textAlign: TextAlign.center,
-                      )))),
-              Flexible(
-                  flex: 4,
-                  child: Container(
-                    color: blue,
-                  )),
-              Container(
-                  color: blue,
-                  child: ElevatedButton(
-                    onPressed: () => {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => SettingsPage(
-                                player: widget.player,
-                              )))
-                    },
-                    child: const Icon(
-                      IconData(
-                        0xe57f,
-                        fontFamily: 'MaterialIcons',
-                      ),
-                      color: Colors.white,
-                      size: 33,
-                    ),
-                  )),
-              Flexible(
-                  flex: 1,
-                  child: Container(
-                    color: blue,
-                  )),
-            ]),
-          ),
-          Row(children: [
-            Container(
-                margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                alignment: Alignment.center,
-                width: 400,
-                height: 30,
+          ClipPath(
+            clipper: WaveClipperTwo(),
+            child: Container(
+                width: _width,
+                height: 240,
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: blue,
-                      width: 1,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(25))),
-                child: Row(children: [
-                  Flexible(
-                    child: Center(
-                      child: TextField(
-                        onChanged: (queury) => {searchSubjects(queury)},
-                      ),
-                    ),
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      blue,
+                      Color.fromARGB(255, 159, 31, 31),
+                    ],
                   ),
-                  Container(
-                      alignment: Alignment.center,
-                      width: 30,
-                      height: 30,
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(300))),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(300),
-                        child: IconButton(
-                          onPressed: () => {},
-                          icon: const Icon(
-                            Icons.search,
-                            size: 18,
-                            color: Color.fromARGB(255, 13, 77, 174),
-                          ),
+                  border: Border.all(
+                    width: 2,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Row(children: [
+                      Container(
+                        width: 60,
+                        height: 60,
+                        margin: const EdgeInsets.only(left: 5),
+                        child: CircleAvatar(
+                          radius: 35,
+                          backgroundColor: Colors.transparent,
+                          child: widget.player.avatar,
                         ),
-                      )),
-                ])),
-          ]),
+                      ),
+                      Container(
+                          alignment: Alignment.center,
+                          width: 150,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              border: Border.all(
+                                color: Colors.transparent,
+                                width: 1,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(25))),
+                          child: ClipRRect(
+                              //used to make circular borders
+                              borderRadius: BorderRadius.circular(15),
+                              child: Center(
+                                  child: Text(
+                                widget.player.username,
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              )))),
+                      Flexible(
+                          flex: 4,
+                          child: Container(
+                            color: blue,
+                          )),
+                      Container(
+                        child: IconButton(
+                          onPressed: () => Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                                  builder: (context) => SettingsPage(
+                                        player: widget.player,
+                                      ))),
+                          icon: const Icon(
+                            Icons.settings,
+                            color: Colors.white,
+                          ),
+                          iconSize: 40,
+                        ),
+                        alignment: Alignment.centerLeft,
+                        margin: const EdgeInsets.all(10),
+                      ),
+                      Flexible(
+                          flex: 1,
+                          child: Container(
+                            color: blue,
+                          )),
+                    ]),
+                    Row(children: [
+                      Flexible(
+                          flex: 1,
+                          child: Container(
+                            color: blue,
+                          )),
+                      Container(
+                          margin: const EdgeInsets.only(right: 5.0, left: 5.0),
+                          alignment: Alignment.center,
+                          width: 200,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: blue,
+                                width: 1,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(25))),
+                          child: Row(children: [
+                            Flexible(
+                              child: Center(
+                                child: TextField(
+                                  onChanged: (queury) =>
+                                      {searchSubjects(queury)},
+                                ),
+                              ),
+                            ),
+                            Container(
+                                alignment: Alignment.center,
+                                width: 30,
+                                height: 30,
+                                decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(300))),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(300),
+                                  child: IconButton(
+                                    onPressed: () => {},
+                                    icon: const Icon(
+                                      Icons.search,
+                                      size: 18,
+                                      color: Color.fromARGB(255, 13, 77, 174),
+                                    ),
+                                  ),
+                                )),
+                          ])),
+                      Flexible(
+                          flex: 1,
+                          child: Container(
+                            color: blue,
+                          )),
+                    ]),
+                  ],
+                )),
+          ),
           const SizedBox(
             height: 30,
           ),
@@ -266,38 +290,50 @@ class HomeState extends State<HomePage> {
           ),
         ]),
       ])),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: blue,
-        fixedColor: Colors.white,
-        unselectedItemColor: Colors.white,
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => ProfilePage(
-                        player: widget.player,
-                      )));
-              break;
-            case 1:
-              break;
-            case 2:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => Leaderboard(
-                        player: widget.player,
-                      )));
-              break;
-            default:
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(IconData(0xe491, fontFamily: 'MaterialIcons')),
-              label: "profile"),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
-          BottomNavigationBarItem(
-              icon: Icon(IconData(0xe36f, fontFamily: 'MaterialIcons')),
-              label: "leaderboard"),
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              blue,
+              Color.fromARGB(255, 159, 31, 31),
+            ],
+          ),
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          fixedColor: Colors.white,
+          unselectedItemColor: Colors.white,
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => ProfilePage(
+                          player: widget.player,
+                        )));
+                break;
+              case 1:
+                break;
+              case 2:
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => Leaderboard(
+                          player: widget.player,
+                        )));
+                break;
+              default:
+            }
+          },
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(IconData(0xe491, fontFamily: 'MaterialIcons')),
+                label: "profile"),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
+            BottomNavigationBarItem(
+                icon: Icon(IconData(0xe36f, fontFamily: 'MaterialIcons')),
+                label: "leaderboard"),
+          ],
+        ),
       ),
     );
   }

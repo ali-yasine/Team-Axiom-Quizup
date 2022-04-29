@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import '../Backend Management/fireConnect.dart';
 import '../Quiz components/quiz.dart';
@@ -70,133 +71,130 @@ class _JoinARoomState extends State<JoinARoom> {
     double _width = MediaQuery.of(context).size.width;
     const _profileRadius = 35.0;
     const _iconSize = 40.0;
+    Color blue = const Color.fromARGB(255, 13, 77, 174);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       body: Column(children: [
         Flexible(
             child: Container(
-          child: IconButton(
-            onPressed: () =>
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => HomePage(
-                          player: widget.player,
-                        ))),
-            icon: const Icon(
-              Icons.arrow_back_rounded,
-              color: Colors.white,
-            ),
-            iconSize: _iconSize,
-          ),
-          alignment: Alignment.centerLeft,
-          margin: const EdgeInsets.all(10),
-        )),
-        Flexible(
-            child: Row(children: [
-              Container(
+              width: _width,
+              height: 120,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    blue,
+                    const Color.fromARGB(255, 159, 31, 31),
+                  ],
+                ),
+              ),
+              child: Row(children: [
+                Container(
+                  width: 70,
+                  height: 70,
+                  margin: const EdgeInsets.only(left: 10),
                   child: CircleAvatar(
-                      child: CircleAvatar(
-                        radius: _profileRadius - 2,
-                        backgroundColor: Colors.grey,
-                        child: widget.player.avatar,
-                      ),
-                      radius: _profileRadius),
-                  margin: const EdgeInsets.only(left: 10)),
-              Container(
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.only(left: 15),
-                  width: 150,
-                  height: 30,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 13, 77, 174),
-                        width: 1,
-                      ),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(25))),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Center(
-                          child: FittedBox(
-                              child: Text(
-                                widget.player.username,
-                                style: const TextStyle(
-                                    color: Color.fromARGB(255, 13, 77, 174)),
-                                textAlign: TextAlign.center,
-                              ),
-                              fit: BoxFit.cover)))),
-            ]),
+                    child: CircleAvatar(
+                      radius: 45,
+                      backgroundColor: Colors.transparent,
+                      child: widget.player.avatar,
+                    ),
+                  ),
+                ),
+                Container(
+                    alignment: Alignment.center,
+                    width: 150,
+                    height: 30,
+                    color: Colors.transparent,
+                    child: ClipRRect(
+                        //used to make circular borders
+                        borderRadius: BorderRadius.circular(15),
+                        child: Center(
+                            child: Text(
+                          widget.player.username,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        )))),
+              ]),
+            ),
             flex: 20),
         Flexible(
             flex: 5,
             child: Container(
-              color: Colors.grey[300],
+              color: Colors.white,
             )),
         Flexible(
             child: Container(
               width: _width - 20,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border:
-                    Border.all(color: const Color.fromARGB(255, 13, 77, 174)),
-                borderRadius: BorderRadius.circular(20),
+              child: Neumorphic(
+                style: NeumorphicStyle(
+                    shape: NeumorphicShape.concave,
+                    boxShape:
+                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                    depth: 30,
+                    lightSource: LightSource.bottom,
+                    color: Color.fromARGB(255, 232, 229, 229)),
+                child: const Center(
+                    child: Text(
+                  "Join A Room",
+                  style: TextStyle(fontSize: 26, color: Colors.black),
+                  textAlign: TextAlign.center,
+                )),
               ),
-              child: const Center(
-                  child: Text(
-                " Join A Room",
-                style: TextStyle(
-                    fontSize: 26, color: Color.fromARGB(255, 13, 77, 174)),
-                textAlign: TextAlign.center,
-              )),
             ),
             flex: 5),
         Flexible(
-            flex: 4,
+            flex: 5,
             child: Container(
-              color: Colors.grey[300],
+              color: Colors.white,
             )),
         Flexible(
             child: Row(children: [
               Flexible(
                   flex: 1,
                   child: Container(
-                    color: Colors.grey[300],
+                    color: Colors.white,
                   )),
               Flexible(
                 flex: 30,
                 child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: const Color.fromARGB(255, 13, 77, 174),
-                          width: 2,
+                  child: Neumorphic(
+                      style: NeumorphicStyle(
+                          shape: NeumorphicShape.concave,
+                          boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(12)),
+                          depth: 30,
+                          lightSource: LightSource.top,
+                          color: Color.fromARGB(255, 232, 229, 229)),
+                      child: ClipRRect(
+                        //used to make circular borders
+                        borderRadius: BorderRadius.circular(30),
+                        child: TextField(
+                          controller: idController,
+                          decoration: const InputDecoration(
+                            labelText: '  Enter the room ID',
+                          ),
                         ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25))),
-                    child: ClipRRect(
-                      //used to make circular borders
-                      borderRadius: BorderRadius.circular(30),
-                      child: TextField(
-                        controller: idController,
-                        decoration: const InputDecoration(
-                          labelText: '  Enter the room ID',
-                        ),
-                      ),
-                    )),
+                      )),
+                ),
               ),
               Flexible(
                   flex: 2,
                   child: Container(
-                    color: Colors.grey[300],
+                    color: Colors.white,
                   )),
             ]),
             flex: 3),
         Flexible(
             flex: 2,
             child: Container(
-              color: Colors.grey[300],
+              color: Colors.white,
             )),
         Flexible(
           child: getRoomNotFoundWidget(),
@@ -210,9 +208,17 @@ class _JoinARoomState extends State<JoinARoom> {
                 Flexible(
                     flex: 10,
                     child: Center(
-                      child: SizedBox(
+                      child: Container(
                         height: 50,
                         width: _width / 2,
+                        decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 20.0,
+                              color: Color.fromARGB(255, 125, 125, 125),
+                            ),
+                          ],
+                        ),
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: ElevatedButton(
@@ -234,9 +240,9 @@ class _JoinARoomState extends State<JoinARoom> {
               ],
             )),
         Flexible(
-            flex: 3,
+            flex: 2,
             child: Container(
-              color: Colors.grey[300],
+              color: Colors.white,
             )),
       ]),
     );

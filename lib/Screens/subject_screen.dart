@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/ChallengeAFriend.dart';
 import 'package:quizup_prototype_1/Screens/MatchingPage.dart';
@@ -60,7 +61,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
           rankNumber: i + 1,
         ));
       }
-
     }
     if (mounted) {
       setState(() {});
@@ -79,6 +79,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Color blue = const Color.fromARGB(255, 13, 77, 174);
     getTopthree();
     final subjectImage = AssetImage('assets/images/${widget.subject}.jpeg');
     double _width = MediaQuery.of(context).size.width;
@@ -87,86 +88,80 @@ class _SubjectScreenState extends State<SubjectScreen> {
     const buttonColor = Color.fromRGBO(51, 156, 251, 0);
 
     return Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.white,
         body: Column(children: [
-          Flexible(
-              child: Container(
-            child: IconButton(
-              onPressed: () =>
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => HomePage(
-                            player: widget.player,
-                          ))),
-              icon: const Icon(
-                Icons.arrow_back_rounded,
-                color: Colors.white,
+          Container(
+            width: _width,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  blue,
+                  const Color.fromARGB(255, 159, 31, 31),
+                ],
               ),
-              iconSize: _iconSize,
             ),
-            alignment: Alignment.centerLeft,
-            margin: const EdgeInsets.all(10),
-          )),
-          Flexible(
-              child: Row(children: [
-                Container(
-                    child: CircleAvatar(
-                      radius: _profileRadius,
-                      backgroundColor: Colors.transparent,
-                      child: widget.player.avatar,
-                    ),
-                    margin: const EdgeInsets.only(left: 10)),
-                Container(
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.only(left: 15),
-                    width: 150,
-                    height: 30,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: const Color.fromARGB(255, 13, 77, 174),
-                          width: 1,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25))),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Center(
-                            child: FittedBox(
-                                child: Text(
-                                  widget.player.username,
-                                  style: const TextStyle(
-                                      color: Color.fromARGB(255, 13, 77, 174)),
-                                  textAlign: TextAlign.center,
-                                ),
-                                fit: BoxFit.cover)))),
-              ]),
-              flex: 23),
+            child: Flexible(
+                child: Row(children: [
+                  Container(
+                      child: CircleAvatar(
+                        radius: _profileRadius,
+                        backgroundColor: Colors.transparent,
+                        child: widget.player.avatar,
+                      ),
+                      margin: const EdgeInsets.only(left: 10)),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      margin: const EdgeInsets.only(left: 15),
+                      width: 150,
+                      height: 30,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(25))),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Center(
+                              child: FittedBox(
+                                  child: Text(
+                                    widget.player.username,
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  fit: BoxFit.cover)))),
+                ]),
+                flex: 23),
+          ),
           Flexible(
               flex: 2,
               child: Container(
-                color: Colors.grey[300],
+                color: Colors.white,
               )),
           Flexible(
               child: Container(
                 width: _width - 20,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Color.fromARGB(255, 13, 77, 174)),
-                  borderRadius: BorderRadius.circular(20),
+                child: Neumorphic(
+                  style: NeumorphicStyle(
+                      shape: NeumorphicShape.concave,
+                      boxShape: NeumorphicBoxShape.roundRect(
+                          BorderRadius.circular(12)),
+                      depth: 30,
+                      lightSource: LightSource.bottom,
+                      color: Color.fromARGB(255, 232, 229, 229)),
+                  child: Center(
+                      child: Text(
+                    widget.subject,
+                    style: const TextStyle(fontSize: 26, color: Colors.black),
+                    textAlign: TextAlign.center,
+                  )),
                 ),
-                child: Center(
-                    child: Text(
-                  widget.subject,
-                  style: const TextStyle(
-                      fontSize: 26, color: Color.fromARGB(255, 13, 77, 174)),
-                  textAlign: TextAlign.center,
-                )),
               ),
               flex: 10),
           Flexible(
               flex: 2,
               child: Container(
-                color: Colors.grey[300],
+                color: Colors.white,
               )),
           Flexible(
               child: Container(
@@ -177,7 +172,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         DecorationImage(image: subjectImage, fit: BoxFit.fill),
                     color: Colors.white,
                     border: Border.all(
-                      color: const Color.fromARGB(255, 13, 77, 174),
+                      color: Colors.black,
                       width: 2,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -189,7 +184,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   child: const Text("Top players",
                       style: TextStyle(
                           fontSize: 24,
-                          color: Color.fromARGB(255, 13, 77, 174),
+                          color: Colors.black,
                           fontWeight: FontWeight.bold))),
               flex: 8),
           Flexible(
@@ -209,7 +204,15 @@ class _SubjectScreenState extends State<SubjectScreen> {
               width: 10,
             ),
             Flexible(
-                child: SizedBox(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 20.0,
+                        color: Color.fromARGB(255, 125, 125, 125),
+                      ),
+                    ],
+                  ),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: ElevatedButton(
@@ -224,7 +227,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                             fit: BoxFit.fill),
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                          const Color.fromARGB(255, 13, 77, 174),
+                          blue,
                         )),
                       )),
                   height: 75,
@@ -233,6 +236,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 flex: 75),
             Flexible(
               child: Container(
+                  decoration: const BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 20.0,
+                        color: Color.fromARGB(255, 125, 125, 125),
+                      ),
+                    ],
+                  ),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: ElevatedButton(
@@ -243,17 +254,16 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                       subject: widget.subject,
                                       player: widget.player)))
                         },
-                        child: const FittedBox(
-                            child: Text(
-                              "Challenge a Friend",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
-                              textAlign: TextAlign.center,
-                            ),
-                            fit: BoxFit.fill),
+                        child: Container(
+                          child: const Text(
+                            "Challenge a Friend",
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                          const Color.fromARGB(255, 13, 77, 174),
+                          blue,
                         )),
                       )),
                   height: 75,

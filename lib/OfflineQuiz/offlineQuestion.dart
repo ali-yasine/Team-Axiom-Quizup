@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 
 import '../Quiz components/answer.dart';
@@ -167,17 +168,30 @@ class _OfflineQuestionState extends State<OfflineQuestion>
   @override
   Widget build(BuildContext context) {
     makeAnswers(hasAnswered);
+    double _width = MediaQuery.of(context).size.width;
     var size = MediaQuery.of(context).size;
+    Color blue = Color.fromARGB(255, 13, 77, 174);
     return Scaffold(
-        backgroundColor: Colors.grey[300],
-        body: SizedBox(
-          width: size.width,
-          height: size.height,
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      backgroundColor: Colors.white,
+      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Container(
+          width: _width,
+          height: 140,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                blue,
+                const Color.fromARGB(255, 159, 31, 31),
+              ],
+            ),
+          ),
+          child: Column(children: [
             Flexible(
-                flex: 4,
+                flex: 2,
                 child: Container(
-                  color: Colors.grey[300],
+                  color: Colors.transparent,
                 )),
             Row(
                 mainAxisAlignment: MainAxisAlignment
@@ -186,7 +200,12 @@ class _OfflineQuestionState extends State<OfflineQuestion>
                     .center, //Center Column contents horizontally,
                 children: [
                   Flexible(
-                    flex: 5,
+                      flex: 8,
+                      child: Container(
+                        color: Colors.white,
+                      )),
+                  Flexible(
+                    flex: 25,
                     child: Container(
                       width: 60,
                       height: 60,
@@ -201,7 +220,12 @@ class _OfflineQuestionState extends State<OfflineQuestion>
                     ),
                   ),
                   Flexible(
-                    flex: 6,
+                      flex: 1,
+                      child: Container(
+                        color: Colors.white,
+                      )),
+                  Flexible(
+                    flex: 25,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Container(
@@ -216,111 +240,75 @@ class _OfflineQuestionState extends State<OfflineQuestion>
                                   widget.currentScore.toString() +
                                   " ",
                               style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Color.fromARGB(255, 13, 77, 174))),
-                        )),
-                  ),
-                  const Flexible(
-                    flex: 10,
-                    child: Text("vs",
-                        style: TextStyle(
-                            fontSize: 30,
-                            color: Color.fromARGB(255, 255, 235, 59),
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  Flexible(
-                    flex: 6,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25))),
-                          child: widget.opponent != null
-                              ? Text(
-                                  " " +
-                                      widget.opponent!.username +
-                                      " :" +
-                                      widget.opponentScore.toString() +
-                                      " ",
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      color: Color.fromARGB(255, 13, 77, 174)))
-                              : Container(),
+                                  fontSize: 18, color: Colors.black)),
                         )),
                   ),
                   Flexible(
-                    flex: 5,
-                    child: widget.opponent != null
-                        ? Container(
-                            width: 60,
-                            height: 60,
-                            child: CircleAvatar(
-                              child: CircleAvatar(
-                                radius: 33,
-                                backgroundColor: Colors.grey,
-                                child: widget.opponent!.avatar,
-                              ),
-                            ),
-                          )
-                        : Container(),
-                  ),
-                ]),
-            const SizedBox(
-              height: 10,
+                      flex: 16,
+                      child: Container(
+                        color: Colors.white,
+                      )),
+                ])
+          ]),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Flexible(
+          child: Row(children: [
+            Flexible(
+              child: Container(child: timer, margin: const EdgeInsets.all(10)),
+              flex: 2,
             ),
             Flexible(
-              child: Row(children: [
-                Flexible(
-                  child:
-                      Container(child: timer, margin: const EdgeInsets.all(10)),
-                  flex: 2,
-                ),
-                Flexible(
-                    flex: 10,
-                    child: Column(children: [
-                      Container(
-                          width: 1000,
-                          height: 100,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: const Color.fromARGB(255, 13, 77, 174),
-                                width: 2,
-                              ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(25))),
-                          child: ClipRRect(
-                              //used to make circular borders
-                              borderRadius: BorderRadius.circular(15),
-                              child: Center(
-                                  child: Text(
-                                widget.prompt,
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 13, 77, 174)),
-                                textAlign: TextAlign.center,
-                              )))),
-                      const SizedBox(height: 60),
-                      answers!.first,
-                      const SizedBox(height: 20),
-                      answers!.elementAt(1),
-                      const SizedBox(height: 20),
-                      answers!.elementAt(2),
-                      const SizedBox(height: 20),
-                      answers!.last,
-                    ])),
-                Flexible(
-                  child: Container(
-                      child: opponentTimer, margin: const EdgeInsets.all(10)),
-                  flex: 2,
-                ),
-              ]),
-              flex: 7,
-            )
+                flex: 10,
+                child: Column(children: [
+                  Container(
+                    width: 1000,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(15))),
+                    child: Neumorphic(
+                        style: NeumorphicStyle(
+                            shape: NeumorphicShape.concave,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                                BorderRadius.circular(12)),
+                            depth: 30,
+                            lightSource: LightSource.bottom,
+                            color: Color.fromARGB(255, 234, 231, 231)),
+                        child: ClipRRect(
+                            //used to make circular borders
+                            borderRadius: BorderRadius.circular(15),
+                            child: Center(
+                                child: Text(
+                              widget.prompt,
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                              textAlign: TextAlign.center,
+                            )))),
+                  ),
+                  const SizedBox(height: 60),
+                  answers!.first,
+                  const SizedBox(height: 20),
+                  answers!.elementAt(1),
+                  const SizedBox(height: 20),
+                  answers!.elementAt(2),
+                  const SizedBox(height: 20),
+                  answers!.last,
+                ])),
+            Flexible(
+                flex: 2,
+                child: Container(
+                  color: Colors.white,
+                )),
           ]),
-        ));
+          flex: 7,
+        )
+      ]),
+    );
   }
 }

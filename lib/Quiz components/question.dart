@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'answer.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'timer.dart';
@@ -198,17 +199,30 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     makeAnswers(hasAnswered);
+    double _width = MediaQuery.of(context).size.width;
     var size = MediaQuery.of(context).size;
+    Color blue = Color.fromARGB(255, 13, 77, 174);
     return Scaffold(
-        backgroundColor: Colors.grey[300],
-        body: SizedBox(
-          width: size.width,
-          height: size.height,
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      backgroundColor: Colors.white,
+      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Container(
+          width: _width,
+          height: 140,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                blue,
+                const Color.fromARGB(255, 159, 31, 31),
+              ],
+            ),
+          ),
+          child: Column(children: [
             Flexible(
                 flex: 2,
                 child: Container(
-                  color: Colors.grey[300],
+                  color: Colors.transparent,
                 )),
             Row(
                 mainAxisAlignment: MainAxisAlignment
@@ -234,7 +248,7 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                   Flexible(
                       flex: 1,
                       child: Container(
-                        color: Colors.grey[300],
+                        color: Colors.white,
                       )),
                   Flexible(
                     flex: 25,
@@ -252,27 +266,26 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                                   widget.currentScore.toString() +
                                   " ",
                               style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Color.fromARGB(255, 13, 77, 174))),
+                                  fontSize: 18, color: Colors.black)),
                         )),
                   ),
                   Flexible(
                       flex: 16,
                       child: Container(
-                        color: Colors.grey[300],
+                        color: Colors.white,
                       )),
                   Flexible(
                     flex: 10,
                     child: Text("vs",
                         style: TextStyle(
                             fontSize: 30,
-                            color: Colors.yellow[700],
+                            color: Colors.white,
                             fontWeight: FontWeight.bold)),
                   ),
                   Flexible(
                       flex: 16,
                       child: Container(
-                        color: Colors.grey[300],
+                        color: Colors.white,
                       )),
                   Flexible(
                     flex: 25,
@@ -290,14 +303,13 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                                   widget.opponentScore.toString() +
                                   " ",
                               style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Color.fromARGB(255, 13, 77, 174))),
+                                  fontSize: 18, color: Colors.black)),
                         )),
                   ),
                   Flexible(
                       flex: 1,
                       child: Container(
-                        color: Colors.grey[300],
+                        color: Colors.white,
                       )),
                   Flexible(
                     flex: 25,
@@ -313,61 +325,67 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-                ]),
-            const SizedBox(
-              height: 10,
+                ])
+          ]),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Flexible(
+          child: Row(children: [
+            Flexible(
+              child: Container(child: timer, margin: const EdgeInsets.all(10)),
+              flex: 2,
             ),
             Flexible(
-              child: Row(children: [
-                Flexible(
-                  child:
-                      Container(child: timer, margin: const EdgeInsets.all(10)),
-                  flex: 2,
-                ),
-                Flexible(
-                    flex: 10,
-                    child: Column(children: [
-                      Container(
-                          width: 1000,
-                          height: 100,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: const Color.fromARGB(255, 13, 77, 174),
-                                width: 2,
-                              ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(25))),
-                          child: ClipRRect(
-                              //used to make circular borders
-                              borderRadius: BorderRadius.circular(15),
-                              child: Center(
-                                  child: Text(
-                                widget.prompt,
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 13, 77, 174)),
-                                textAlign: TextAlign.center,
-                              )))),
-                      const SizedBox(height: 60),
-                      answers!.first,
-                      const SizedBox(height: 20),
-                      answers!.elementAt(1),
-                      const SizedBox(height: 20),
-                      answers!.elementAt(2),
-                      const SizedBox(height: 20),
-                      answers!.last,
-                    ])),
-                Flexible(
-                  child: Container(
-                      child: opponentTimer, margin: const EdgeInsets.all(10)),
-                  flex: 2,
-                ),
-              ]),
-              flex: 7,
-            )
+                flex: 10,
+                child: Column(children: [
+                  Container(
+                    width: 1000,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(15))),
+                    child: Neumorphic(
+                        style: NeumorphicStyle(
+                            shape: NeumorphicShape.concave,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                                BorderRadius.circular(12)),
+                            depth: 30,
+                            lightSource: LightSource.bottom,
+                            color: Color.fromARGB(255, 234, 231, 231)),
+                        child: ClipRRect(
+                            //used to make circular borders
+                            borderRadius: BorderRadius.circular(15),
+                            child: Center(
+                                child: Text(
+                              widget.prompt,
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                              textAlign: TextAlign.center,
+                            )))),
+                  ),
+                  const SizedBox(height: 60),
+                  answers!.first,
+                  const SizedBox(height: 20),
+                  answers!.elementAt(1),
+                  const SizedBox(height: 20),
+                  answers!.elementAt(2),
+                  const SizedBox(height: 20),
+                  answers!.last,
+                ])),
+            Flexible(
+              child: Container(
+                  child: opponentTimer, margin: const EdgeInsets.all(10)),
+              flex: 2,
+            ),
           ]),
-        ));
+          flex: 7,
+        )
+      ]),
+    );
   }
 }

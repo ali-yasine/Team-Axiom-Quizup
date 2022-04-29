@@ -1,3 +1,4 @@
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/Profile.dart';
 import 'package:quizup_prototype_1/Screens/countries.dart';
@@ -50,11 +51,12 @@ class _LeaderboardState extends State<Leaderboard> {
 
   @override
   Widget build(BuildContext context) {
+    Color blue = Color.fromARGB(255, 13, 77, 174);
     double _width = MediaQuery.of(context).size.width;
     if (!loaded) return Container();
     return MaterialApp(
         home: Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child: Stack(
         children: <Widget>[
@@ -64,26 +66,25 @@ class _LeaderboardState extends State<Leaderboard> {
             children: <Widget>[
                   Container(
                     width: _width,
-                    height: 100,
+                    height: 120,
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 13, 77, 174),
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 13, 77, 174),
-                        width: 2,
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          blue,
+                          const Color.fromARGB(255, 159, 31, 31),
+                        ],
                       ),
                     ),
                     child: Row(children: [
                       Container(
-                        width: 60,
-                        height: 60,
-                        margin: const EdgeInsets.only(left: 5),
+                        width: 70,
+                        height: 70,
+                        margin: const EdgeInsets.only(left: 10),
                         child: CircleAvatar(
                           child: CircleAvatar(
-                            radius: 33,
+                            radius: 45,
                             backgroundColor: Colors.transparent,
                             child: widget.player.avatar,
                           ),
@@ -91,49 +92,47 @@ class _LeaderboardState extends State<Leaderboard> {
                       ),
                       Container(
                           alignment: Alignment.center,
-                          margin:
-                              const EdgeInsets.only(right: 15.0, left: 20.0),
                           width: 150,
                           height: 30,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: const Color.fromARGB(255, 13, 77, 174),
-                                width: 1,
-                              ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(25))),
+                          color: Colors.transparent,
                           child: ClipRRect(
                               //used to make circular borders
                               borderRadius: BorderRadius.circular(15),
-                              child: const Center(
+                              child: Center(
                                   child: Text(
-                                " username",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color.fromARGB(255, 13, 77, 174)),
+                                widget.player.username,
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
                               )))),
                     ]),
                   ),
-                  Container(
-                    width: _width - 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Center(
-                        child: Text(
-                      " Leaderboard",
-                      style: TextStyle(
-                          fontSize: 26,
-                          color: Color.fromARGB(255, 13, 77, 174)),
-                      textAlign: TextAlign.center,
-                    )),
-                  ),
                   const SizedBox(
                     height: 10,
+                  ),
+                  Container(
+                    height: 60,
+                    width: _width - 60,
+                    child: Neumorphic(
+                      style: NeumorphicStyle(
+                          shape: NeumorphicShape.concave,
+                          boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(12)),
+                          depth: 30,
+                          lightSource: LightSource.bottom,
+                          color: Color.fromARGB(255, 232, 229, 229)),
+                      child: const Center(
+                          child: Text(
+                        " Leaderboard",
+                        style: TextStyle(fontSize: 26, color: Colors.black),
+                        textAlign: TextAlign.center,
+                      )),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   Row(
                     children: [
@@ -143,6 +142,14 @@ class _LeaderboardState extends State<Leaderboard> {
                             margin: const EdgeInsets.only(right: 5, left: 5),
                             width: 115,
                             height: 80,
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 20.0,
+                                  color: Color.fromARGB(255, 125, 125, 125),
+                                ),
+                              ],
+                            ),
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(25),
                                 child: ElevatedButton(
@@ -172,6 +179,14 @@ class _LeaderboardState extends State<Leaderboard> {
                             margin: const EdgeInsets.only(right: 5, left: 5),
                             width: 115,
                             height: 80,
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 20.0,
+                                  color: Color.fromARGB(255, 125, 125, 125),
+                                ),
+                              ],
+                            ),
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(25),
                                 child: ElevatedButton(
@@ -201,6 +216,14 @@ class _LeaderboardState extends State<Leaderboard> {
                             margin: const EdgeInsets.only(right: 5, left: 5),
                             width: 115,
                             height: 80,
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 20.0,
+                                  color: Color.fromARGB(255, 125, 125, 125),
+                                ),
+                              ],
+                            ),
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(25),
                                 child: ElevatedButton(
@@ -221,30 +244,32 @@ class _LeaderboardState extends State<Leaderboard> {
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   Container(
-                    width: _width,
                     height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 13, 77, 174),
-                        width: 2,
-                      ),
+                    width: _width,
+                    child: Neumorphic(
+                      style: NeumorphicStyle(
+                          shape: NeumorphicShape.concave,
+                          boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(12)),
+                          depth: 30,
+                          lightSource: LightSource.top,
+                          color: Color.fromARGB(255, 242, 239, 239)),
+                      child: const Center(
+                          child: Text(
+                        " Global Rank",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            color: Colors.black),
+                        textAlign: TextAlign.center,
+                      )),
                     ),
-                    child: const Center(
-                        child: Text(
-                      " Global Rank",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          color: Color.fromARGB(255, 13, 77, 174)),
-                      textAlign: TextAlign.center,
-                    )),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 15,
                   ),
                   Row(
                     children: const [
@@ -255,7 +280,7 @@ class _LeaderboardState extends State<Leaderboard> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
-                              color: Color.fromARGB(255, 13, 77, 174)),
+                              color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -266,7 +291,7 @@ class _LeaderboardState extends State<Leaderboard> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
-                              color: Color.fromARGB(255, 13, 77, 174)),
+                              color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -277,7 +302,7 @@ class _LeaderboardState extends State<Leaderboard> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
-                              color: Color.fromARGB(255, 13, 77, 174)),
+                              color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -288,7 +313,7 @@ class _LeaderboardState extends State<Leaderboard> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
-                              color: Color.fromARGB(255, 13, 77, 174)),
+                              color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -302,38 +327,54 @@ class _LeaderboardState extends State<Leaderboard> {
           ),
         ],
       )),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 13, 77, 174),
-        fixedColor: Colors.white,
-        unselectedItemColor: Colors.white,
-        onTap: (index) {
-          switch (index) {
-            case (0):
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => ProfilePage(
-                        player: widget.player,
-                      )));
-              break;
-            case (1):
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => HomePage(
-                        player: widget.player,
-                      )));
-              break;
-
-            case (2):
-              break;
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(IconData(0xe491, fontFamily: 'MaterialIcons')),
-              label: "profile"),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
-          BottomNavigationBarItem(
-              icon: Icon(IconData(0xe36f, fontFamily: 'MaterialIcons')),
-              label: "leaderboard"),
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              blue,
+              Color.fromARGB(255, 159, 31, 31),
+            ],
+          ),
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          fixedColor: Colors.white,
+          unselectedItemColor: Colors.white,
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => ProfilePage(
+                          player: widget.player,
+                        )));
+                break;
+              case 1:
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => HomePage(
+                          player: widget.player,
+                        )));
+                break;
+              case 2:
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => Leaderboard(
+                          player: widget.player,
+                        )));
+                break;
+              default:
+            }
+          },
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(IconData(0xe491, fontFamily: 'MaterialIcons')),
+                label: "profile"),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
+            BottomNavigationBarItem(
+                icon: Icon(IconData(0xe36f, fontFamily: 'MaterialIcons')),
+                label: "leaderboard"),
+          ],
+        ),
       ),
     ));
   }

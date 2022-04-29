@@ -1,10 +1,13 @@
 // ignore_for_file: file_names
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
+import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:flutter/material.dart';
+import 'package:quizup_prototype_1/Utilities/subject_icon.dart';
 import 'Home.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -35,10 +38,12 @@ class _ProfileState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    Color blue = Color.fromARGB(255, 13, 77, 174);
+
     double _width = MediaQuery.of(context).size.width;
     return MaterialApp(
         home: Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Stack(children: <Widget>[
           Column(
@@ -47,14 +52,13 @@ class _ProfileState extends State<ProfilePage> {
                   width: _width,
                   height: 150,
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 13, 77, 174),
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 13, 77, 174),
-                      width: 2,
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.topLeft,
+                      colors: [
+                        blue,
+                        Color.fromARGB(255, 159, 31, 31),
+                      ],
                     ),
                   ),
                   child: Column(children: [
@@ -87,31 +91,30 @@ class _ProfileState extends State<ProfilePage> {
                   child: Text(widget.player.username,
                       style: const TextStyle(
                           fontSize: 20,
-                          color: Color.fromARGB(255, 13, 77, 174),
+                          color: Colors.black,
                           fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center),
                 ),
                 const SizedBox(height: 10),
                 Container(
                   height: 50,
-                  width: _width - 15,
-                  margin: const EdgeInsets.only(right: 5.0, left: 10.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 13, 77, 174),
-                        width: 2,
-                      ),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(25))),
-                  child: Center(
-                      child: Text(
-                    widget.player.email,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 13, 77, 174)),
-                    textAlign: TextAlign.center,
-                  )),
+                  width: _width - 20,
+                  child: Neumorphic(
+                    style: NeumorphicStyle(
+                        shape: NeumorphicShape.concave,
+                        boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(12)),
+                        depth: 30,
+                        lightSource: LightSource.top,
+                        color: Color.fromARGB(255, 244, 241, 241)),
+                    child: Center(
+                        child: Text(
+                      widget.player.email,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                      textAlign: TextAlign.center,
+                    )),
+                  ),
                 ),
                 Container(
                     width: _width,
@@ -121,75 +124,91 @@ class _ProfileState extends State<ProfilePage> {
                       " Email Address",
                       style: TextStyle(
                         fontSize: 14,
-                        color: Color.fromARGB(255, 13, 77, 174),
+                        color: Colors.black,
                       ),
                     ))),
                 Row(children: [
+                  Flexible(
+                      flex: 1,
+                      child: Container(
+                        color: Colors.white,
+                      )),
                   Container(
-                    margin: const EdgeInsets.only(right: 5.0, left: 10.0),
                     width: _width / 3 - 20,
                     height: 60,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color.fromARGB(255, 13, 77, 174),
-                          width: 2,
+                    child: Neumorphic(
+                      style: NeumorphicStyle(
+                          shape: NeumorphicShape.concave,
+                          boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(12)),
+                          depth: 30,
+                          lightSource: LightSource.top,
+                          color: Color.fromARGB(255, 244, 241, 241)),
+                      child: Center(
+                        child: Text(
+                          (widget.player.gamesWon / widget.player.gamesPlayed)
+                              .toString(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 40, color: Colors.black),
                         ),
-                        color: Colors.white,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25))),
-                    child: Center(
-                      child: Text(
-                        (widget.player.gamesWon / widget.player.gamesPlayed)
-                            .toString(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontSize: 40,
-                            color: Color.fromARGB(255, 13, 77, 174)),
                       ),
                     ),
                   ),
-                  Container(
-                      margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                      width: _width / 3 - 20,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 13, 77, 174),
-                            width: 2,
-                          ),
-                          color: Colors.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(25))),
-                      child: Center(
-                        child: Text(
-                          widget.player.gamesPlayed.toString(),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontSize: 40,
-                              color: Color.fromARGB(255, 13, 77, 174)),
-                        ),
+                  Flexible(
+                      flex: 1,
+                      child: Container(
+                        color: Colors.white,
                       )),
                   Container(
-                      margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                      width: _width / 3 - 20,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 13, 77, 174),
-                            width: 2,
+                    width: _width / 3 - 20,
+                    height: 60,
+                    child: Neumorphic(
+                        style: NeumorphicStyle(
+                            shape: NeumorphicShape.concave,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                                BorderRadius.circular(12)),
+                            depth: 30,
+                            lightSource: LightSource.top,
+                            color: Color.fromARGB(255, 244, 241, 241)),
+                        child: Center(
+                          child: Text(
+                            widget.player.gamesPlayed.toString(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 40, color: Colors.black),
                           ),
-                          color: Colors.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(25))),
-                      child: const Center(
-                        child: Text(
-                          //TODO fix hardcoded rank
-                          "3",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 40,
-                              color: Color.fromARGB(255, 13, 77, 174)),
-                        ),
+                        )),
+                  ),
+                  Flexible(
+                      flex: 1,
+                      child: Container(
+                        color: Colors.white,
+                      )),
+                  Container(
+                    width: _width / 3 - 20,
+                    height: 60,
+                    child: Neumorphic(
+                        style: NeumorphicStyle(
+                            shape: NeumorphicShape.concave,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                                BorderRadius.circular(12)),
+                            depth: 30,
+                            lightSource: LightSource.top,
+                            color: Color.fromARGB(255, 244, 241, 241)),
+                        child: const Center(
+                          child: Text(
+                            //TODO fix hardcoded rank
+                            "3",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 40, color: Colors.black),
+                          ),
+                        )),
+                  ),
+                  Flexible(
+                      flex: 1,
+                      child: Container(
+                        color: Colors.white,
                       )),
                 ]),
                 Row(
@@ -203,7 +222,7 @@ class _ProfileState extends State<ProfilePage> {
                           " Win rate",
                           style: TextStyle(
                             fontSize: 14,
-                            color: Color.fromARGB(255, 13, 77, 174),
+                            color: Colors.black,
                           ),
                           textAlign: TextAlign.center,
                         ))),
@@ -216,7 +235,7 @@ class _ProfileState extends State<ProfilePage> {
                           " Global Rank",
                           style: TextStyle(
                             fontSize: 14,
-                            color: Color.fromARGB(255, 13, 77, 174),
+                            color: Colors.black,
                           ),
                           textAlign: TextAlign.center,
                         ))),
@@ -229,7 +248,7 @@ class _ProfileState extends State<ProfilePage> {
                           "Rank By Country",
                           style: TextStyle(
                             fontSize: 14,
-                            color: Color.fromARGB(255, 13, 77, 174),
+                            color: Colors.black,
                           ),
                           textAlign: TextAlign.center,
                         ))),
@@ -237,68 +256,60 @@ class _ProfileState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 10),
                 Row(children: [
-                  Container(
-                      margin: const EdgeInsets.only(right: 5.0, left: 10.0),
-                      width: _width / 3 - 20,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 13, 77, 174),
-                            width: 2,
-                          ),
-                          color: Colors.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(25))),
-                      child: Center(
-                        child: Text(
-                          widget.player.gamesPlayed.toString(),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontSize: 40,
-                              color: Color.fromARGB(255, 13, 77, 174)),
-                        ),
+                  Flexible(
+                      flex: 1,
+                      child: Container(
+                        color: Colors.white,
                       )),
                   Container(
-                      margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                      width: _width / 3 - 20,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 13, 77, 174),
-                            width: 2,
+                    width: _width / 3 - 20,
+                    height: 60,
+                    child: Neumorphic(
+                        style: NeumorphicStyle(
+                            shape: NeumorphicShape.concave,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                                BorderRadius.circular(12)),
+                            depth: 30,
+                            lightSource: LightSource.top,
+                            color: Color.fromARGB(255, 244, 241, 241)),
+                        child: Center(
+                          child: Text(
+                            widget.player.gamesPlayed.toString(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 40, color: Colors.black),
                           ),
-                          color: Colors.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(25))),
-                      child: Center(
-                        child: Text(
-                          widget.player.gamesWon.toString(),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontSize: 40,
-                              color: Color.fromARGB(255, 13, 77, 174)),
-                        ),
+                        )),
+                  ),
+                  Flexible(
+                      flex: 1,
+                      child: Container(
+                        color: Colors.white,
                       )),
                   Container(
-                      margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                      width: _width / 3 - 20,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 13, 77, 174),
-                            width: 2,
+                    width: _width / 3 - 20,
+                    height: 60,
+                    child: Neumorphic(
+                        style: NeumorphicStyle(
+                            shape: NeumorphicShape.concave,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                                BorderRadius.circular(12)),
+                            depth: 30,
+                            lightSource: LightSource.top,
+                            color: Color.fromARGB(255, 244, 241, 241)),
+                        child: Center(
+                          child: Text(
+                            widget.player.gamesWon.toString(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 40, color: Colors.black),
                           ),
-                          color: Colors.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(25))),
-                      child: Center(
-                        child: Text(
-                          widget.player.avgSecondsToAnswer.toString(),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontSize: 40,
-                              color: Color.fromARGB(255, 13, 77, 174)),
-                        ),
+                        )),
+                  ),
+                  Flexible(
+                      flex: 8,
+                      child: Container(
+                        color: Colors.white,
                       )),
                 ]),
                 Row(
@@ -312,7 +323,7 @@ class _ProfileState extends State<ProfilePage> {
                           " Games Played",
                           style: TextStyle(
                             fontSize: 14,
-                            color: Color.fromARGB(255, 13, 77, 174),
+                            color: Colors.black,
                           ),
                           textAlign: TextAlign.center,
                         ))),
@@ -325,76 +336,22 @@ class _ProfileState extends State<ProfilePage> {
                           " Number Of Games Won",
                           style: TextStyle(
                             fontSize: 14,
-                            color: Color.fromARGB(255, 13, 77, 174),
-                          ),
-                          textAlign: TextAlign.center,
-                        ))),
-                    Container(
-                        margin: const EdgeInsets.only(left: 50),
-                        width: 80,
-                        height: 42,
-                        child: const Center(
-                            child: Text(
-                          "Average seconds to answer",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 13, 77, 174),
+                            color: Colors.black,
                           ),
                           textAlign: TextAlign.center,
                         ))),
                   ],
                 ),
                 const SizedBox(height: 10),
-                Container(
-                    margin: const EdgeInsets.only(right: 5.0, left: 5.0),
-                    width: _width,
-                    height: 100,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color.fromARGB(255, 13, 77, 174),
-                          width: 2,
-                        ),
-                        color: Colors.white,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25))),
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Flexible(
-                          child: Container(
-                            width: _width / 3,
-                            height: 90,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: widget.player.avatar.image,
-                                    fit: BoxFit.fill),
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: const Color.fromARGB(255, 13, 77, 174),
-                                  width: 2,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(25))),
-                          ),
-                        ),
-                        Container(
-                            margin:
-                                const EdgeInsets.only(right: 5.0, left: 5.0),
-                            width: _width - _width / 3 - 10,
-                            height: 60,
-                            child: const Center(
-                              child: Text(
-                                "Computer Science",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 28,
-                                    color: Color.fromARGB(255, 13, 77, 174)),
-                              ),
-                            )),
-                      ],
-                    )),
+
+                //TODO REMOVE HARDCODE
+                SubjectIcon(
+                    subject: "Mathematics",
+                    onTap: () => Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                            builder: (context) => SubjectScreen(
+                                subject: "Mathematics",
+                                player: widget.player)))),
                 Container(
                     width: _width,
                     height: 38,
@@ -402,8 +359,8 @@ class _ProfileState extends State<ProfilePage> {
                         child: Text(
                       " Most played subject",
                       style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(255, 13, 77, 174),
+                        fontSize: 18,
+                        color: Colors.black,
                       ),
                     ))),
               ]),
@@ -421,36 +378,54 @@ class _ProfileState extends State<ProfilePage> {
           ),
         ]),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 13, 77, 174),
-        fixedColor: Colors.white,
-        unselectedItemColor: Colors.white,
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              break;
-            case 1:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => HomePage(player: widget.player)));
-              break;
-            case 2:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => Leaderboard(
-                        player: widget.player,
-                      )));
-              break;
-            default:
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(IconData(0xe491, fontFamily: 'MaterialIcons')),
-              label: "profile"),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
-          BottomNavigationBarItem(
-              icon: Icon(IconData(0xe36f, fontFamily: 'MaterialIcons')),
-              label: "leaderboard"),
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.topLeft,
+            colors: [
+              blue,
+              Color.fromARGB(255, 159, 31, 31),
+            ],
+          ),
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          fixedColor: Colors.white,
+          unselectedItemColor: Colors.white,
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => ProfilePage(
+                          player: widget.player,
+                        )));
+                break;
+              case 1:
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => HomePage(
+                          player: widget.player,
+                        )));
+                break;
+              case 2:
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => Leaderboard(
+                          player: widget.player,
+                        )));
+                break;
+              default:
+            }
+          },
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(IconData(0xe491, fontFamily: 'MaterialIcons')),
+                label: "profile"),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
+            BottomNavigationBarItem(
+                icon: Icon(IconData(0xe36f, fontFamily: 'MaterialIcons')),
+                label: "leaderboard"),
+          ],
+        ),
       ),
     ));
   }
