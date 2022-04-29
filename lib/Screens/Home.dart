@@ -1,14 +1,17 @@
 // ignore_for_file: file_names
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:quizup_prototype_1/OfflineQuiz/offlineQuiz.dart';
 import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
 import 'package:quizup_prototype_1/Screens/Profile.dart';
-import 'package:quizup_prototype_1/Screens/Settings.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'package:quizup_prototype_1/Utilities/subject_icon.dart';
 import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../Backend Management/fireConnect.dart';
+import '../Utilities/question_template.dart';
+import 'Settings.dart';
 
 class HomePage extends StatefulWidget {
   final Player player;
@@ -23,7 +26,60 @@ class HomeState extends State<HomePage> {
   List<SubjectIcon> currentSubjectIcons = [];
   late final List<String> subjectNames;
   late final List<SubjectIcon> subjectIcons;
-  bool _loadingSubjects = true;
+  bool checkedForChallenges = false;
+  bool _loadingSubjects = false;
+  Future<void> checkforChallenges(BuildContext context) async {
+    var query = await FirebaseFirestore.instance
+        .collection('OfflineChallenges')
+        .where('Player2', isEqualTo: widget.player.username)
+        .get();
+    if (query.docs.isNotEmpty) {
+      for (var doc in query.docs) {
+        var docData = doc.data();
+        if (!(docData['Player2 notified'])) {
+          print(doc.reference.id);
+          showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: const Text("You received a challenge!"),
+                    content: Text(
+                        "${docData['Player1']} challenged you to a match of ${docData['subject']} while you where away. Do you think you can beat their attempt?"),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            doc.reference.update({"Player2 notified": true});
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Ignore ')),
+                      TextButton(
+                          onPressed: () async {
+                            doc.reference.update({"Player2 notified": true});
+                            var questions = docData['Questions']
+                                .map<QuestionTemplate>(
+                                    (e) => QuestionTemplate.fromJson(e))
+                                .toList();
+                            var opponent =
+                                await FireConnect.getPlayer(docData['Player1']);
+                            var opponentScore = docData['Player1 Score'];
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                                    builder: (context) => OfflineQuiz(
+                                          questionTemplates: questions,
+                                          player: widget.player,
+                                          gameID: doc.reference.id,
+                                          playerNum: 2,
+                                          opponentScore: opponentScore,
+                                          subject: docData['subject'],
+                                          opponent: opponent,
+                                        )));
+                          },
+                          child: const Text('Play'))
+                    ],
+                  ));
+        }
+      }
+    }
+  }
 
   Future<void> initializeSubjects() async {
     subjectNames = await FireConnect.getSubjects();
@@ -36,7 +92,9 @@ class HomeState extends State<HomePage> {
         .toList();
     currentSubjectIcons.addAll(subjectIcons);
     _loadingSubjects = false;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void searchSubjects(String query) {
@@ -65,6 +123,10 @@ class HomeState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (!checkedForChallenges) {
+      checkforChallenges(context);
+      checkedForChallenges = true;
+    }
     Color blue = const Color.fromARGB(255, 13, 77, 174);
     double _width = MediaQuery.of(context).size.width;
 
@@ -135,7 +197,7 @@ class HomeState extends State<HomePage> {
                   child: ElevatedButton(
                     onPressed: () => {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => Settings(
+                          builder: (context) => SettingsPage(
                                 player: widget.player,
                               )))
                     },

@@ -22,7 +22,7 @@ class SubjectScreen extends StatefulWidget {
 }
 
 class _SubjectScreenState extends State<SubjectScreen> {
-  void play(BuildContext context) async {
+  void play(BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => MatchingPge(
               subject: widget.subject,
@@ -60,6 +60,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
           rankNumber: i + 1,
         ));
       }
+
     }
     if (mounted) {
       setState(() {});
