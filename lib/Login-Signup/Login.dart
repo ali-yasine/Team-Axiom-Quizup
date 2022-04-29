@@ -21,15 +21,15 @@ class LoginState extends State<Login> {
   TextEditingController passwordController = TextEditingController();
   Future signIn() async {
     var email = emailController.text;
-    try{
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email, password: passwordController.text);
-    } on FirebaseAuthException catch(e){
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email, password: passwordController.text);
+    } on FirebaseAuthException catch (e) {
       Fluttertoast.showToast(
-        msg: e.toString(),  // message
+        msg: e.toString(), // message
         toastLength: Toast.LENGTH_SHORT, // length
         gravity: ToastGravity.BOTTOM,
-    );
+      );
     }
     Player? player;
     player = await FireConnect.getPlayerByEmail(email);
@@ -83,10 +83,10 @@ class LoginState extends State<Login> {
                               width: 2,
                             ),
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(25))),
+                                const BorderRadius.all(Radius.circular(10))),
                         child: ClipRRect(
                           //used to make circular borders
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(10),
                           child: TextField(
                             controller: emailController,
                             decoration: const InputDecoration(
@@ -106,7 +106,7 @@ class LoginState extends State<Login> {
                               width: 2,
                             ),
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(25))),
+                                const BorderRadius.all(Radius.circular(10))),
                         child: ClipRRect(
                           //used to make circular borders
                           borderRadius: BorderRadius.circular(30),
