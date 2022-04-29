@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
+import 'package:quizup_prototype_1/Screens/ReportAQuestion.dart';
 import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
 
@@ -145,9 +146,9 @@ class Results extends StatelessWidget {
           width: 300,
           height: 150,
           decoration: BoxDecoration(
-              color: Colors.green,
+              color: Colors.yellow[600],
               border: Border.all(
-                color: const Color.fromARGB(255, 134, 127, 127),
+                color: Color.fromARGB(255, 255, 230, 0),
                 width: 2,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(25))),
@@ -186,6 +187,7 @@ class Results extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     updateLeaderBoard();
+    final subjectImage = AssetImage('assets/images/${subject}.jpeg');
     double _width = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.grey[300],
@@ -220,26 +222,18 @@ class Results extends StatelessWidget {
               )),
           Flexible(
               child: Container(
-                  width: _width - 60,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 13, 77, 174),
-                        width: 2,
-                      ),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(25))),
-                  child: ClipRRect(
-                      //used to make circular borders
-                      borderRadius: BorderRadius.circular(15),
-                      child: Center(
-                          child: Text(
-                        subject,
-                        style: const TextStyle(
-                            fontSize: 26,
-                            color: Color.fromARGB(255, 13, 77, 174)),
-                        textAlign: TextAlign.center,
-                      )))),
+                width: 300,
+                height: 250,
+                decoration: BoxDecoration(
+                    image:
+                        DecorationImage(image: subjectImage, fit: BoxFit.fill),
+                    color: Colors.white,
+                    border: Border.all(
+                      color: const Color.fromARGB(255, 13, 77, 174),
+                      width: 2,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(25))),
+              ),
               flex: 20),
           Flexible(
               flex: 2,
@@ -502,7 +496,7 @@ class Results extends StatelessWidget {
           Flexible(
             child: Row(children: [
               Flexible(
-                flex: 20,
+                flex: 17,
                 child: Container(
                     margin: const EdgeInsets.only(left: 30.0),
                     width: 100,
@@ -517,7 +511,7 @@ class Results extends StatelessWidget {
                                       ))),
                           child: const Text(
                             "Leaderboard",
-                            style: TextStyle(fontSize: 12, color: Colors.white),
+                            style: TextStyle(fontSize: 13, color: Colors.white),
                             textAlign: TextAlign.center,
                           ),
                           style: ButtonStyle(
@@ -527,7 +521,7 @@ class Results extends StatelessWidget {
                         ))),
               ),
               Flexible(
-                  flex: 20,
+                  flex: 16,
                   child: Container(
                       margin: const EdgeInsets.only(left: 25.0),
                       width: 100,
@@ -552,7 +546,7 @@ class Results extends StatelessWidget {
                             )),
                           )))),
               Flexible(
-                  flex: 20,
+                  flex: 16,
                   child: Container(
                       margin: const EdgeInsets.only(left: 25.0),
                       width: 100,
@@ -576,9 +570,38 @@ class Results extends StatelessWidget {
                                 backgroundColor: MaterialStateProperty.all(
                               const Color.fromARGB(255, 13, 77, 174),
                             )),
-                          ))))
+                          )))),
+              Flexible(
+                  flex: 16,
+                  child: Container(
+                      margin: const EdgeInsets.only(left: 25.0),
+                      width: 100,
+                      height: 50,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: ElevatedButton(
+                            onPressed: () => Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                                    builder: (context) => ReportAQuestion(
+                                        subject: subject, player: player))),
+                            child: const Text(
+                              "Contest a question",
+                              style:
+                                  TextStyle(fontSize: 10, color: Colors.white),
+                              textAlign: TextAlign.center,
+                            ),
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                              Colors.grey,
+                            )),
+                          )))),
+              Flexible(
+                  flex: 3,
+                  child: Container(
+                    color: Colors.grey[300],
+                  ))
             ]),
-            flex: 10,
+            flex: 9,
           )
         ]));
   }

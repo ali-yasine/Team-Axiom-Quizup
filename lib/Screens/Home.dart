@@ -86,7 +86,6 @@ class HomeState extends State<HomePage> {
     subjectIcons = subjectNames
         .map((subject) => SubjectIcon(
             subject: subject,
-            imageRef: 'assets/images/sports.png',
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) =>
                     SubjectScreen(subject: subject, player: widget.player)))))
@@ -156,7 +155,7 @@ class HomeState extends State<HomePage> {
                 margin: const EdgeInsets.only(left: 5),
                 child: CircleAvatar(
                   radius: 33,
-                  backgroundColor: Colors.grey,
+                  backgroundColor: Colors.transparent,
                   child: widget.player.avatar,
                 ),
               ),
@@ -235,16 +234,10 @@ class HomeState extends State<HomePage> {
                   Flexible(
                     child: Center(
                       child: TextField(
-                        autofillHints: subjectNames,
                         onChanged: (queury) => {searchSubjects(queury)},
                       ),
                     ),
                   ),
-                  Flexible(
-                      flex: 3,
-                      child: Container(
-                        color: Colors.white,
-                      )),
                   Container(
                       alignment: Alignment.center,
                       width: 30,

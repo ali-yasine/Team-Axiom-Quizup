@@ -84,7 +84,7 @@ class _LeaderboardState extends State<Leaderboard> {
                         child: CircleAvatar(
                           child: CircleAvatar(
                             radius: 33,
-                            backgroundColor: Colors.grey,
+                            backgroundColor: Colors.transparent,
                             child: widget.player.avatar,
                           ),
                         ),

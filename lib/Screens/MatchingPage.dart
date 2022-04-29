@@ -153,7 +153,7 @@ class _MatchingPgeState extends State<MatchingPge> {
                   style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(51, 156, 254, 10)))),
+                      color: Color.fromARGB(246, 1, 81, 175)))),
           const SizedBox(height: 20),
           Row(
             children: [
@@ -173,7 +173,7 @@ class _MatchingPgeState extends State<MatchingPge> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(
-                        color: const Color.fromRGBO(51, 156, 254, 10),
+                        color: Color.fromARGB(246, 1, 81, 175),
                         width: 1,
                       ),
                       borderRadius:
@@ -186,7 +186,7 @@ class _MatchingPgeState extends State<MatchingPge> {
                         widget.player.username,
                         style: const TextStyle(
                             fontSize: 18,
-                            color: Color.fromRGBO(51, 156, 254, 10)),
+                            color: Color.fromARGB(246, 1, 81, 175)),
                         textAlign: TextAlign.center,
                       )))),
             ],
@@ -202,7 +202,7 @@ class _MatchingPgeState extends State<MatchingPge> {
                   style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(51, 156, 254, 10)))),
+                      color: Color.fromARGB(246, 1, 81, 175)))),
           const SizedBox(
             height: 5,
           ),

@@ -80,9 +80,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
   @override
   Widget build(BuildContext context) {
     getTopthree();
+    final subjectImage = AssetImage('assets/images/${widget.subject}.jpeg');
     double _width = MediaQuery.of(context).size.width;
-    const img = AssetImage('assets/images/panda.jpg');
-
     const _profileRadius = 35.0;
     const _iconSize = 40.0;
     const buttonColor = Color.fromRGBO(51, 156, 251, 0);
@@ -111,12 +110,10 @@ class _SubjectScreenState extends State<SubjectScreen> {
               child: Row(children: [
                 Container(
                     child: CircleAvatar(
-                        child: CircleAvatar(
-                          radius: _profileRadius - 2,
-                          backgroundColor: Colors.grey,
-                          child: widget.player.avatar,
-                        ),
-                        radius: _profileRadius),
+                      radius: _profileRadius,
+                      backgroundColor: Colors.transparent,
+                      child: widget.player.avatar,
+                    ),
                     margin: const EdgeInsets.only(left: 10)),
                 Container(
                     alignment: Alignment.centerLeft,
@@ -176,7 +173,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 width: 300,
                 height: 250,
                 decoration: BoxDecoration(
-                    image: const DecorationImage(image: img, fit: BoxFit.fill),
+                    image:
+                        DecorationImage(image: subjectImage, fit: BoxFit.fill),
                     color: Colors.white,
                     border: Border.all(
                       color: const Color.fromARGB(255, 13, 77, 174),
@@ -196,15 +194,15 @@ class _SubjectScreenState extends State<SubjectScreen> {
               flex: 8),
           Flexible(
             child: players.first,
-            flex: 10,
+            flex: 14,
           ),
           Flexible(
             child: players[1],
-            flex: 10,
+            flex: 14,
           ),
           Flexible(
             child: players[2],
-            flex: 10,
+            flex: 14,
           ),
           Row(children: [
             const SizedBox(

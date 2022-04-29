@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 
 class SubjectIcon extends StatelessWidget {
   final String subject;
-  final String imageRef;
   final VoidCallback onTap;
-  const SubjectIcon(
-      {Key? key,
-      required this.subject,
-      required this.imageRef,
-      required this.onTap})
+  const SubjectIcon({Key? key, required this.subject, required this.onTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -23,7 +18,7 @@ class SubjectIcon extends StatelessWidget {
             fit: BoxFit.cover, // Fixes border issues
             width: _width - 50,
             height: _width / 3 - 20,
-            image: AssetImage(imageRef),
+            image: AssetImage('assets/images/$subject.jpeg'),
           ),
         ),
       ),

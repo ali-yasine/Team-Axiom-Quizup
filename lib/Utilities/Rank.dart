@@ -17,54 +17,57 @@ class Rank extends StatelessWidget {
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
 
-    return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      Container(
-        height: 50,
-        width: _width - 20,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 3,
-              child: Text(
-                rankNumber.toString(),
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 26,
-                    color: Colors.yellow[700]),
-                textAlign: TextAlign.center,
-              ),
+    return Padding(
+        padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          Container(
+            height: 60,
+            width: _width - 20,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
             ),
-            Expanded(
-              flex: 4,
-              child: Text(
-                username,
-                style: const TextStyle(fontSize: 16, color: Colors.black),
-                textAlign: TextAlign.center,
-              ),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    rankNumber.toString(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 26,
+                        color: Colors.yellow[700]),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    username,
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    score.toString(),
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    country,
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              flex: 2,
-              child: Text(
-                score.toString(),
-                style: const TextStyle(fontSize: 16, color: Colors.black),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Expanded(
-              flex: 4,
-              child: Text(
-                country,
-                style: const TextStyle(fontSize: 16, color: Colors.black),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
-        ),
-      )
-    ]);
+          )
+        ]));
   }
 }
