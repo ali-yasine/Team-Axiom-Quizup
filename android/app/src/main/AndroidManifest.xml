@@ -2,7 +2,7 @@
     package="com.example.quizup_prototype_1">
      <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="quizup_prototype_1"
+        android:label="Quizup"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

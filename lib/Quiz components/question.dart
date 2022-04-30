@@ -236,12 +236,8 @@ class _QuestionState extends State<Question> with TickerProviderStateMixin {
                       width: 60,
                       height: 60,
                       margin: const EdgeInsets.only(left: 5, right: 10),
-                      child: CircleAvatar(
-                        child: CircleAvatar(
-                          radius: 33,
-                          backgroundColor: Colors.grey,
-                          child: widget.player.avatar,
-                        ),
+                      child: ClipOval(
+                        child: widget.player.avatar,
                       ),
                     ),
                   ),

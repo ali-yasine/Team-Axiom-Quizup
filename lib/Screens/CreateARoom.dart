@@ -192,10 +192,8 @@ class _CreateARoomState extends State<CreateARoom> {
                   width: 70,
                   height: 70,
                   margin: const EdgeInsets.only(left: 10),
-                  child: CircleAvatar(
-                    child: ClipOval(
-                      child: widget.player.avatar,
-                    ),
+                  child: ClipOval(
+                    child: widget.player.avatar,
                   ),
                 ),
                 Container(

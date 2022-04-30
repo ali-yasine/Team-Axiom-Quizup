@@ -41,10 +41,8 @@ class ChallengeAFriend extends StatelessWidget {
                   width: 70,
                   height: 70,
                   margin: const EdgeInsets.only(left: 10),
-                  child: CircleAvatar(
-                    child: ClipOval(
-                      child: player.avatar,
-                    ),
+                  child: ClipOval(
+                    child: player.avatar,
                   ),
                 ),
                 Container(

@@ -72,12 +72,8 @@ class SettingsPage extends StatelessWidget {
                     SizedBox(
                       width: 115,
                       height: 115,
-                      child: CircleAvatar(
-                        radius: 57.5,
-                        backgroundColor: Colors.grey,
-                        child: ClipOval(
-                          child: player.avatar,
-                        ),
+                      child: ClipOval(
+                        child: player.avatar,
                       ),
                     ),
                     const SizedBox(
