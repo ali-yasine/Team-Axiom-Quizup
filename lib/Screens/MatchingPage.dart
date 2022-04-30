@@ -4,10 +4,10 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
-import 'package:quizup_prototype_1/Quiz%20components/quiz.dart';
-import 'package:quizup_prototype_1/Utilities/player.dart';
-import 'package:quizup_prototype_1/Utilities/question_template.dart';
+import '../Backend Management/fireConnect.dart';
+import '../Quiz components/quiz.dart';
+import '../Utilities/player.dart';
+import '../Utilities/question_template.dart';
 import 'Home.dart';
 
 class MatchingPge extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import '../Utilities/player.dart';
 import 'answer.dart';
-import 'package:quizup_prototype_1/Utilities/player.dart';
 import 'timer.dart';
 
 class Question extends StatefulWidget {

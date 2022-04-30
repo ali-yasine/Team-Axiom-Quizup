@@ -8,10 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
-import 'package:quizup_prototype_1/OfflineQuiz/offlineQuiz.dart';
-import 'package:quizup_prototype_1/Utilities/player.dart';
+
+import '../Backend Management/fireConnect.dart';
+import '../OfflineQuiz/offlineQuiz.dart';
 import '../Quiz components/quiz.dart';
+import '../Utilities/player.dart';
 import '../Utilities/question_template.dart';
 import 'Home.dart';
 

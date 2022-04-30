@@ -2,11 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:quizup_prototype_1/Screens/subject_screen.dart';
-
 import '../Screens/Home.dart';
 import '../Screens/Leaderboard.dart';
 import '../Screens/ReportAQuestion.dart';
+import '../Screens/subject_screen.dart';
 import '../Utilities/player.dart';
 
 class OfflineResults extends StatelessWidget {

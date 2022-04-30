@@ -2,16 +2,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:quizup_prototype_1/OfflineQuiz/offlineQuiz.dart';
-import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
-import 'package:quizup_prototype_1/Screens/Profile.dart';
-import 'package:quizup_prototype_1/Utilities/player.dart';
-import 'package:quizup_prototype_1/Utilities/subject_icon.dart';
-import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:quizup/Screens/subject_screen.dart';
 import '../Backend Management/fireConnect.dart';
+import '../OfflineQuiz/offlineQuiz.dart';
+import '../Utilities/player.dart';
 import '../Utilities/question_template.dart';
+import '../Utilities/subject_icon.dart';
+import 'Leaderboard.dart';
+import 'Profile.dart';
 import 'Settings.dart';
 
 class HomePage extends StatefulWidget {

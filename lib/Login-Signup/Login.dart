@@ -2,13 +2,12 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
-import 'package:quizup_prototype_1/Screens/Home.dart';
-import 'package:quizup_prototype_1/Login-Signup/SignUp.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../Backend Management/fireConnect.dart';
 import '../Screens/Home.dart';
 import '../Utilities/player.dart';
+import 'SignUp.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);

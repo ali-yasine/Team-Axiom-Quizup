@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:quizup_prototype_1/Utilities/player.dart';
-
 import '../Quiz components/answer.dart';
 import '../Quiz components/timer.dart';
+import '../Utilities/player.dart';
 
 class OfflineQuestion extends StatefulWidget {
   final String prompt;

@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:quizup_prototype_1/Screens/Home.dart';
-
 import '../Login-Signup/Login.dart';
 import '../Screens/Home.dart';
 import '../Utilities/player.dart';

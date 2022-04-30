@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
-import 'package:quizup_prototype_1/Screens/ReportAQuestion.dart';
-import 'package:quizup_prototype_1/Screens/subject_screen.dart';
-import 'package:quizup_prototype_1/Utilities/player.dart';
-
+import 'package:quizup/Screens/subject_screen.dart';
 import '../Backend Management/fireConnect.dart';
+import '../Utilities/player.dart';
 import 'Home.dart';
+import 'Leaderboard.dart';
+import 'ReportAQuestion.dart';
 
 class Results extends StatelessWidget {
   final Player player;

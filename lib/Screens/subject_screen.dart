@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
-import 'package:quizup_prototype_1/Screens/ChallengeAFriend.dart';
-import 'package:quizup_prototype_1/Screens/MatchingPage.dart';
-import 'package:quizup_prototype_1/Utilities/Rank.dart';
-import 'package:quizup_prototype_1/Utilities/player.dart';
+import '../Backend Management/fireConnect.dart';
+import '../Utilities/Rank.dart';
+import '../Utilities/player.dart';
+import 'ChallengeAFriend.dart';
 import 'Home.dart';
+import 'MatchingPage.dart';
 
 class SubjectScreen extends StatefulWidget {
   final String subject;

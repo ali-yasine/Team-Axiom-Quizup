@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
-import 'package:quizup_prototype_1/Login-Signup/Login.dart';
+
+import '../Backend Management/fireConnect.dart';
 import '../Screens/Home.dart';
 import 'package:csc_picker/csc_picker.dart';
+
+import 'Login.dart';
 
 //Widget for input
 

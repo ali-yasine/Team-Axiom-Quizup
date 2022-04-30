@@ -1,7 +1,5 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:quizup_prototype_1/Screens/Profile.dart';
-import 'package:quizup_prototype_1/Screens/subjects.dart';
-
+import 'package:quizup/Screens/subjects.dart';
 import '../Backend Management/fireConnect.dart';
 import '../Utilities/Rank.dart';
 import '../Utilities/player.dart';
@@ -11,6 +9,7 @@ import 'Home.dart';
 import 'package:flutter/material.dart';
 
 import 'Leaderboard.dart';
+import 'Profile.dart';
 
 class countries extends StatefulWidget {
   final Player player;

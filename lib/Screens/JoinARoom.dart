@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:quizup_prototype_1/Utilities/player.dart';
 import '../Backend Management/fireConnect.dart';
 import '../Quiz components/quiz.dart';
+import '../Utilities/player.dart';
 import '../Utilities/question_template.dart';
 import 'Home.dart';
 

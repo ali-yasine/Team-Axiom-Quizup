@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/Screens/subject_screen.dart';
+import 'package:quizup/Screens/subject_screen.dart';
 
 import '../Utilities/player.dart';
 import 'Home.dart';
