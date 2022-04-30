@@ -49,119 +49,131 @@ class LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
+    double _height = MediaQuery.of(context).size.height;
     var backgroundColor = Colors.grey[300];
+    Color blue = Color.fromARGB(255, 13, 77, 174);
     return MaterialApp(
         home: Scaffold(
             backgroundColor: backgroundColor,
-            body: Padding(
-                padding: const EdgeInsets.all(10),
-                child: ListView(
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.all(10),
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 13, 77, 174),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 34,
-                          ),
-                        )),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 13, 77, 174),
-                              width: 2,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10))),
-                        child: ClipRRect(
-                          //used to make circular borders
-                          borderRadius: BorderRadius.circular(10),
-                          child: TextField(
-                            controller: emailController,
-                            decoration: const InputDecoration(
-                              labelText: 'Email address',
-                            ),
-                          ),
-                        )),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 13, 77, 174),
-                              width: 2,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10))),
-                        child: ClipRRect(
-                          //used to make circular borders
-                          borderRadius: BorderRadius.circular(30),
-                          child: TextField(
-                            obscureText: true,
-                            controller: passwordController,
-                            decoration: const InputDecoration(
-                              labelText: '  Password',
-                            ),
-                          ),
-                        )),
-                    TextButton(
-                      onPressed: () {
-                        resetPassword();
-                      },
-                      child: const Text(
-                        'Forgot Password',
-                      ),
-                    ),
-                    SizedBox(
-                        width: 100,
-                        height: 50,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(25),
-                            child: ElevatedButton(
-                              onPressed: signIn,
-                              child: const Text(
-                                "Login",
-                                style: TextStyle(
-                                    fontSize: 13, color: Colors.white),
-                                textAlign: TextAlign.center,
-                              ),
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      const Color.fromARGB(255, 13, 77, 174))),
-                            ))),
-                    Row(
+            body: Container(
+                height: _height,
+                width: _width,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      blue,
+                      const Color.fromARGB(255, 159, 31, 31),
+                    ],
+                  ),
+                ),
+                child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: ListView(
                       children: <Widget>[
-                        const Text('Do not have account?',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 13, 77, 174),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(10),
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 34,
+                              ),
+                            )),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10))),
+                            child: ClipRRect(
+                              //used to make circular borders
+                              borderRadius: BorderRadius.circular(10),
+                              child: TextField(
+                                controller: emailController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Email address',
+                                ),
+                              ),
+                            )),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10))),
+                            child: ClipRRect(
+                              //used to make circular borders
+                              borderRadius: BorderRadius.circular(30),
+                              child: TextField(
+                                obscureText: true,
+                                controller: passwordController,
+                                decoration: const InputDecoration(
+                                  labelText: '  Password',
+                                ),
+                              ),
                             )),
                         TextButton(
+                          onPressed: () {
+                            resetPassword();
+                          },
                           child: const Text(
-                            'Sign up',
-                            style: TextStyle(fontSize: 20),
+                            'Forgot Password',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
-                          onPressed: () => Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                                  builder: (context) => const SignUp())),
-                        )
+                        ),
+                        SizedBox(
+                            width: 100,
+                            height: 50,
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: ElevatedButton(
+                                  onPressed: signIn,
+                                  child: const Text(
+                                    "Login",
+                                    style: TextStyle(
+                                        fontSize: 13, color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.grey)),
+                                ))),
+                        Row(
+                          children: <Widget>[
+                            const Text('Do not have account?',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                )),
+                            TextButton(
+                              child: const Text('Sign up',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  )),
+                              onPressed: () => Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: (context) => const SignUp())),
+                            )
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        ),
                       ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
-                  ],
-                ))));
+                    )))));
   }
 }

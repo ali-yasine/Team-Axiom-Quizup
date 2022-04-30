@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:quizup_prototype_1/Screens/subject_screen.dart';
 
-import '../Screens/Home.dart';
-import '../Screens/Leaderboard.dart';
-import '../Screens/ReportAQuestion.dart';
 import '../Utilities/player.dart';
+import 'Home.dart';
+import 'Leaderboard.dart';
+import 'ReportAQuestion.dart';
 
 class OfflineResults extends StatelessWidget {
   final Player player;
@@ -105,12 +104,8 @@ class OfflineResults extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color blue = Color.fromARGB(255, 13, 77, 174);
-
-    final subjectImage = AssetImage('assets/images/${subject}.jpeg');
+    final subjectImage = AssetImage('assets/images/$subject.jpeg');
     double _width = MediaQuery.of(context).size.width;
-    //TODO REPLACE
-
     if (playerNum == 2) {
       updateGlobalLeaderboard();
       updateSubjectLeaderboard();
@@ -128,20 +123,16 @@ class OfflineResults extends StatelessWidget {
               child: Container(
                 width: _width - 20,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      blue,
-                      const Color.fromARGB(255, 159, 31, 31),
-                    ],
-                  ),
+                  color: Colors.white,
+                  border:
+                      Border.all(color: const Color.fromARGB(255, 13, 77, 174)),
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: Center(
                     child: Text(
                   subject,
-                  style: const TextStyle(fontSize: 26, color: Colors.white),
+                  style: const TextStyle(
+                      fontSize: 26, color: Color.fromARGB(255, 13, 77, 174)),
                   textAlign: TextAlign.center,
                 )),
               ),
@@ -159,6 +150,10 @@ class OfflineResults extends StatelessWidget {
                     image:
                         DecorationImage(image: subjectImage, fit: BoxFit.fill),
                     color: Colors.white,
+                    border: Border.all(
+                      color: const Color.fromARGB(255, 13, 77, 174),
+                      width: 2,
+                    ),
                     borderRadius: const BorderRadius.all(Radius.circular(25))),
               ),
               flex: 20),
@@ -176,7 +171,7 @@ class OfflineResults extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black))),
+                          color: Color.fromARGB(255, 13, 77, 174)))),
               flex: 7),
           Flexible(
             child: Row(children: [
@@ -203,27 +198,27 @@ class OfflineResults extends StatelessWidget {
                   flex: 15,
                   child: Column(children: [
                     Container(
-                      width: 250,
-                      height: 35,
-                      child: Neumorphic(
-                          style: NeumorphicStyle(
-                              shape: NeumorphicShape.concave,
-                              boxShape: NeumorphicBoxShape.roundRect(
-                                  BorderRadius.circular(12)),
-                              depth: 30,
-                              lightSource: LightSource.bottom,
-                              color: Color.fromARGB(255, 242, 239, 239)),
-                          child: ClipRRect(
-                              //used to make circular borders
-                              borderRadius: BorderRadius.circular(15),
-                              child: Center(
-                                  child: Text(
-                                player.username,
-                                style: const TextStyle(
-                                    fontSize: 18, color: Colors.black),
-                                textAlign: TextAlign.center,
-                              )))),
-                    ),
+                        width: 250,
+                        height: 35,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: const Color.fromARGB(255, 13, 77, 174),
+                              width: 1,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(25))),
+                        child: ClipRRect(
+                            //used to make circular borders
+                            borderRadius: BorderRadius.circular(15),
+                            child: Center(
+                                child: Text(
+                              player.username,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 13, 77, 174)),
+                              textAlign: TextAlign.center,
+                            )))),
                     Flexible(
                         flex: 1,
                         child: Container(
@@ -242,79 +237,52 @@ class OfflineResults extends StatelessWidget {
                               child: Container(
                                   width: 80,
                                   height: 38,
-                                  child: Neumorphic(
-                                      style: NeumorphicStyle(
-                                          shape: NeumorphicShape.concave,
-                                          boxShape:
-                                              NeumorphicBoxShape.roundRect(
-                                                  BorderRadius.circular(12)),
-                                          depth: 30,
-                                          lightSource: LightSource.bottom,
-                                          color: Color.fromARGB(
-                                              255, 242, 239, 239)),
-                                      child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          child: Center(
-                                              child: Text(
-                                            score.toString(),
-                                            style: const TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.black),
-                                            textAlign: TextAlign.center,
-                                          )))))),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: const Color.fromARGB(
+                                            255, 13, 77, 174),
+                                        width: 1,
+                                      ),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(25))),
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Center(
+                                          child: Text(
+                                        score.toString(),
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: Color.fromARGB(
+                                                255, 13, 77, 174)),
+                                        textAlign: TextAlign.center,
+                                      ))))),
                           Flexible(
-                            flex: 15,
-                            child: Container(
-                                margin: const EdgeInsets.only(left: 5.0),
-                                width: 80,
-                                height: 38,
-                                child: Neumorphic(
-                                    style: NeumorphicStyle(
-                                        shape: NeumorphicShape.concave,
-                                        boxShape: NeumorphicBoxShape.roundRect(
-                                            BorderRadius.circular(12)),
-                                        depth: 30,
-                                        lightSource: LightSource.bottom,
-                                        color:
-                                            Color.fromARGB(255, 242, 239, 239)),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Center(
-                                            child: Text(
-                                          correct.toString(),
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black),
-                                          textAlign: TextAlign.center,
-                                        ))))),
-                          ),
-                          Flexible(
-                            flex: 15,
-                            child: Container(
-                                margin: const EdgeInsets.only(left: 5.0),
-                                width: 80,
-                                height: 38,
-                                child: Neumorphic(
-                                    style: NeumorphicStyle(
-                                        shape: NeumorphicShape.concave,
-                                        boxShape: NeumorphicBoxShape.roundRect(
-                                            BorderRadius.circular(12)),
-                                        depth: 30,
-                                        lightSource: LightSource.bottom,
-                                        color:
-                                            Color.fromARGB(255, 242, 239, 239)),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Center(
-                                            child: Text(
-                                          incorrect.toString(),
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black),
-                                          textAlign: TextAlign.center,
-                                        ))))),
-                          ),
+                              flex: 15,
+                              child: Container(
+                                  margin: const EdgeInsets.only(left: 5.0),
+                                  width: 80,
+                                  height: 38,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: const Color.fromARGB(
+                                            255, 13, 77, 174),
+                                        width: 1,
+                                      ),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(25))),
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Center(
+                                          child: Text(
+                                        correct.toString(),
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: Color.fromARGB(
+                                                255, 13, 77, 174)),
+                                        textAlign: TextAlign.center,
+                                      ))))),
                         ])),
                     Row(
                       children: [
@@ -327,7 +295,7 @@ class OfflineResults extends StatelessWidget {
                                 "score",
                                 style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.black,
+                                    color: Color.fromARGB(255, 13, 77, 174),
                                     fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
                               ))),
@@ -342,7 +310,7 @@ class OfflineResults extends StatelessWidget {
                                 " correct answer",
                                 style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.black,
+                                    color: Color.fromARGB(255, 13, 77, 174),
                                     fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
                               ))),
@@ -358,7 +326,7 @@ class OfflineResults extends StatelessWidget {
                                 "incorrect answer",
                                 style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.black,
+                                    color: Color.fromARGB(255, 13, 77, 174),
                                     fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
                               ))),
@@ -387,16 +355,8 @@ class OfflineResults extends StatelessWidget {
                     margin: const EdgeInsets.only(left: 30.0),
                     width: 100,
                     height: 50,
-                    decoration: const BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 20.0,
-                          color: Color.fromARGB(255, 125, 125, 125),
-                        ),
-                      ],
-                    ),
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(25),
                         child: ElevatedButton(
                           onPressed: () => Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
@@ -410,7 +370,7 @@ class OfflineResults extends StatelessWidget {
                           ),
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
-                            blue,
+                            const Color.fromARGB(255, 13, 77, 174),
                           )),
                         ))),
               ),
@@ -420,16 +380,8 @@ class OfflineResults extends StatelessWidget {
                       margin: const EdgeInsets.only(left: 25.0),
                       width: 100,
                       height: 50,
-                      decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 20.0,
-                            color: Color.fromARGB(255, 125, 125, 125),
-                          ),
-                        ],
-                      ),
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(25),
                           child: ElevatedButton(
                             onPressed: () => Navigator.of(context)
                                 .pushReplacement(MaterialPageRoute(
@@ -444,7 +396,7 @@ class OfflineResults extends StatelessWidget {
                             ),
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
-                              blue,
+                              const Color.fromARGB(255, 13, 77, 174),
                             )),
                           )))),
               Flexible(
@@ -453,16 +405,8 @@ class OfflineResults extends StatelessWidget {
                       margin: const EdgeInsets.only(left: 25.0),
                       width: 100,
                       height: 50,
-                      decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 20.0,
-                            color: Color.fromARGB(255, 125, 125, 125),
-                          ),
-                        ],
-                      ),
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(25),
                           child: ElevatedButton(
                             onPressed: () => Navigator.of(context)
                                 .pushReplacement(MaterialPageRoute(
@@ -478,7 +422,7 @@ class OfflineResults extends StatelessWidget {
                             ),
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
-                              blue,
+                              const Color.fromARGB(255, 13, 77, 174),
                             )),
                           )))),
               Flexible(
@@ -487,16 +431,8 @@ class OfflineResults extends StatelessWidget {
                       margin: const EdgeInsets.only(left: 25.0),
                       width: 100,
                       height: 50,
-                      decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 20.0,
-                            color: Color.fromARGB(255, 125, 125, 125),
-                          ),
-                        ],
-                      ),
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(25),
                           child: ElevatedButton(
                             onPressed: () => Navigator.of(context)
                                 .pushReplacement(MaterialPageRoute(
@@ -516,7 +452,7 @@ class OfflineResults extends StatelessWidget {
               Flexible(
                   flex: 3,
                   child: Container(
-                    color: Colors.grey[200],
+                    color: Colors.white,
                   ))
             ]),
             flex: 9,

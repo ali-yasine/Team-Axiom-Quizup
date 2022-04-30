@@ -44,6 +44,8 @@ dependencies:
   crypto: ^3.0.1
   csc_picker: ^0.2.6
   fluttertoast: ^8.0.7
+  flutter_custom_clippers: ^2.0.0
+  flutter_neumorphic: ^3.2.0
 
 dev_dependencies:
   flutter_test:
@@ -68,7 +70,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/avatar.png
-    - assets/images/panda.jpg
+    
     - assets/images/Sports.jpeg
     - assets/images/Movies.jpeg
     - assets/images/Mathematics.jpeg
@@ -77,6 +79,11 @@ flutter:
     - assets/images/History.jpeg
     - assets/images/Music.jpeg
     - assets/images/Computer Science.jpeg
+    - assets/images/Animals.jpeg
+    - assets/images/Food.jpeg
+    - assets/images/General knowledge.jpeg
+    - assets/images/Geography.jpeg
+    - assets/images/Lebanon.jpeg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
