@@ -20,7 +20,7 @@ class LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   Future signIn() async {
-    var email = emailController.text;
+    var email = emailController.text.trim();
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email, password: passwordController.text);

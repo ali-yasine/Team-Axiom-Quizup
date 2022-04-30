@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
 import 'package:quizup_prototype_1/OfflineQuiz/offlineQuiz.dart';
 import 'package:quizup_prototype_1/Utilities/player.dart';
@@ -124,37 +125,41 @@ class _CreateARoomState extends State<CreateARoom> {
 
   Future offlineContestCreate(
       Player player, String subject, BuildContext context, String id) async {
-    var questions = await FireConnect.readQuestions(subject, 7);
-    Map<String, dynamic> hasAnswered = {};
-    for (int i = 0; i < questions.length; i++) {
-      hasAnswered.addAll({
-        "Player1 Answered " + i.toString(): false,
-        "Player2 Answered " + i.toString(): false
-      });
+    if (opponentUsernameController.text == "") {
+      Fluttertoast.showToast(msg: "Opponent username can't be empty");
+    } else {
+      var questions = await FireConnect.readQuestions(subject, 7);
+      Map<String, dynamic> hasAnswered = {};
+      for (int i = 0; i < questions.length; i++) {
+        hasAnswered.addAll({
+          "Player1 Answered " + i.toString(): false,
+          "Player2 Answered " + i.toString(): false
+        });
+      }
+      Map<String, dynamic> entryMap = {
+        ("Player1"): player.username,
+        "Player2 notified": false,
+        "subject": subject,
+        ("Player2"): opponentUsernameController.text,
+        "Questions": questions.map((e) => QuestionTemplate.toJson(e)).toList(),
+        "Player1 Score": 0,
+        "Player2 Score": 0,
+      };
+      entryMap.addAll(hasAnswered);
+      gamedoc =
+          FirebaseFirestore.instance.collection('OfflineChallenges').doc(id);
+      await (gamedoc!.set(entryMap));
+      print("gameDocSet");
+      oppfound = true;
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => OfflineQuiz(
+              questionTemplates: questions,
+              player: player,
+              opponentScore: 0,
+              gameID: id,
+              playerNum: 1,
+              subject: subject)));
     }
-    Map<String, dynamic> entryMap = {
-      ("Player1"): player.username,
-      "Player2 notified": false,
-      "subject": subject,
-      ("Player2"): opponentUsernameController.text,
-      "Questions": questions.map((e) => QuestionTemplate.toJson(e)).toList(),
-      "Player1 Score": 0,
-      "Player2 Score": 0,
-    };
-    entryMap.addAll(hasAnswered);
-    gamedoc =
-        FirebaseFirestore.instance.collection('OfflineChallenges').doc(id);
-    await (gamedoc!.set(entryMap));
-    print("gameDocSet");
-    oppfound = true;
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => OfflineQuiz(
-            questionTemplates: questions,
-            player: player,
-            opponentScore: 0,
-            gameID: id,
-            playerNum: 1,
-            subject: subject)));
   }
 
   @override

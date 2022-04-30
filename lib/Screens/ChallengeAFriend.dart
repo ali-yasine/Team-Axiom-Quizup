@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:quizup_prototype_1/Screens/JoinARoom.dart';
-import 'package:quizup_prototype_1/Utilities/player.dart';
+
+import '../Utilities/player.dart';
 import 'Home.dart';
 import 'CreateARoom.dart';
+import 'JoinARoom.dart';
 
 class ChallengeAFriend extends StatelessWidget {
   final String subject;

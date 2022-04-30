@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/Screens/ResultsScreen.dart';
+import '../Screens/ResultsScreen.dart';
+import '../Utilities/player.dart';
+import '../Utilities/question_template.dart';
 import 'question.dart';
-import 'package:quizup_prototype_1/Utilities/player.dart';
-import 'package:quizup_prototype_1/Utilities/question_template.dart';
 
 class Quiz extends StatefulWidget {
   final Player player;

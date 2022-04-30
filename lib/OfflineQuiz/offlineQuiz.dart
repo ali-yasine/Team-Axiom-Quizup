@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/OfflineQuiz/OfflineResults.dart';
-import 'package:quizup_prototype_1/Screens/ResultsScreen.dart';
 import '../Quiz components/question.dart';
-import 'package:quizup_prototype_1/Utilities/player.dart';
-import 'package:quizup_prototype_1/Utilities/question_template.dart';
 
+import '../Screens/Offline.dart';
+import '../Screens/ResultsScreen.dart';
+import '../Utilities/player.dart';
+import '../Utilities/question_template.dart';
 import 'offlineQuestion.dart';
 
 class OfflineQuiz extends StatefulWidget {

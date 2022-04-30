@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import '../Utilities/Rank.dart';
 import '../Utilities/player.dart';
 import '../Utilities/question_template.dart';
 
@@ -172,7 +173,48 @@ class FireConnect {
         .collection('Leaderboard')
         .doc(subject)
         .get();
-    var playerdata = leaderboard.data()!;
-    return playerdata['players'][username][1];
+    var playerdata = leaderboard.data()!['players']!;
+    var players = playerdata.entries
+        .map((entry) => Rank(
+              username: entry.key,
+              rankNumber: 0,
+              country: entry.value[0],
+              score: entry.value[1].toString(),
+            ))
+        .toList();
+    players.sort((b, a) => int.parse(a.score).compareTo(int.parse(b.score)));
+    int rank = 0;
+    for (int i = 0; i < players.length; i++) {
+      if (players[i].username == username) {
+        rank = i;
+      }
+    }
+    return rank + 1;
+  }
+
+  static Future<int> getCountryRank(Player player) async {
+    var leaderboard = await FirebaseFirestore.instance
+        .collection('Leaderboard')
+        .doc('Global')
+        .get();
+    Map<String, dynamic> playerdata = leaderboard.data()!['players']!;
+    Map<String, dynamic> countryPlayers = Map.from(playerdata)
+      ..removeWhere((key, value) => value[0] != player.country);
+    var players = countryPlayers.entries
+        .map((entry) => Rank(
+              username: entry.key,
+              rankNumber: 0,
+              country: entry.value[0],
+              score: entry.value[1].toString(),
+            ))
+        .toList();
+    players.sort((b, a) => int.parse(a.score).compareTo(int.parse(b.score)));
+    int rank = 0;
+    for (int i = 0; i < players.length; i++) {
+      if (players[i].username == player.username) {
+        rank = i;
+      }
+    }
+    return rank + 1;
   }
 }

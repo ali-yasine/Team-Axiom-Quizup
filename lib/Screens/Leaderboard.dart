@@ -29,7 +29,7 @@ class _LeaderboardState extends State<Leaderboard> {
               score: entry.value[1].toString(),
             ))
         .toList();
-    players.sort((b, a) => a.score.compareTo(b.score));
+    players.sort((b, a) => int.parse(a.score).compareTo(int.parse(b.score)));
     for (int i = 0; i < players.length; i++) {
       var rank = players[i];
       players[i] = Rank(
@@ -38,9 +38,11 @@ class _LeaderboardState extends State<Leaderboard> {
           username: rank.username,
           rankNumber: i + 1);
     }
-    setState(() {
-      loaded = true;
-    });
+    if (mounted) {
+      setState(() {
+        loaded = true;
+      });
+    }
   }
 
   @override

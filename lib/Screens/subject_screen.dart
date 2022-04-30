@@ -43,7 +43,15 @@ class _SubjectScreenState extends State<SubjectScreen> {
               score: entry.value[1].toString(),
             ))
         .toList();
-    players.sort((a, b) => a.score.compareTo(b.score));
+    players.sort((b, a) => a.score.compareTo(b.score));
+    for (int i = 0; i < players.length; i++) {
+      var rank = players[i];
+      players[i] = Rank(
+          country: rank.country,
+          score: rank.score,
+          username: rank.username,
+          rankNumber: i + 1);
+    }
     for (int i = 0; i < players.length; i++) {
       var rank = players[i];
       players[i] = Rank(
@@ -90,19 +98,19 @@ class _SubjectScreenState extends State<SubjectScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Column(children: [
-          Container(
-            width: _width,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  blue,
-                  const Color.fromARGB(255, 159, 31, 31),
-                ],
-              ),
-            ),
-            child: Flexible(
+          Flexible(
+              child: Container(
+                width: _width,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      blue,
+                      const Color.fromARGB(255, 159, 31, 31),
+                    ],
+                  ),
+                ),
                 child: Row(children: [
                   Container(
                       child: CircleAvatar(
@@ -131,8 +139,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                   ),
                                   fit: BoxFit.cover)))),
                 ]),
-                flex: 23),
-          ),
+              ),
+              flex: 23),
           Flexible(
               flex: 2,
               child: Container(

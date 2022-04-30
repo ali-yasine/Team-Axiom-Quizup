@@ -3,13 +3,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
-import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
-import 'package:quizup_prototype_1/Screens/subject_screen.dart';
-import 'package:quizup_prototype_1/Utilities/player.dart';
-import 'package:flutter/material.dart';
-import 'package:quizup_prototype_1/Utilities/subject_icon.dart';
+import 'package:quizup/Screens/subject_screen.dart';
+import '../Backend Management/fireConnect.dart';
+import '../Utilities/player.dart';
+import '../Utilities/subject_icon.dart';
 import 'Home.dart';
+import 'Leaderboard.dart';
 
 class ProfilePage extends StatefulWidget {
   Player player;
@@ -22,8 +21,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfileState extends State<ProfilePage> {
   String? favoriteSubject;
   int? playerRank;
+  int? countryRank;
   Future uploadImage() async {
-    playerRank = await FireConnect.getRank(widget.player.username, 'Global');
     final results = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.image,
@@ -43,6 +42,14 @@ class _ProfileState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  Future<void> getRanks() async {
+    playerRank = await FireConnect.getRank(widget.player.username, 'Global');
+    countryRank = await FireConnect.getCountryRank(widget.player);
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> getFavoriteSubject() async {
@@ -80,7 +87,8 @@ class _ProfileState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     Color blue = Color.fromARGB(255, 13, 77, 174);
-
+    getFavoriteSubject();
+    getRanks();
     double _width = MediaQuery.of(context).size.width;
     return MaterialApp(
         home: Scaffold(
@@ -113,10 +121,7 @@ class _ProfileState extends State<ProfilePage> {
                             height: 120,
                             margin: const EdgeInsets.only(left: 140.0),
                             child: InkWell(
-                              child: ClipOval(
-                                  child: Expanded(
-                                child: ClipOval(child: widget.player.avatar),
-                              )),
+                              child: ClipOval(child: widget.player.avatar),
                               onTap: () async {
                                 uploadImage();
                               },
@@ -214,7 +219,7 @@ class _ProfileState extends State<ProfilePage> {
                             color: Color.fromARGB(255, 244, 241, 241)),
                         child: Center(
                           child: Text(
-                            widget.player.gamesPlayed.toString(),
+                            (playerRank == null) ? "" : playerRank.toString(),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontSize: 40, color: Colors.black),
@@ -237,13 +242,13 @@ class _ProfileState extends State<ProfilePage> {
                             depth: 30,
                             lightSource: LightSource.top,
                             color: Color.fromARGB(255, 244, 241, 241)),
-                      child: Center(
-                        child: Text(
-                          //TODO fix hardcoded rank
-                          (playerRank) == null ? "0" : playerRank.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 40, color: Colors.black),
-                        ),
+                        child: Center(
+                          child: Text(
+                            //TODO fix hardcoded rank
+                            (countryRank) == null ? "" : countryRank.toString(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 40, color: Colors.black),
+                          ),
                         )),
                   ),
                   Flexible(
@@ -374,7 +379,7 @@ class _ProfileState extends State<ProfilePage> {
                         height: 38,
                         child: const Center(
                             child: Text(
-                          " Number Of Games Won",
+                          " Games Won",
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,

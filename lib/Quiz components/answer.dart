@@ -23,8 +23,7 @@ class Answer extends StatefulWidget {
 
 class _AnswerState extends State<Answer> {
   static const Color standardColor = Color.fromARGB(255, 13, 77, 174);
-  Color color = standardColor;
-
+  late Color color;
   void update() {
     if (!widget.isDisabled) {
       widget.handleAnimation();
@@ -45,10 +44,16 @@ class _AnswerState extends State<Answer> {
   }
 
   @override
+  void initState() {
+    color = standardColor;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const int _width = 1000;
     const int _height = 50;
-    return Container(
+    return SizedBox(
         width: _width.toDouble(),
         height: _height.toDouble(),
         child: Neumorphic(
@@ -60,9 +65,14 @@ class _AnswerState extends State<Answer> {
                 lightSource: LightSource.bottom,
                 color: const Color.fromARGB(255, 242, 239, 239)),
             child: ClipRRect(
-              //used to make circular borders
-              borderRadius: BorderRadius.circular(15),
-              child: ElevatedButton(child: Text(widget.ans), onPressed: update),
-            )));
+                //used to make circular borders
+                borderRadius: BorderRadius.circular(15),
+                child: ElevatedButton(
+                  child: Text(widget.ans),
+                  onPressed: update,
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(color),
+                  ),
+                ))));
   }
 }
