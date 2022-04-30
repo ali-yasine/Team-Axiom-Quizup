@@ -97,9 +97,7 @@ class _JoinARoomState extends State<JoinARoom> {
                   height: 70,
                   margin: const EdgeInsets.only(left: 10),
                   child: CircleAvatar(
-                    child: CircleAvatar(
-                      radius: 45,
-                      backgroundColor: Colors.transparent,
+                    child: ClipOval(
                       child: widget.player.avatar,
                     ),
                   ),

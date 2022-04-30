@@ -157,9 +157,7 @@ class SignUpState extends State<SignUp> {
                                   setState(() {});
                                 }
                               },
-                              child: CircleAvatar(
-                                radius: 57.5,
-                                backgroundColor: Colors.grey,
+                              child: ClipOval(
                                 child: avatar,
                               ))),
                       const SizedBox(

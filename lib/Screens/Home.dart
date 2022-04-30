@@ -162,13 +162,13 @@ class HomeState extends State<HomePage> {
                     ),
                     Row(children: [
                       Container(
-                        width: 60,
-                        height: 60,
-                        margin: const EdgeInsets.only(left: 5),
+                        width: 70,
+                        height: 70,
+                        margin: const EdgeInsets.only(left: 10),
                         child: CircleAvatar(
-                          radius: 35,
-                          backgroundColor: Colors.transparent,
-                          child: widget.player.avatar,
+                          child: ClipOval(
+                            child: widget.player.avatar,
+                          ),
                         ),
                       ),
                       Container(

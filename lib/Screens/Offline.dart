@@ -181,13 +181,14 @@ class OfflineResults extends StatelessWidget {
                     color: Colors.white,
                   )),
               Container(
+                width: 70,
+                height: 70,
+                margin: const EdgeInsets.only(left: 10),
                 child: CircleAvatar(
-                    child: CircleAvatar(
-                      radius: 45,
-                      backgroundColor: Colors.grey,
-                      child: player.avatar,
-                    ),
-                    radius: 47),
+                  child: ClipOval(
+                    child: player.avatar,
+                  ),
+                ),
               ),
               Flexible(
                   flex: 1,

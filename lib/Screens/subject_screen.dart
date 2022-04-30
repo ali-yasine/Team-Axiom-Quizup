@@ -113,12 +113,15 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 ),
                 child: Row(children: [
                   Container(
-                      child: CircleAvatar(
-                        radius: _profileRadius,
-                        backgroundColor: Colors.transparent,
+                    width: 70,
+                    height: 70,
+                    margin: const EdgeInsets.only(left: 10),
+                    child: CircleAvatar(
+                      child: ClipOval(
                         child: widget.player.avatar,
                       ),
-                      margin: const EdgeInsets.only(left: 10)),
+                    ),
+                  ),
                   Container(
                       alignment: Alignment.centerLeft,
                       margin: const EdgeInsets.only(left: 15),
