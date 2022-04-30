@@ -2,18 +2,86 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:quizup_prototype_1/Screens/Profile.dart';
 import 'package:quizup_prototype_1/Screens/subjects.dart';
 
+import '../Backend Management/fireConnect.dart';
+import '../Utilities/Rank.dart';
 import '../Utilities/player.dart';
+import 'GenericLeaderBoard.dart';
 import 'Home.dart';
 
 import 'package:flutter/material.dart';
 
 import 'Leaderboard.dart';
 
-class countries extends StatelessWidget {
+class countries extends StatefulWidget {
   final Player player;
   const countries({Key? key, required this.player}) : super(key: key);
+
+  @override
+  State<countries> createState() => _countriesState();
+}
+
+class _countriesState extends State<countries> {
+  late List<Widget> _countries;
+  bool loaded = false;
+  List<Widget> getList() => loaded ? _countries : <Widget>[Container()];
+
+  Future getCountryNames(BuildContext context) async {
+    var countrynames = await FireConnect.getCountries();
+    var _width = MediaQuery.of(context).size.width;
+    _countries = countrynames
+        .map((e) => GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Container(
+                  width: _width - 150,
+                  height: 50,
+                  child:Neumorphic(
+                style: NeumorphicStyle(
+                    shape: NeumorphicShape.concave,
+                    boxShape:
+                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                    depth: 30,
+                    lightSource: LightSource.bottom,
+                    color: Color.fromARGB(255, 232, 229, 229)),child: Center(
+                      child: Text(
+                    e,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      color: Colors.black),
+                  textAlign: TextAlign.center,,
+                  )),
+                ),
+              ),
+              onTap: () async {
+                var playerMap = await FireConnect.getCountryLeaderBoard(e);
+                var ranks = playerMap.entries
+                    .map((e) => Rank(
+                        rankNumber: 0,
+                        username: e.key,
+                        score: e.value[1].toString(),
+                        country: e.value[0]))
+                    .toList();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => GenericLeaderBoard(
+                        title: e, player: widget.player, ranks: ranks)));
+              },
+            ))
+        .toList();
+    setState(() {
+      loaded = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+        getCountryNames(context);
+
     Color blue = Color.fromARGB(255, 13, 77, 174);
     double _width = MediaQuery.of(context).size.width;
     return MaterialApp(
@@ -278,70 +346,7 @@ class countries extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            Container(
-              height: 50,
-              width: _width - 150,
-              child: Neumorphic(
-                style: NeumorphicStyle(
-                    shape: NeumorphicShape.concave,
-                    boxShape:
-                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-                    depth: 30,
-                    lightSource: LightSource.bottom,
-                    color: Color.fromARGB(255, 232, 229, 229)),
-                child: const Center(
-                    child: Text(
-                  " Brazil",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                  textAlign: TextAlign.center,
-                )),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Container(
-              height: 50,
-              width: _width - 150,
-              child: Neumorphic(
-                style: NeumorphicStyle(
-                    shape: NeumorphicShape.concave,
-                    boxShape:
-                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-                    depth: 30,
-                    lightSource: LightSource.bottom,
-                    color: Color.fromARGB(255, 232, 229, 229)),
-                child: const Center(
-                    child: Text(
-                  " Spain",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                  textAlign: TextAlign.center,
-                )),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Container(
-              height: 50,
-              width: _width - 150,
-              child: Neumorphic(
-                style: NeumorphicStyle(
-                    shape: NeumorphicShape.concave,
-                    boxShape:
-                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-                    depth: 30,
-                    lightSource: LightSource.bottom,
-                    color: Color.fromARGB(255, 232, 229, 229)),
-                child: const Center(
-                    child: Text(
-                  " Kuwait",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                  textAlign: TextAlign.center,
-                )),
-              ),
-            ),
-          ],
+          ]+getList()
         ),
       ])),
       bottomNavigationBar: Container(
@@ -393,6 +398,6 @@ class countries extends StatelessWidget {
           ],
         ),
       ),
-    ));
+    );
   }
 }

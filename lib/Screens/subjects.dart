@@ -1,6 +1,9 @@
+import 'package:quizup_prototype_1/Backend%20Management/fireConnect.dart';
+import 'package:quizup_prototype_1/Screens/GenericLeaderBoard.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:quizup_prototype_1/Screens/Leaderboard.dart';
 import 'package:quizup_prototype_1/Screens/Profile.dart';
+import 'package:quizup_prototype_1/Utilities/Rank.dart';
 
 import '../Utilities/player.dart';
 import 'Home.dart';
@@ -8,11 +11,79 @@ import 'countries.dart';
 
 import 'package:flutter/material.dart';
 
-class Subjects extends StatelessWidget {
+class Subjects extends StatefulWidget {
   final Player player;
+
   const Subjects({Key? key, required this.player}) : super(key: key);
+
+  @override
+  State<Subjects> createState() => _SubjectsState();
+}
+
+class _SubjectsState extends State<Subjects> {
+  late List<Widget> subjects;
+  bool loaded = false;
+  List<Widget> getList() => loaded ? subjects : <Widget>[Container()];
+
+  Future getSubjectsWidgets(BuildContext context) async {
+    var subjectNames = await FireConnect.getSubjects();
+    var _width = MediaQuery.of(context).size.width;
+    subjects = subjectNames
+        .map((e) => GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Container(
+                  width: _width - 150,
+                  height: 50,Neumorphic(
+                style: NeumorphicStyle(
+                    shape: NeumorphicShape.concave,
+                    boxShape:
+                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                    depth: 30,
+                    lightSource: LightSource.top,
+                    color: Color.fromARGB(255, 242, 239, 239)),
+                child: Center(
+                      child: Text(
+                    e,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      color: Colors.black),
+                  textAlign: TextAlign.center,
+                  )),
+                ),
+              ),
+              onTap: () async {
+                var playerMap = await FireConnect.getLeaderBoard(e);
+                var ranks = playerMap.entries
+                    .map((e) => Rank(
+                        rankNumber: 0,
+                        username: e.key,
+                        score: e.value[1].toString(),
+                        country: e.value[0]))
+                    .toList();
+                print(ranks[0].score);
+                ranks.sort(
+                    (b, a) => int.parse(a.score).compareTo(int.parse(b.score)));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => GenericLeaderBoard(
+                        title: e, player: widget.player, ranks: ranks)));
+              },
+            ))
+        .toList();
+    setState(() {
+      loaded = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    getSubjectsWidgets(context);
     Color blue = Color.fromARGB(255, 13, 77, 174);
     double _width = MediaQuery.of(context).size.width;
     return MaterialApp(
@@ -232,114 +303,7 @@ class Subjects extends StatelessWidget {
             ),
             const SizedBox(
               height: 20,
-            ),
-            Container(
-              height: 50,
-              width: _width - 150,
-              child: Neumorphic(
-                style: NeumorphicStyle(
-                    shape: NeumorphicShape.concave,
-                    boxShape:
-                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-                    depth: 30,
-                    lightSource: LightSource.bottom,
-                    color: Color.fromARGB(255, 232, 229, 229)),
-                child: const Center(
-                    child: Text(
-                  " Social Science",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                  textAlign: TextAlign.center,
-                )),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Container(
-              height: 50,
-              width: _width - 150,
-              child: Neumorphic(
-                style: NeumorphicStyle(
-                    shape: NeumorphicShape.concave,
-                    boxShape:
-                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-                    depth: 30,
-                    lightSource: LightSource.bottom,
-                    color: Color.fromARGB(255, 232, 229, 229)),
-                child: const Center(
-                    child: Text(
-                  " Movies",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                  textAlign: TextAlign.center,
-                )),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Container(
-              height: 50,
-              width: _width - 150,
-              child: Neumorphic(
-                style: NeumorphicStyle(
-                    shape: NeumorphicShape.concave,
-                    boxShape:
-                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-                    depth: 30,
-                    lightSource: LightSource.bottom,
-                    color: Color.fromARGB(255, 232, 229, 229)),
-                child: const Center(
-                    child: Text(
-                  " Tv shows",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                  textAlign: TextAlign.center,
-                )),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Container(
-              height: 50,
-              width: _width - 150,
-              child: Neumorphic(
-                style: NeumorphicStyle(
-                    shape: NeumorphicShape.concave,
-                    boxShape:
-                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-                    depth: 30,
-                    lightSource: LightSource.bottom,
-                    color: Color.fromARGB(255, 232, 229, 229)),
-                child: const Center(
-                    child: Text(
-                  " Computer Science",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                  textAlign: TextAlign.center,
-                )),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Container(
-              height: 50,
-              width: _width - 150,
-              child: Neumorphic(
-                style: NeumorphicStyle(
-                    shape: NeumorphicShape.concave,
-                    boxShape:
-                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-                    depth: 30,
-                    lightSource: LightSource.bottom,
-                    color: Color.fromARGB(255, 232, 229, 229)),
-                child: const Center(
-                    child: Text(
-                  " Mathematics",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                  textAlign: TextAlign.center,
-                )),
-              ),
-            ),
+            ),]+getList(),
           ],
         ),
       ])),

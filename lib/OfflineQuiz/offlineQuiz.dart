@@ -116,6 +116,8 @@ class _OfflineQuizState extends State<OfflineQuiz> {
         score: score,
         subject: widget.subject,
         correct: correct,
+        isChallenge: true,
+        opponent: widget.opponent!,
         incorrect: incorrect,
         opponentScore: opponentScore,
       );
