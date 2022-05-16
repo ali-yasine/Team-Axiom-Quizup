@@ -43,15 +43,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
               score: entry.value[1].toString(),
             ))
         .toList();
-    players.sort((b, a) => a.score.compareTo(b.score));
-    for (int i = 0; i < players.length; i++) {
-      var rank = players[i];
-      players[i] = Rank(
-          country: rank.country,
-          score: rank.score,
-          username: rank.username,
-          rankNumber: i + 1);
-    }
+    players.sort((b, a) => int.parse(a.score).compareTo(int.parse(b.score)));
     for (int i = 0; i < players.length; i++) {
       var rank = players[i];
       players[i] = Rank(

@@ -112,6 +112,7 @@ class OfflineResults extends StatelessWidget {
       return SubjectScreen(subject: subject, player: player);
     }
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: Column(children: [
           Flexible(

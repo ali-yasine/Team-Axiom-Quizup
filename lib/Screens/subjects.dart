@@ -230,9 +230,10 @@ class _SubjectsState extends State<Subjects> {
                                   borderRadius: BorderRadius.circular(25),
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      Navigator.of(context)
-                                          .pushReplacement(MaterialPageRoute(
-                                              builder: (context) => countries(
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CountryLeaderBoard(
                                                     player: widget.player,
                                                   )));
                                     },

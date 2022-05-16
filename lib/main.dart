@@ -37,8 +37,10 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     if (user == null) {
       user = FirebaseAuth.instance.currentUser;
-      email = user!.email;
-      getPlayer();
+      if (user != null) {
+        email = user!.email;
+        getPlayer();
+      }
     }
     super.initState();
   }

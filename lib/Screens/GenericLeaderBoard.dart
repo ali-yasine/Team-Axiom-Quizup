@@ -163,9 +163,10 @@ class _GenericLeaderBoardState extends State<GenericLeaderBoard> {
                                 borderRadius: BorderRadius.circular(25),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.of(context)
-                                        .pushReplacement(MaterialPageRoute(
-                                            builder: (context) => countries(
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CountryLeaderBoard(
                                                   player: widget.player,
                                                 )));
                                   },

@@ -55,17 +55,15 @@ class SignUpState extends State<SignUp> {
           rethrow;
         }
         if (succesfulCreation) {
-          //TODO ADD USERNAMECONTROLLER
-          var addResult =
-              await FireConnect.addPlayer('has  hem', email, country);
+          var addResult = await FireConnect.addPlayer(
+              usernameController.text, email, country);
           if (addResult != "Player added") {
             setState(() {
               errorTxt = addResult;
             });
           }
           if (imagePath != null) {
-            //TODO ADD USERNAME CONTROLLER
-            FireConnect.uploadAvatar(imagePath!, "username");
+            FireConnect.uploadAvatar(imagePath!, usernameController.text);
           }
           var player = await FireConnect.getPlayerByEmail(email);
           FirebaseAuth.instance.authStateChanges().listen((User? user) {

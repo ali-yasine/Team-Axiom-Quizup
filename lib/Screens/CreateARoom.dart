@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -14,7 +13,6 @@ import '../OfflineQuiz/offlineQuiz.dart';
 import '../Quiz components/quiz.dart';
 import '../Utilities/player.dart';
 import '../Utilities/question_template.dart';
-import 'Home.dart';
 
 class CreateARoom extends StatefulWidget {
   final String subject;
@@ -32,6 +30,7 @@ class CreateARoom extends StatefulWidget {
 
 class _CreateARoomState extends State<CreateARoom> {
   bool oppfound = false;
+  late String token;
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? listener;
   DocumentReference<Map<String, dynamic>>? gamedoc;
   TextEditingController opponentUsernameController = TextEditingController();
@@ -82,6 +81,13 @@ class _CreateARoomState extends State<CreateARoom> {
     gamedoc!.set(entryMap);
   }
 
+  @override
+  initState() {
+    token = generateToken(6);
+    createRoom(widget.player, widget.subject, context, token);
+    super.initState();
+  }
+
   Future<void> createRoom(
       Player player, String subject, BuildContext context, String id) async {
     var questions = await FireConnect.readQuestions(subject, 7);
@@ -128,6 +134,8 @@ class _CreateARoomState extends State<CreateARoom> {
       Player player, String subject, BuildContext context, String id) async {
     if (opponentUsernameController.text == "") {
       Fluttertoast.showToast(msg: "Opponent username can't be empty");
+    } else if (opponentUsernameController.text == player.username) {
+      Fluttertoast.showToast(msg: "You can't challenge yourself");
     } else {
       var questions = await FireConnect.readQuestions(subject, 7);
       Map<String, dynamic> hasAnswered = {};
@@ -150,7 +158,6 @@ class _CreateARoomState extends State<CreateARoom> {
       gamedoc =
           FirebaseFirestore.instance.collection('OfflineChallenges').doc(id);
       await (gamedoc!.set(entryMap));
-      print("gameDocSet");
       oppfound = true;
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => OfflineQuiz(
@@ -166,11 +173,9 @@ class _CreateARoomState extends State<CreateARoom> {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    var token = generateToken(6);
-
     Color blue = const Color.fromARGB(255, 13, 77, 174);
-    createRoom(widget.player, widget.subject, context, token);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[300],
       body: Column(children: [
         Flexible(
@@ -222,7 +227,7 @@ class _CreateARoomState extends State<CreateARoom> {
               color: Colors.grey[300],
             )),
         Flexible(
-            child: Container(
+            child: SizedBox(
               width: _width - 20,
               child: Neumorphic(
                 style: NeumorphicStyle(
@@ -231,7 +236,7 @@ class _CreateARoomState extends State<CreateARoom> {
                         NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
                     depth: 30,
                     lightSource: LightSource.bottom,
-                    color: Color.fromARGB(255, 232, 229, 229)),
+                    color: const Color.fromARGB(255, 232, 229, 229)),
                 child: const Center(
                     child: Text(
                   "Join A Room",
@@ -252,10 +257,11 @@ class _CreateARoomState extends State<CreateARoom> {
                 flex: 20,
                 child: Container(
                   alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(left: 15),
+                  margin: const EdgeInsets.only(left: 15),
                   decoration: BoxDecoration(
                       color: Colors.grey[300],
-                      borderRadius: BorderRadius.all(Radius.circular(25))),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(25))),
                   child: Neumorphic(
                       style: NeumorphicStyle(
                           shape: NeumorphicShape.concave,
@@ -263,7 +269,7 @@ class _CreateARoomState extends State<CreateARoom> {
                               BorderRadius.circular(12)),
                           depth: 30,
                           lightSource: LightSource.top,
-                          color: Color.fromARGB(255, 232, 229, 229)),
+                          color: const Color.fromARGB(255, 232, 229, 229)),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Center(
@@ -344,27 +350,25 @@ class _CreateARoomState extends State<CreateARoom> {
             )),
         Flexible(
           flex: 30,
-          child: Container(
-            child: Neumorphic(
-                style: NeumorphicStyle(
-                    shape: NeumorphicShape.concave,
-                    boxShape:
-                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-                    depth: 30,
-                    lightSource: LightSource.top,
-                    color: Color.fromARGB(255, 243, 243, 243)),
-                child: ClipRRect(
-                  //used to make circular borders
-                  borderRadius: BorderRadius.circular(30),
-                  child: TextField(
-                    controller: opponentUsernameController,
-                    decoration: const InputDecoration(
-                      labelText:
-                          '  Enter opponent username to notify him fo the challenge',
-                    ),
+          child: Neumorphic(
+              style: NeumorphicStyle(
+                  shape: NeumorphicShape.concave,
+                  boxShape:
+                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                  depth: 30,
+                  lightSource: LightSource.top,
+                  color: const Color.fromARGB(255, 243, 243, 243)),
+              child: ClipRRect(
+                //used to make circular borders
+                borderRadius: BorderRadius.circular(30),
+                child: TextField(
+                  controller: opponentUsernameController,
+                  decoration: const InputDecoration(
+                    labelText:
+                        '  Enter opponent username to notify him of the challenge',
                   ),
-                )),
-          ),
+                ),
+              )),
         ),
         Flexible(
             flex: 3,

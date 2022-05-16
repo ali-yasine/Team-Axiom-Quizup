@@ -6,20 +6,18 @@ import '../Utilities/player.dart';
 import 'GenericLeaderBoard.dart';
 import 'Home.dart';
 
-import 'package:flutter/material.dart';
-
 import 'Leaderboard.dart';
 import 'Profile.dart';
 
-class countries extends StatefulWidget {
+class CountryLeaderBoard extends StatefulWidget {
   final Player player;
-  const countries({Key? key, required this.player}) : super(key: key);
+  const CountryLeaderBoard({Key? key, required this.player}) : super(key: key);
 
   @override
-  State<countries> createState() => _countriesState();
+  State<CountryLeaderBoard> createState() => _CountryLeaderBoardState();
 }
 
-class _countriesState extends State<countries> {
+class _CountryLeaderBoardState extends State<CountryLeaderBoard> {
   late List<Widget> _countries;
   bool loaded = false;
   List<Widget> getList() => loaded ? _countries : <Widget>[Container()];
@@ -31,7 +29,7 @@ class _countriesState extends State<countries> {
         .map((e) => GestureDetector(
               child: Padding(
                 padding: const EdgeInsets.all(5),
-                child: Container(
+                child: SizedBox(
                   width: _width - 150,
                   height: 50,
                   child: Neumorphic(
@@ -41,11 +39,11 @@ class _countriesState extends State<countries> {
                             BorderRadius.circular(12)),
                         depth: 30,
                         lightSource: LightSource.bottom,
-                        color: Color.fromARGB(255, 232, 229, 229)),
+                        color: const Color.fromARGB(255, 232, 229, 229)),
                     child: Center(
                         child: Text(
                       e,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 22,
                           color: Colors.black),
@@ -63,6 +61,8 @@ class _countriesState extends State<countries> {
                         score: e.value[1].toString(),
                         country: e.value[0]))
                     .toList();
+                ranks.sort(
+                    (b, a) => int.parse(a.score).compareTo(int.parse(b.score)));
                 for (int i = 0; i < ranks.length; i++) {
                   var rank = ranks[i];
                   ranks[i] = Rank(
@@ -93,7 +93,7 @@ class _countriesState extends State<countries> {
   Widget build(BuildContext context) {
     getCountryNames(context);
 
-    Color blue = Color.fromARGB(255, 13, 77, 174);
+    Color blue = const Color.fromARGB(255, 13, 77, 174);
     double _width = MediaQuery.of(context).size.width;
     return MaterialApp(
         home: Scaffold(
@@ -148,7 +148,7 @@ class _countriesState extends State<countries> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(
+                  SizedBox(
                     height: 60,
                     width: _width - 60,
                     child: Neumorphic(
@@ -158,7 +158,7 @@ class _countriesState extends State<countries> {
                               BorderRadius.circular(12)),
                           depth: 30,
                           lightSource: LightSource.bottom,
-                          color: Color.fromARGB(255, 232, 229, 229)),
+                          color: const Color.fromARGB(255, 232, 229, 229)),
                       child: const Center(
                           child: Text(
                         " Leaderboard",
@@ -227,9 +227,10 @@ class _countriesState extends State<countries> {
                                 borderRadius: BorderRadius.circular(25),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.of(context)
-                                        .pushReplacement(MaterialPageRoute(
-                                            builder: (context) => countries(
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CountryLeaderBoard(
                                                   player: widget.player,
                                                 )));
                                   },
@@ -287,7 +288,7 @@ class _countriesState extends State<countries> {
                   const SizedBox(
                     height: 25,
                   ),
-                  Container(
+                  SizedBox(
                     height: 50,
                     width: _width,
                     child: Neumorphic(
@@ -297,7 +298,7 @@ class _countriesState extends State<countries> {
                               BorderRadius.circular(12)),
                           depth: 30,
                           lightSource: LightSource.top,
-                          color: Color.fromARGB(255, 242, 239, 239)),
+                          color: const Color.fromARGB(255, 242, 239, 239)),
                       child: const Center(
                           child: Text(
                         " Countries",
@@ -331,7 +332,7 @@ class _countriesState extends State<countries> {
             end: Alignment.bottomLeft,
             colors: [
               blue,
-              Color.fromARGB(255, 159, 31, 31),
+              const Color.fromARGB(255, 159, 31, 31),
             ],
           ),
         ),
